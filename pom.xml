@@ -11,7 +11,7 @@
     <groupId>com.tyzz</groupId>
     <artifactId>blog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>blog</name>
+    <name>blog-server</name>
     <description>blog</description>
     <properties>
         <java.version>1.8</java.version>
