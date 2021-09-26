@@ -16,3 +16,8 @@ spring:
       　　max-wait-millis: 200        #等待连接获取的最大超时时间
   redis:
     host: localhost
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.tyzz.blog.entity
+  configuration:
+    map-underscore-to-camel-case: true
