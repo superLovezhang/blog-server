@@ -7,8 +7,8 @@
         <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
         <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
         <result property="iconClass" column="icon_class" jdbcType="VARCHAR"/>
-        <result property="show" column="show" jdbcType="BYTE"/>
-        <result property="state" column="state" jdbcType="BYTE"/>
+        <result property="show" column="show" jdbcType="BOOLEAN"/>
+        <result property="state" column="state" jdbcType="BOOLEAN"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>

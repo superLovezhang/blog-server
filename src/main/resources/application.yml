@@ -18,6 +18,6 @@ spring:
     host: localhost
 mybatis:
   mapper-locations: classpath:/mapper/*.xml
-  type-aliases-package: com.tyzz.blog.entity
+#  type-aliases-package: com.tyzz.blog.entity
   configuration:
     map-underscore-to-camel-case: true

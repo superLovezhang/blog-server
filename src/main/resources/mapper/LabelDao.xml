@@ -6,7 +6,7 @@
         <!--@Table label-->
         <result property="labelId" column="label_id" jdbcType="INTEGER"/>
         <result property="labelName" column="label_name" jdbcType="VARCHAR"/>
-        <result property="state" column="state" jdbcType="BYTE"/>
+        <result property="state" column="state" jdbcType="BOOLEAN"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>

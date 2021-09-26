@@ -7,7 +7,7 @@
         <result property="collectionId" column="collection_id" jdbcType="INTEGER"/>
         <result property="articleId" column="article_id" jdbcType="INTEGER"/>
         <result property="userId" column="user_id" jdbcType="INTEGER"/>
-        <result property="state" column="state" jdbcType="BYTE"/>
+        <result property="state" column="state" jdbcType="BOOLEAN"/>
     </resultMap>
 
     <!--查询单个-->

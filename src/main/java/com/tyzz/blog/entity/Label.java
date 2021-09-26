@@ -7,16 +7,16 @@ import java.io.Serializable;
  * (Label)实体类
  *
  * @author makejava
- * @since 2021-09-26 10:24:49
+ * @since 2021-09-26 10:51:06
  */
 public class Label implements Serializable {
-    private static final long serialVersionUID = 430509069866310502L;
+    private static final long serialVersionUID = -46878161881989582L;
     
     private Long labelId;
     
     private String labelName;
     
-    private Byte state;
+    private Boolean state;
     
     private Date createTime;
     
@@ -39,11 +39,11 @@ public class Label implements Serializable {
         this.labelName = labelName;
     }
 
-    public Byte getState() {
+    public Boolean getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(Boolean state) {
         this.state = state;
     }
 

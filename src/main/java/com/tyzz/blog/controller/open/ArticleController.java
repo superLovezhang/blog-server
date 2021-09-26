@@ -1,6 +1,5 @@
 package com.tyzz.blog.controller.open;
 
-import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.service.ArticleService;
 import org.springframework.web.bind.annotation.*;
 

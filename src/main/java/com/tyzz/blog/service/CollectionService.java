@@ -1,6 +1,5 @@
 package com.tyzz.blog.service;
 
-import com.tyzz.blog.entity.Collection;
 import java.util.List;
 
 /**

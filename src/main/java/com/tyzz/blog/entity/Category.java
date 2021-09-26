@@ -7,10 +7,10 @@ import java.io.Serializable;
  * (Category)实体类
  *
  * @author makejava
- * @since 2021-09-26 10:24:49
+ * @since 2021-09-26 10:51:06
  */
 public class Category implements Serializable {
-    private static final long serialVersionUID = 829568101196271234L;
+    private static final long serialVersionUID = -81405438719957843L;
     
     private Long categoryId;
     
@@ -18,9 +18,9 @@ public class Category implements Serializable {
     
     private String iconClass;
     
-    private Byte show;
+    private Boolean show;
     
-    private Byte state;
+    private Boolean state;
     
     private Date updateTime;
     
@@ -51,19 +51,19 @@ public class Category implements Serializable {
         this.iconClass = iconClass;
     }
 
-    public Byte getShow() {
+    public Boolean getShow() {
         return show;
     }
 
-    public void setShow(Byte show) {
+    public void setShow(Boolean show) {
         this.show = show;
     }
 
-    public Byte getState() {
+    public Boolean getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(Boolean state) {
         this.state = state;
     }
 

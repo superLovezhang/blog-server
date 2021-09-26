@@ -6,10 +6,10 @@ import java.io.Serializable;
  * (Collection)实体类
  *
  * @author makejava
- * @since 2021-09-26 10:24:49
+ * @since 2021-09-26 10:51:06
  */
 public class Collection implements Serializable {
-    private static final long serialVersionUID = -64067811861740145L;
+    private static final long serialVersionUID = -59113307433898013L;
     
     private Long collectionId;
     
@@ -17,7 +17,7 @@ public class Collection implements Serializable {
     
     private Long userId;
     
-    private Byte state;
+    private Boolean state;
 
 
     public Long getCollectionId() {
@@ -44,11 +44,11 @@ public class Collection implements Serializable {
         this.userId = userId;
     }
 
-    public Byte getState() {
+    public Boolean getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(Boolean state) {
         this.state = state;
     }
 

@@ -7,10 +7,10 @@ import java.io.Serializable;
  * (User)实体类
  *
  * @author makejava
- * @since 2021-09-26 10:24:49
+ * @since 2021-09-26 10:51:06
  */
 public class User implements Serializable {
-    private static final long serialVersionUID = -48994731075307039L;
+    private static final long serialVersionUID = -29312194226242692L;
     
     private Long userId;
     
@@ -18,7 +18,7 @@ public class User implements Serializable {
     
     private String avatar;
     
-    private Byte state;
+    private Boolean state;
     
     private String email;
     
@@ -53,11 +53,11 @@ public class User implements Serializable {
         this.avatar = avatar;
     }
 
-    public Byte getState() {
+    public Boolean getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(Boolean state) {
         this.state = state;
     }
 

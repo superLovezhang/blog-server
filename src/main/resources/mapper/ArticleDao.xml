@@ -10,7 +10,7 @@
         <result property="content" column="content" jdbcType="VARCHAR"/>
         <result property="viewCount" column="view_count" jdbcType="INTEGER"/>
         <result property="like" column="like" jdbcType="INTEGER"/>
-        <result property="state" column="state" jdbcType="BYTE"/>
+        <result property="state" column="state" jdbcType="BOOLEAN"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>

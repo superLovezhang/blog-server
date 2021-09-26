@@ -1,6 +1,5 @@
 package com.tyzz.blog.dao;
 
-import com.tyzz.blog.entity.Label;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 

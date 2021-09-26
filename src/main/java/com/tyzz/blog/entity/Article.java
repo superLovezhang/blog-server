@@ -7,10 +7,10 @@ import java.io.Serializable;
  * (Article)实体类
  *
  * @author makejava
- * @since 2021-09-26 10:24:36
+ * @since 2021-09-26 10:51:06
  */
 public class Article implements Serializable {
-    private static final long serialVersionUID = -42267936775529006L;
+    private static final long serialVersionUID = -17576930236206221L;
     
     private Long articleId;
     
@@ -24,7 +24,7 @@ public class Article implements Serializable {
     
     private Integer like;
     
-    private Byte state;
+    private Boolean state;
     
     private Date createTime;
     
@@ -79,11 +79,11 @@ public class Article implements Serializable {
         this.like = like;
     }
 
-    public Byte getState() {
+    public Boolean getState() {
         return state;
     }
 
-    public void setState(Byte state) {
+    public void setState(Boolean state) {
         this.state = state;
     }
 
