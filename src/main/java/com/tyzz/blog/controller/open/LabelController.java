@@ -1,6 +1,5 @@
 package com.tyzz.blog.controller.open;
 
-import com.tyzz.blog.service.LabelService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

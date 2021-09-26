@@ -1,7 +1,7 @@
 package com.tyzz.blog.entity;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Article)实体类
@@ -11,7 +11,7 @@ import java.io.Serializable;
  */
 public class Article implements Serializable {
     private static final long serialVersionUID = -17576930236206221L;
-    
+
     private Long articleId;
     
     private String articleName;

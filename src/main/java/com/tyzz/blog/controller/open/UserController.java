@@ -1,11 +1,9 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.service.UserService;
+import com.tyzz.blog.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * (User)表控制层
@@ -20,7 +18,13 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/login")
-    public Result login() {
+    public Result login(@RequestParam String email, @RequestParam String password) {
+        userService.login(email, password);
+        return Result.success();
+    }
+
+    @PutMapping("/register")
+    public Result register() {
         return Result.success();
     }
 }

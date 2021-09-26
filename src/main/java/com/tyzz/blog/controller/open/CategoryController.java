@@ -1,6 +1,6 @@
 package com.tyzz.blog.controller.open;
 
-import com.tyzz.blog.service.CategoryService;
+import com.tyzz.blog.service.impl.CategoryService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
