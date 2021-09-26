@@ -7,4 +7,6 @@ package com.tyzz.blog.entity.constant;
  * DateTime: 2021-09-26 12:28
  */
 public class BlogConstant {
+    public final static String AUTHORIZED_URL_PATTERN = "/admin/**";
+    public final static String UNAUTHORIZED_URL_PATTERN = "/open/**";
 }

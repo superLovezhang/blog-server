@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @since 2021-09-26 10:24:49
  */
 @RestController
-@RequestMapping("label")
+@RequestMapping("/open/label")
 public class LabelController {
     /**
      * 服务对象

@@ -13,7 +13,7 @@ import javax.annotation.Resource;
  * @since 2021-09-26 10:24:49
  */
 @RestController
-@RequestMapping("article")
+@RequestMapping("/open/article")
 public class ArticleController {
     /**
      * 服务对象

@@ -2,7 +2,7 @@ package com.tyzz.blog.service.impl;
 
 import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.User;
-import com.tyzz.blog.entity.exception.BlogException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,7 +21,6 @@ public class UserService {
 
     public void login(String email, String password) {
         User user = Optional.ofNullable(userDao.findOneByEmail(email))
-                .orElseThrow(() -> new BlogException("该用户不存在"));
-
+                .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
     }
 }
