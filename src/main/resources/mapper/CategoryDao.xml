@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyzz.blog.dao.CategoryDao">
+
+    <resultMap id="BaseResultMap" type="com.tyzz.blog.entity.Category">
+        <!--@Table category-->
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
+        <result property="iconClass" column="icon_class" jdbcType="VARCHAR"/>
+        <result property="show" column="show" jdbcType="BYTE"/>
+        <result property="state" column="state" jdbcType="BYTE"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          category_id, category_name, icon_class, show, state, update_time, create_time
+        from blog.category
+        where category_id = #{categoryId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          category_id, category_name, icon_class, show, state, update_time, create_time
+        from blog.category
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          category_id, category_name, icon_class, show, state, update_time, create_time
+        from blog.category
+        <where>
+            <if test="categoryId != null">
+                and category_id = #{categoryId}
+            </if>
+            <if test="categoryName != null and categoryName != ''">
+                and category_name = #{categoryName}
+            </if>
+            <if test="iconClass != null and iconClass != ''">
+                and icon_class = #{iconClass}
+            </if>
+            <if test="show != null">
+                and show = #{show}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="categoryId" useGeneratedKeys="true">
+        insert into blog.category(category_name, icon_class, show, state, update_time, create_time)
+        values (#{categoryName}, #{iconClass}, #{show}, #{state}, #{updateTime}, #{createTime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update blog.category
+        <set>
+            <if test="categoryName != null and categoryName != ''">
+                category_name = #{categoryName},
+            </if>
+            <if test="iconClass != null and iconClass != ''">
+                icon_class = #{iconClass},
+            </if>
+            <if test="show != null">
+                show = #{show},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+        </set>
+        where category_id = #{categoryId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from blog.category where category_id = #{categoryId}
+    </delete>
+
+</mapper>
