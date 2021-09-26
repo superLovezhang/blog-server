@@ -1,6 +1,8 @@
 package com.tyzz.blog.dao;
 
+import com.tyzz.blog.entity.Article;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
