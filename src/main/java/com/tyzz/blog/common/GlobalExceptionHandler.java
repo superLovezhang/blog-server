@@ -1,4 +1,4 @@
-package com.tyzz.blog.config;
+package com.tyzz.blog.common;
 
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
