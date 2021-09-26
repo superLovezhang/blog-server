@@ -1,7 +1,9 @@
 package com.tyzz.blog.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Label)实体类
@@ -11,7 +13,8 @@ import java.io.Serializable;
  */
 public class Label implements Serializable {
     private static final long serialVersionUID = -46878161881989582L;
-    
+
+    @TableId
     private Long labelId;
     
     private String labelName;

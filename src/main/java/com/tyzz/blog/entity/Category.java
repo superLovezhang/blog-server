@@ -1,7 +1,9 @@
 package com.tyzz.blog.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Category)实体类
@@ -11,7 +13,8 @@ import java.io.Serializable;
  */
 public class Category implements Serializable {
     private static final long serialVersionUID = -81405438719957843L;
-    
+
+    @TableId
     private Long categoryId;
     
     private String categoryName;

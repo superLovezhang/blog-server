@@ -1,7 +1,9 @@
 package com.tyzz.blog.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (Comment)实体类
@@ -11,7 +13,8 @@ import java.io.Serializable;
  */
 public class Comment implements Serializable {
     private static final long serialVersionUID = 322677803620436197L;
-    
+
+    @TableId
     private Long commentId;
     
     private String content;

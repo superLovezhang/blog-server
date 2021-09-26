@@ -1,6 +1,8 @@
 package com.tyzz.blog.controller.open;
 
-import org.springframework.web.bind.annotation.*;
+import com.tyzz.blog.service.impl.CommentService;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 

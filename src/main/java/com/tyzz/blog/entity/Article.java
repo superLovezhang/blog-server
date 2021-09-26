@@ -1,5 +1,7 @@
 package com.tyzz.blog.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -12,6 +14,7 @@ import java.util.Date;
 public class Article implements Serializable {
     private static final long serialVersionUID = -17576930236206221L;
 
+    @TableId
     private Long articleId;
     
     private String articleName;

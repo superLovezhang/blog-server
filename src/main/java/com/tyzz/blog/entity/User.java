@@ -1,7 +1,9 @@
 package com.tyzz.blog.entity;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * (User)实体类
@@ -11,7 +13,8 @@ import java.io.Serializable;
  */
 public class User implements Serializable {
     private static final long serialVersionUID = -29312194226242692L;
-    
+
+    @TableId
     private Long userId;
     
     private String username;
