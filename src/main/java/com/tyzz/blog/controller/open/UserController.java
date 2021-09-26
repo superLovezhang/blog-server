@@ -20,15 +20,4 @@ public class UserController {
     @Resource
     private UserService userService;
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public User selectOne(Long id) {
-        return this.userService.queryById(id);
-    }
-
 }

@@ -1,7 +1,8 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.service.CollectionService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 
@@ -19,16 +20,5 @@ public class CollectionController {
      */
     @Resource
     private CollectionService collectionService;
-
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public Collection selectOne(Long id) {
-        return this.collectionService.queryById(id);
-    }
 
 }

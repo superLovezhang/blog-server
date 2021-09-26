@@ -20,15 +20,4 @@ public class CommentController {
     @Resource
     private CommentService commentService;
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public Comment selectOne(Long id) {
-        return this.commentService.queryById(id);
-    }
-
 }

@@ -1,6 +1,7 @@
 package com.tyzz.blog.service.impl;
 
 import com.tyzz.blog.dao.LabelDao;
+import com.tyzz.blog.entity.Label;
 import com.tyzz.blog.service.LabelService;
 import org.springframework.stereotype.Service;
 
