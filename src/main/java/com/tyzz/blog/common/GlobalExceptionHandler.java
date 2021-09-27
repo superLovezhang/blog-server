@@ -1,5 +1,7 @@
 package com.tyzz.blog.common;
 
+import com.tyzz.blog.entity.enums.ResponseCode;
+import com.tyzz.blog.exception.BlogLoginInvalidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -12,7 +14,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
-    public String test(Exception e) {
-        return "error";
+    public Result test(Exception e) {
+        return Result.fail(e.getMessage());
+    }
+
+    @ExceptionHandler(BlogLoginInvalidException.class)
+    public Result loginException(BlogLoginInvalidException e) {
+        return Result.result(ResponseCode.LOGIN_STATUS_ILLEGAL, e.getMessage());
     }
 }

@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity.exception;
+package com.tyzz.blog.exception;
 
 /**
  * Description:

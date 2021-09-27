@@ -2,9 +2,11 @@ package com.tyzz.blog.service.impl;
 
 import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.User;
+import com.tyzz.blog.util.JwtUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,10 +22,15 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     @Resource
     private UserDao userDao;
+    @Resource
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public void login(String email, String password) {
+    public String login(String email, String password) {
         User user = Optional.ofNullable(userDao.findOneByEmail(email))
                 .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+        boolean matches = bCryptPasswordEncoder.matches(user.getPassword(), password);
+        assert !matches: "密码错误";
+        return JwtUtils.buildToken(user);
     }
 
     @Override

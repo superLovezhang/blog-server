@@ -63,11 +63,19 @@ public class Result implements Serializable {
         return new Result(ResponseCode.FAIL, null);
     }
 
+    public static Result fail(String message) {
+        return new Result(message, ResponseCode.FAIL.getCode(),null);
+    }
+
     public static Result result(ResponseCode responseCode, Object data) {
         return new Result(responseCode, data);
     }
 
     public static Result result(ResponseCode responseCode) {
         return new Result(responseCode, null);
+    }
+
+    public static Result result(ResponseCode responseCode, String message) {
+        return new Result(message, responseCode.getCode(),null);
     }
 }
