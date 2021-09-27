@@ -2,7 +2,7 @@ package com.tyzz.blog.config.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.enums.ResponseCode;
+import com.tyzz.blog.enums.ResponseCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

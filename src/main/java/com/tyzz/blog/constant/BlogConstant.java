@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity.constant;
+package com.tyzz.blog.constant;
 
 /**
  * Description:

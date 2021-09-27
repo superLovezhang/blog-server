@@ -3,7 +3,7 @@ package com.tyzz.blog.config;
 import com.tyzz.blog.config.security.AuthenticateFilter;
 import com.tyzz.blog.config.security.BlogAccessDeniedHandler;
 import com.tyzz.blog.config.security.BlogAuthenticationHandler;
-import com.tyzz.blog.entity.constant.BlogConstant;
+import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

@@ -1,6 +1,6 @@
 package com.tyzz.blog.common;
 
-import com.tyzz.blog.entity.enums.ResponseCode;
+import com.tyzz.blog.enums.ResponseCode;
 
 import java.io.Serializable;
 

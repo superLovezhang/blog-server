@@ -1,7 +1,9 @@
 package com.tyzz.blog.common;
 
-import com.tyzz.blog.entity.enums.ResponseCode;
+import com.tyzz.blog.enums.ResponseCode;
 import com.tyzz.blog.exception.BlogLoginInvalidException;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -13,9 +15,10 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(Exception.class)
-    public Result test(Exception e) {
-        return Result.fail(e.getMessage());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result test(MethodArgumentNotValidException e) {
+        FieldError fieldError = e.getBindingResult().getFieldError();
+        return Result.fail(fieldError.getDefaultMessage());
     }
 
     @ExceptionHandler(BlogLoginInvalidException.class)

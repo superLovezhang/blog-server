@@ -1,8 +1,10 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
+import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
  * @author makejava
  * @since 2021-09-26 10:24:49
  */
+@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/open/user")
@@ -19,12 +22,12 @@ public class UserController {
 
     @GetMapping("/login")
     public Result login(@RequestParam String email, @RequestParam String password) {
-        userService.login(email, password);
-        return Result.success();
+        return Result.success(userService.login(email, password));
     }
 
     @PutMapping("/register")
-    public Result register() {
+    public Result register(@RequestBody UserVO user) {
+        userService.register(user);
         return Result.success();
     }
 }

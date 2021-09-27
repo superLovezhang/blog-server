@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity.enums;
+package com.tyzz.blog.enums;
 
 /**
  * Description:
