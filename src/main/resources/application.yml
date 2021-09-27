@@ -5,10 +5,10 @@ spring:
       name: blog
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.alibaba.druid.proxy.DruidDriver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf8
     username: root
     password: 123456
-    url: jdbc:mysql//localhost:3306/blog?useUnicode=true&characterEncoding=utf8
     dbcp2:
       　　min-idle: 5         #数据库连接池的最小维持连接数
       　　initial-size: 5     #初始化提供的连接数

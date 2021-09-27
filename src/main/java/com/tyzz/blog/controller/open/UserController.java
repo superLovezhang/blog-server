@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
  * @author makejava
  * @since 2021-09-26 10:24:49
  */
-@Validated
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/open/user")
@@ -26,7 +25,7 @@ public class UserController {
     }
 
     @PutMapping("/register")
-    public Result register(@RequestBody UserVO user) {
+    public Result register(@Validated @RequestBody UserVO user) {
         userService.register(user);
         return Result.success();
     }

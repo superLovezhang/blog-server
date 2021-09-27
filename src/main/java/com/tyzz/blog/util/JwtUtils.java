@@ -28,10 +28,10 @@ public class JwtUtils {
     public static User checkToken(String token) {
         try {
             Claims claims = decode(token);
-            User user = new User();
-            user.setUserId(Long.getLong(claims.get("userId").toString()));
-            user.setUsername(claims.get("username").toString());
-            return user;
+            return User.builder()
+                        .userId(Long.getLong(claims.get("userId").toString()))
+                        .username(claims.get("username").toString())
+                        .build();
         } catch (Exception e) {
             throw new BlogLoginInvalidException("登录信息异常");
         }
