@@ -1,7 +1,7 @@
 package com.tyzz.blog.config;
 
-import com.tyzz.blog.config.security.AuthenticateFilter;
 import com.tyzz.blog.config.security.BlogAccessDeniedHandler;
+import com.tyzz.blog.config.security.BlogAuthenticationFilter;
 import com.tyzz.blog.config.security.BlogAuthenticationHandler;
 import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.service.impl.UserService;
@@ -47,7 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
         ;
         http.exceptionHandling().accessDeniedHandler(blogAccessDeniedHandler).authenticationEntryPoint(blogAuthenticationHandler);
-        http.addFilterBefore(new AuthenticateFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new BlogAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }

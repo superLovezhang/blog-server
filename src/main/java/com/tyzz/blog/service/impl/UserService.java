@@ -5,7 +5,6 @@ import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.exception.BlogException;
-import com.tyzz.blog.exception.BlogLoginInvalidException;
 import com.tyzz.blog.util.JwtUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -37,10 +36,10 @@ public class UserService implements UserDetailsService {
     public String login(String email, String password) {
         QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("email", email);
         User user = Optional.ofNullable(userDao.selectOne(wrapper))
-                .orElseThrow(() -> new UsernameNotFoundException("用户不存在"));
+                .orElseThrow(() -> new BlogException("用户不存在"));
         boolean matches = bCryptPasswordEncoder.matches(password, user.getPassword());
         if (!matches) {
-            throw new BlogLoginInvalidException("密码错误");
+            throw new BlogException("密码错误");
         }
         return JwtUtils.buildToken(user);
     }
