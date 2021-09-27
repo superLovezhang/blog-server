@@ -2,13 +2,15 @@ package com.tyzz.blog.common;
 
 import com.tyzz.blog.entity.enums.ResponseCode;
 
+import java.io.Serializable;
+
 /**
  * Description:
  *
  * @Author: ZhangZhao
  * DateTime: 2021-09-26 12:30
  */
-public class Result {
+public class Result implements Serializable {
     private String message;
     private Long code;
     private Object data;
@@ -22,6 +24,30 @@ public class Result {
     public Result(ResponseCode responseCode, Object data) {
         this.message = responseCode.getDesc();
         this.code = responseCode.getCode();
+        this.data = data;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Long getCode() {
+        return code;
+    }
+
+    public void setCode(Long code) {
+        this.code = code;
+    }
+
+    public Object getData() {
+        return data;
+    }
+
+    public void setData(Object data) {
         this.data = data;
     }
 
@@ -39,5 +65,9 @@ public class Result {
 
     public static Result result(ResponseCode responseCode, Object data) {
         return new Result(responseCode, data);
+    }
+
+    public static Result result(ResponseCode responseCode) {
+        return new Result(responseCode, null);
     }
 }
