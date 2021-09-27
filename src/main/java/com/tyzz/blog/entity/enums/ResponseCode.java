@@ -10,9 +10,13 @@ public enum ResponseCode {
     /**
      * 1000-1999 通用成功失败
      * 2000-2999 登录相关
+     * 3000-3999 权限相关
      */
-    SUCCESS("操作成功", 1000l),
-    FAIL("操作失败", 1001l)
+    SUCCESS("操作成功", 1000L),
+    FAIL("操作失败", 1001L),
+    LOGIN_SUCCESS("登陆成功", 2000L),
+    LOGIN_FAIL("登陆失败", 2001L),
+    PERMISSION_FAIL("暂无权限", 3000L)
     ;
 
     private String desc;
