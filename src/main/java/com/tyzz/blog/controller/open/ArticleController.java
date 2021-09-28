@@ -4,6 +4,7 @@ import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
+import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.service.ArticleService;
 import com.tyzz.blog.service.UserService;
 import org.springframework.validation.annotation.Validated;
@@ -26,8 +27,8 @@ public class ArticleController {
     private UserService userService;
 
     @GetMapping("/list")
-    public Result list() {
-        return Result.success();
+    public Result list(@Validated @RequestBody ArticlePageDTO articlePageDTO) {
+        return Result.success(articleService.listPage(articlePageDTO));
     }
 
     @PutMapping("/save")

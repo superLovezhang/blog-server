@@ -12,4 +12,5 @@ import lombok.Data;
 public class BasePageDTO {
     private Integer page = 1;
     private Integer size = 10;
+    private String sortColumn = "createTime";
 }

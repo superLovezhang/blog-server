@@ -1,9 +1,12 @@
 package com.tyzz.blog.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tyzz.blog.dao.ArticleDao;
 import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
+import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.vo.ArticleVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -42,5 +45,14 @@ public class ArticleService {
         User user = userService.selectById(article.getUserId());
         articleVO.setUser(userService.pojoToDTO(user));
         return articleVO;
+    }
+
+    public Page<Article> listPage(ArticlePageDTO articlePageDTO) {
+        Page<Object> page = Page.of(articlePageDTO.getPage(), articlePageDTO.getSize());
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.orderByDesc(articlePageDTO.getSortColumn())
+               .like("articleName", articlePageDTO.getSearchValue());
+        //todo 中间表查询= =
+        return null;
     }
 }
