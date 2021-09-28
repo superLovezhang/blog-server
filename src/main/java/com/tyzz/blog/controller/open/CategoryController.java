@@ -1,7 +1,7 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.vo.CategoryVO;
+import com.tyzz.blog.entity.dto.CategoryDTO;
 import com.tyzz.blog.service.CategoryService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +21,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping("/save")
-    public Result save(@Validated CategoryVO categoryVO) {
-        categoryService.save(categoryVO);
+    public Result save(@Validated CategoryDTO categoryDTO) {
+        categoryService.save(categoryDTO);
         return Result.success();
     }
 

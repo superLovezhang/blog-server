@@ -1,9 +1,11 @@
 package com.tyzz.blog.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tyzz.blog.dao.CommentDao;
 import com.tyzz.blog.entity.Comment;
 import com.tyzz.blog.entity.User;
-import com.tyzz.blog.entity.vo.CommentVO;
+import com.tyzz.blog.entity.dto.CommentPageDTO;
+import com.tyzz.blog.entity.dto.CommentDTO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,14 +22,19 @@ public class CommentService {
     private CommentDao commentDao;
 
 
-    public void comment(CommentVO commentVO, User user) {
+    public void comment(CommentDTO commentDTO, User user) {
         Comment comment = Comment.builder()
-                .articleId(commentVO.getArticleId())
-                .replyId(commentVO.getReplyId())
-                .parentId(commentVO.getParentId())
-                .content(commentVO.getContent())
+                .articleId(commentDTO.getArticleId())
+                .replyId(commentDTO.getReplyId())
+                .parentId(commentDTO.getParentId())
+                .content(commentDTO.getContent())
                 .userId(user.getUserId())
                 .build();
         commentDao.insert(comment);
+    }
+
+    public Page<Comment> listPage(CommentPageDTO pageVO) {
+        Page<Comment> page = Page.of(pageVO.getPage(), pageVO.getSize());
+        return commentDao.selectPage(page, null);
     }
 }

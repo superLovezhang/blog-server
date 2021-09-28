@@ -2,7 +2,7 @@ package com.tyzz.blog.service;
 
 import com.tyzz.blog.dao.CategoryDao;
 import com.tyzz.blog.entity.Category;
-import com.tyzz.blog.entity.vo.CategoryVO;
+import com.tyzz.blog.entity.dto.CategoryDTO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,12 +18,12 @@ public class CategoryService {
     @Resource
     private CategoryDao categoryDao;
 
-    public void save(CategoryVO categoryVO) {
+    public void save(CategoryDTO categoryDTO) {
         Category category = Category.builder()
-                .categoryId(categoryVO.getCategoryId())
-                .categoryName(categoryVO.getCategoryName())
-                .iconClass(categoryVO.getIconClass())
-                .show(categoryVO.getShow())
+                .categoryId(categoryDTO.getCategoryId())
+                .categoryName(categoryDTO.getCategoryName())
+                .iconClass(categoryDTO.getIconClass())
+                .show(categoryDTO.getShow())
                 .build();
         categoryDao.insert(category);
     }

@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity.vo;
+package com.tyzz.blog.entity.dto;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
  * DateTime: 2021-09-28 9:38
  */
 @Data
-public class CommentVO {
+public class CommentDTO {
     @NotEmpty
     private String content;
 

@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity.vo;
+package com.tyzz.blog.entity.dto;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import lombok.Data;
  * DateTime: 2021-09-28 15:20
  */
 @Data
-public class BasePageVO {
+public class BasePageDTO {
     private Integer page = 1;
     private Integer size = 10;
 }

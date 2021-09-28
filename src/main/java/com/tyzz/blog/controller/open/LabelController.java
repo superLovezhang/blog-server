@@ -1,7 +1,7 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.vo.LabelVO;
+import com.tyzz.blog.entity.dto.LabelDTO;
 import com.tyzz.blog.service.LabelService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +21,8 @@ public class LabelController {
     private LabelService labelService;
 
     @PostMapping("/save")
-    public Result save(@Validated LabelVO labelVO) {
-        labelService.save(labelVO);
+    public Result save(@Validated LabelDTO labelDTO) {
+        labelService.save(labelDTO);
         return Result.success();
     }
 

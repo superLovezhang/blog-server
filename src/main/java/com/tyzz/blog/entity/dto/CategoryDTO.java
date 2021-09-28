@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity.vo;
+package com.tyzz.blog.entity.dto;
 
 import lombok.Data;
 
@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank;
  * DateTime: 2021-09-28 9:25
  */
 @Data
-public class CategoryVO {
+public class CategoryDTO {
     private Long categoryId;
 
     @NotBlank(message = "目录名称不能为空")

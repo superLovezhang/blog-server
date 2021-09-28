@@ -1,6 +1,9 @@
 package com.tyzz.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -11,6 +14,9 @@ import java.util.Date;
  * @author makejava
  * @since 2021-09-26 10:51:06
  */
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Article implements Serializable {
     private static final long serialVersionUID = -17576930236206221L;
 

@@ -2,7 +2,7 @@ package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.User;
-import com.tyzz.blog.entity.vo.BasePageVO;
+import com.tyzz.blog.entity.dto.BasePageDTO;
 import com.tyzz.blog.service.CollectionService;
 import com.tyzz.blog.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class CollectionController {
      * @return
      */
     @GetMapping("/list")
-    public Result list(BasePageVO pageVO) {
+    public Result list(BasePageDTO pageVO) {
         User user = userService.currentUser();
         return Result.success(collectionService.pageByUser(user, pageVO));
     }
@@ -39,7 +39,7 @@ public class CollectionController {
      * @param articleId 文章ID
      * @return
      */
-    @PostMapping("/collect/articleId")
+    @PostMapping("/collect/{articleId}")
     public Result collect(@PathVariable Long articleId) {
         User user = userService.currentUser();
         collectionService.collect(user, articleId);

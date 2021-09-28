@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity.vo;
+package com.tyzz.blog.entity.dto;
 
 import lombok.Data;
 
@@ -9,6 +9,6 @@ import lombok.Data;
  * DateTime: 2021-09-28 15:59
  */
 @Data
-public class CommentPageVO extends BasePageVO {
+public class CommentPageDTO extends BasePageDTO {
     private Long articleId;
 }

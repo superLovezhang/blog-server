@@ -6,7 +6,7 @@ import com.tyzz.blog.dao.CollectionDao;
 import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.entity.Collection;
 import com.tyzz.blog.entity.User;
-import com.tyzz.blog.entity.vo.BasePageVO;
+import com.tyzz.blog.entity.dto.BasePageDTO;
 import com.tyzz.blog.exception.BlogException;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,7 @@ public class CollectionService {
     private ArticleService articleService;
 
 
-    public Page<Collection> pageByUser(User user, BasePageVO pageVO) {
+    public Page<Collection> pageByUser(User user, BasePageDTO pageVO) {
         Page<Collection> page = Page.of(pageVO.getPage(), pageVO.getSize());
         QueryWrapper<Collection> wrapper = new QueryWrapper<>();
         wrapper.eq("userId", user.getUserId())

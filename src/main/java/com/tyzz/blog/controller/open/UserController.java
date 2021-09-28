@@ -1,7 +1,7 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.vo.UserVO;
+import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @PutMapping("/register")
-    public Result register(@Validated @RequestBody UserVO user) {
+    public Result register(@Validated @RequestBody UserDTO user) {
         userService.register(user);
         return Result.success();
     }

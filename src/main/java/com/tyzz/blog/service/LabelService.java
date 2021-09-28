@@ -2,7 +2,7 @@ package com.tyzz.blog.service;
 
 import com.tyzz.blog.dao.LabelDao;
 import com.tyzz.blog.entity.Label;
-import com.tyzz.blog.entity.vo.LabelVO;
+import com.tyzz.blog.entity.dto.LabelDTO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,10 +18,10 @@ public class LabelService {
     @Resource
     private LabelDao labelDao;
 
-    public void save(LabelVO labelVO) {
+    public void save(LabelDTO labelDTO) {
         Label label = Label.builder()
-                .labelId(labelVO.getLabelId())
-                .labelName(labelVO.getLabelName())
+                .labelId(labelDTO.getLabelId())
+                .labelName(labelDTO.getLabelName())
                 .build();
         labelDao.insert(label);
     }

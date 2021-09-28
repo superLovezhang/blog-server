@@ -2,8 +2,8 @@ package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.User;
-import com.tyzz.blog.entity.vo.CommentPageVO;
-import com.tyzz.blog.entity.vo.CommentVO;
+import com.tyzz.blog.entity.dto.CommentPageDTO;
+import com.tyzz.blog.entity.dto.CommentDTO;
 import com.tyzz.blog.service.CommentService;
 import com.tyzz.blog.service.UserService;
 import org.springframework.validation.annotation.Validated;
@@ -26,14 +26,14 @@ public class CommentController {
     private UserService userService;
 
     @PutMapping
-    public Result comment(@Validated @RequestBody CommentVO commentVO) {
+    public Result comment(@Validated @RequestBody CommentDTO commentDTO) {
         User user = userService.currentUser();
-        commentService.comment(commentVO, user);
+        commentService.comment(commentDTO, user);
         return Result.success();
     }
 
     @GetMapping("/list")
-    public Result list(CommentPageVO pageVO) {
-        return Result.success();
+    public Result list(CommentPageDTO pageVO) {
+        return Result.success(commentService.listPage(pageVO));
     }
 }

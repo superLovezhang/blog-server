@@ -1,8 +1,13 @@
 package com.tyzz.blog.controller.open;
 
+import com.tyzz.blog.common.Result;
+import com.tyzz.blog.entity.Article;
+import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.service.ArticleService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tyzz.blog.service.UserService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -15,10 +20,26 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/open/article")
 public class ArticleController {
-    /**
-     * 服务对象
-     */
     @Resource
     private ArticleService articleService;
+    @Resource
+    private UserService userService;
 
+    @GetMapping("/list")
+    public Result list() {
+        return Result.success();
+    }
+
+    @PutMapping("/save")
+    public Result save(@Validated @RequestBody ArticleDTO articleDTO) {
+        User user = userService.currentUser();
+        articleService.save(user, articleDTO);
+        return Result.success();
+    }
+
+    @GetMapping("/{articleId}")
+    public Result detail(@PathVariable Long articleId) {
+        Article article = articleService.selectOneById(articleId);
+        return Result.success(articleService.pojoToDTO(article));
+    }
 }
