@@ -1,8 +1,10 @@
 package com.tyzz.blog.controller.open;
 
-import com.tyzz.blog.service.impl.LabelService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tyzz.blog.common.Result;
+import com.tyzz.blog.entity.vo.LabelVO;
+import com.tyzz.blog.service.LabelService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -15,10 +17,18 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/open/label")
 public class LabelController {
-    /**
-     * 服务对象
-     */
     @Resource
     private LabelService labelService;
 
+    @PostMapping("/save")
+    public Result save(@Validated LabelVO labelVO) {
+        labelService.save(labelVO);
+        return Result.success();
+    }
+
+    @DeleteMapping("/remove/{labelId}")
+    public Result remove(@PathVariable Long labelId) {
+        labelService.remove(labelId);
+        return Result.success();
+    }
 }

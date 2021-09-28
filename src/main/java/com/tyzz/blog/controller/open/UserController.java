@@ -2,7 +2,7 @@ package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.vo.UserVO;
-import com.tyzz.blog.service.impl.UserService;
+import com.tyzz.blog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

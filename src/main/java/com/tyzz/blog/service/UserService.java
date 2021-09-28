@@ -1,4 +1,4 @@
-package com.tyzz.blog.service.impl;
+package com.tyzz.blog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.dao.UserDao;
@@ -6,6 +6,8 @@ import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.JwtUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -31,6 +33,14 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         return null;
+    }
+
+    public User currentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        Object principal = Optional.ofNullable(authentication.getPrincipal())
+                .orElseThrow(() -> new BlogException("请登录"));
+        User user = (User) principal;
+        return userDao.selectById(user.getUserId());
     }
 
     public String login(String email, String password) {

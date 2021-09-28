@@ -1,8 +1,10 @@
 package com.tyzz.blog.controller.open;
 
-import com.tyzz.blog.service.impl.CategoryService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tyzz.blog.common.Result;
+import com.tyzz.blog.entity.vo.CategoryVO;
+import com.tyzz.blog.service.CategoryService;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -15,10 +17,18 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/open/category")
 public class CategoryController {
-    /**
-     * 服务对象
-     */
     @Resource
     private CategoryService categoryService;
 
+    @PostMapping("/save")
+    public Result save(@Validated CategoryVO categoryVO) {
+        categoryService.save(categoryVO);
+        return Result.success();
+    }
+
+    @DeleteMapping("/remove/{categoryId}")
+    public Result remove(@PathVariable Long categoryId) {
+        categoryService.remove(categoryId);
+        return Result.success();
+    }
 }

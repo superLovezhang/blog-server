@@ -1,8 +1,11 @@
 package com.tyzz.blog.controller.open;
 
-import com.tyzz.blog.service.impl.CollectionService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.tyzz.blog.common.Result;
+import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.vo.BasePageVO;
+import com.tyzz.blog.service.CollectionService;
+import com.tyzz.blog.service.UserService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -15,10 +18,31 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping("/open/collection")
 public class CollectionController {
-    /**
-     * 服务对象
-     */
     @Resource
     private CollectionService collectionService;
+    @Resource
+    private UserService userService;
 
+    /**
+     * 获取收藏文章列表
+     * @param pageVO 分页参数
+     * @return
+     */
+    @GetMapping("/list")
+    public Result list(BasePageVO pageVO) {
+        User user = userService.currentUser();
+        return Result.success(collectionService.pageByUser(user, pageVO));
+    }
+
+    /**
+     * 收藏/取消收藏文章
+     * @param articleId 文章ID
+     * @return
+     */
+    @PostMapping("/collect/articleId")
+    public Result collect(@PathVariable Long articleId) {
+        User user = userService.currentUser();
+        collectionService.collect(user, articleId);
+        return Result.success();
+    }
 }

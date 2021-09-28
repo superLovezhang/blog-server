@@ -4,7 +4,7 @@ import com.tyzz.blog.config.security.BlogAccessDeniedHandler;
 import com.tyzz.blog.config.security.BlogAuthenticationFilter;
 import com.tyzz.blog.config.security.BlogAuthenticationHandler;
 import com.tyzz.blog.constant.BlogConstant;
-import com.tyzz.blog.service.impl.UserService;
+import com.tyzz.blog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

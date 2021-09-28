@@ -1,6 +1,7 @@
-package com.tyzz.blog.service.impl;
+package com.tyzz.blog.service;
 
 import com.tyzz.blog.dao.ArticleDao;
+import com.tyzz.blog.entity.Article;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,4 +17,7 @@ public class ArticleService {
     @Resource
     private ArticleDao articleDao;
 
+    public Article selectOneById(Long articleId) {
+        return articleDao.selectById(articleId);
+    }
 }

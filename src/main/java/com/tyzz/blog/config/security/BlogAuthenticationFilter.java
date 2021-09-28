@@ -14,7 +14,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,8 +33,8 @@ public class BlogAuthenticationFilter extends OncePerRequestFilter {
         }
         User user = JwtUtils.checkToken(token);
         //todo 拿到用户信息做一些事
-        List<SimpleGrantedAuthority> roleList = Arrays.asList(new SimpleGrantedAuthority("USER"));
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(null, user, roleList);
+        List<SimpleGrantedAuthority> roleList = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, token, roleList);
         authenticationToken.setAuthenticated(true);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
