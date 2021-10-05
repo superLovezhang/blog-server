@@ -3,6 +3,8 @@ package com.tyzz.blog.entity.dto;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 
 /**
  * Description:
@@ -14,9 +16,20 @@ import javax.validation.constraints.NotBlank;
 public class ArticleDTO {
     private Long articleId;
 
+    @NotNull
+    private ArrayList<Long> labelIds = new ArrayList<>();
+
+    @NotNull
+    private Long categoryId;
+
     @NotBlank
     private String articleName;
 
     @NotBlank
     private String content;
+
+    @NotNull
+    private String articleType;
+
+    private String linkAddress;
 }

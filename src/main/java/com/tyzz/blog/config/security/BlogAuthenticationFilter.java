@@ -32,7 +32,6 @@ public class BlogAuthenticationFilter extends OncePerRequestFilter {
             return;
         }
         User user = JwtUtils.checkToken(token);
-        //todo 拿到用户信息做一些事
         List<SimpleGrantedAuthority> roleList = Collections.singletonList(new SimpleGrantedAuthority("USER"));
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, token, roleList);
         authenticationToken.setAuthenticated(true);

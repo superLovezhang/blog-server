@@ -32,9 +32,12 @@ public class ArticleService {
 
     public void save(User user, ArticleDTO articleDTO) {
         Article article = Article.builder()
+                .linkAddress(articleDTO.getLinkAddress())
+                .articleType(articleDTO.getArticleType())
                 .articleName(articleDTO.getArticleName())
                 .content(articleDTO.getContent())
                 .articleId(articleDTO.getArticleId())
+                .userId(user.getUserId())
                 .build();
         articleDao.insert(article);
     }

@@ -28,6 +28,12 @@ public class Article implements Serializable {
     private Long userId;
     
     private String content;
+
+    private String linkAddress;
+
+    private String articleType;
+
+    private Long categoryId;
     
     private Integer viewCount;
     
