@@ -18,15 +18,15 @@ public class OssUtils {
 
     public static AssumeRoleResponse.Credentials generateCredentials() {
         // STS接入地址，例如sts.cn-hangzhou.aliyuncs.com。
-        String endpoint = "oss-cn-guangzhou.aliyuncs.com";
+        String endpoint = "your";
         // 填写步骤1生成的访问密钥AccessKey ID和AccessKey Secret。
-        String AccessKeyId = "LTAI5tDTEipghFJ9zmSPevYc";
-        String accessKeySecret = "R8e6RPo85QOAwuHU93hvoysJvt0adg";
+        String AccessKeyId = "your";
+        String accessKeySecret = "your";
         // 填写步骤3获取的角色ARN。
-        String roleArn = "acs:ram::1052557574805137:role/zz-arm";
+        String roleArn = "your";
         // 自定义角色会话名称，用来区分不同的令牌，例如可填写为SessionTest。
         String roleSessionName = "sessionTest";
-        String bucketName = "zz--blog";
+        String bucketName = "your";
         try {
             // regionId表示RAM的地域ID。以华东1（杭州）地域为例，regionID填写为cn-hangzhou。也可以保留默认值，默认值为空字符串（""）。
             String regionId = "cn-guangzhou";
