@@ -3,8 +3,6 @@ package com.tyzz.blog.config.security;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.util.JwtUtils;
-import com.tyzz.blog.util.ResponseUtils;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -27,15 +25,13 @@ public class BlogAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
-        if (StringUtils.isBlank(token)) {
-            ResponseUtils.unauthenticatedResponse(response);
-            return;
+        if (StringUtils.isNotBlank(token)) {
+            User user = JwtUtils.checkToken(token);
+            List<SimpleGrantedAuthority> roleList = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+            BlogAuthenticationToken authenticationToken = new BlogAuthenticationToken(user.getUsername(), token, roleList);
+            authenticationToken.setCurrentUser(user);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
-        User user = JwtUtils.checkToken(token);
-        List<SimpleGrantedAuthority> roleList = Collections.singletonList(new SimpleGrantedAuthority("USER"));
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user, token, roleList);
-        authenticationToken.setAuthenticated(true);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         filterChain.doFilter(request, response);
     }
 }

@@ -29,7 +29,7 @@ public class JwtUtils {
         try {
             Claims claims = decode(token);
             return User.builder()
-                        .userId(Long.getLong(claims.get("userId").toString()))
+                        .userId(Long.parseLong(claims.get("userId").toString()))
                         .username(claims.get("username").toString())
                         .build();
         } catch (Exception e) {

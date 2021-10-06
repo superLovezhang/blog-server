@@ -26,11 +26,21 @@ public class ArticleController {
     @Resource
     private UserService userService;
 
+    /**
+     * 获取文章列表
+     * @param articlePageDTO
+     * @return
+     */
     @GetMapping("/list")
     public Result list(@Validated @RequestBody ArticlePageDTO articlePageDTO) {
         return Result.success(articleService.listPage(articlePageDTO));
     }
 
+    /**
+     * 保存文章
+     * @param articleDTO
+     * @return
+     */
     @PutMapping("/save")
     public Result save(@Validated @RequestBody ArticleDTO articleDTO) {
         User user = userService.currentUser();
@@ -38,6 +48,11 @@ public class ArticleController {
         return Result.success();
     }
 
+    /**
+     * 获取文章详情
+     * @param articleId
+     * @return
+     */
     @GetMapping("/{articleId}")
     public Result detail(@PathVariable Long articleId) {
         Article article = articleService.selectOneById(articleId);

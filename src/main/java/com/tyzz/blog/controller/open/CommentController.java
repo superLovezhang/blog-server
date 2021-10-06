@@ -25,6 +25,11 @@ public class CommentController {
     @Resource
     private UserService userService;
 
+    /**
+     * 发表评论
+     * @param commentDTO
+     * @return
+     */
     @PutMapping
     public Result comment(@Validated @RequestBody CommentDTO commentDTO) {
         User user = userService.currentUser();
@@ -32,6 +37,11 @@ public class CommentController {
         return Result.success();
     }
 
+    /**
+     * 获取评论列表
+     * @param pageVO
+     * @return
+     */
     @GetMapping("/list")
     public Result list(CommentPageDTO pageVO) {
         return Result.success(commentService.listPage(pageVO));

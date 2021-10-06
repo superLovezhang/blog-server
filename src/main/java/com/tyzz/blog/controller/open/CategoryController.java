@@ -20,12 +20,22 @@ public class CategoryController {
     @Resource
     private CategoryService categoryService;
 
+    /**
+     * 保存目录
+     * @param categoryDTO
+     * @return
+     */
     @PostMapping("/save")
     public Result save(@Validated CategoryDTO categoryDTO) {
         categoryService.save(categoryDTO);
         return Result.success();
     }
 
+    /**
+     * 删除目录
+     * @param categoryId
+     * @return
+     */
     @DeleteMapping("/remove/{categoryId}")
     public Result remove(@PathVariable Long categoryId) {
         categoryService.remove(categoryId);

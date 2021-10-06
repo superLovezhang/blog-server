@@ -1,6 +1,7 @@
 package com.tyzz.blog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.tyzz.blog.config.security.BlogAuthenticationToken;
 import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.UserDTO;
@@ -8,6 +9,7 @@ import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.JwtUtils;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -43,10 +45,13 @@ public class UserService implements UserDetailsService {
 
     public User currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Object principal = Optional.ofNullable(authentication.getPrincipal())
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            throw new BlogException("请登录");
+        }
+        BlogAuthenticationToken blogAuthenticationToken = (BlogAuthenticationToken) authentication;
+        User currentUser = Optional.ofNullable(blogAuthenticationToken.getCurrentUser())
                 .orElseThrow(() -> new BlogException("请登录"));
-        User user = (User) principal;
-        return userDao.selectById(user.getUserId());
+        return userDao.selectById(currentUser.getUserId());
     }
 
     public Map<String, Object> login(String email, String password) {
