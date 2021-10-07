@@ -14,7 +14,6 @@ public enum ResponseCode {
      */
     SUCCESS("操作成功", 1000L),
     FAIL("操作失败", 1001L),
-    LOGIN_SUCCESS("登陆成功", 2000L),
     LOGIN_FAIL("登陆失败", 2001L),
     LOGIN_STATUS_ILLEGAL("登录信息非法", 2002L),
     PERMISSION_FAIL("暂无权限", 3000L)

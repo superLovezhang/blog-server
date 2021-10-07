@@ -61,7 +61,7 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new BlogException("用户不存在"));
         boolean matches = bCryptPasswordEncoder.matches(password, user.getPassword());
         if (!matches) {
-            throw new BlogException("密码错误");
+            throw new BlogException("邮箱或密码错误");
         }
         result.put("token", JwtUtils.buildToken(user));
         result.put("user", userService.pojoToDTO(user));
