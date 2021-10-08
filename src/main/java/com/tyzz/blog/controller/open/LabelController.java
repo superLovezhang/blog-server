@@ -2,6 +2,7 @@ package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.LabelDTO;
+import com.tyzz.blog.entity.dto.LabelPageDTO;
 import com.tyzz.blog.service.LabelService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,5 +31,15 @@ public class LabelController {
     public Result remove(@PathVariable Long labelId) {
         labelService.remove(labelId);
         return Result.success();
+    }
+
+    @GetMapping("/list")
+    public Result list(LabelPageDTO labelPageDTO) {
+        return Result.success(labelService.listPage(labelPageDTO));
+    }
+
+    @GetMapping("/hot")
+    public Result hot() {
+        return Result.success(labelService.hotList());
     }
 }

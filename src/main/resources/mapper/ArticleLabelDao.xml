@@ -6,8 +6,16 @@
         <!--@Table article_label-->
         <result property="articleLabelId" column="article_label_id" jdbcType="INTEGER"/>
         <result property="articleId" column="article_id" jdbcType="INTEGER"/>
-        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="labelId" column="label_id" jdbcType="INTEGER"/>
         <result property="state" column="state" jdbcType="BOOLEAN"/>
     </resultMap>
 
+    <select id="listHotIds" resultMap="BaseResultMap">
+        SELECT al.label_id FROM article_label al
+            LEFT JOIN label l ON al.`label_id` = l.`label_id`
+        WHERE l.`state` = 1
+        GROUP BY al.label_id
+        ORDER BY COUNT(al.label_id) DESC
+        limit 10
+    </select>
 </mapper>

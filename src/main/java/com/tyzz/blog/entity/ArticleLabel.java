@@ -15,7 +15,7 @@ public class ArticleLabel implements Serializable {
     
     private Long articleId;
     
-    private Long categoryId;
+    private Long labelId;
     
     private Boolean state;
 
@@ -36,12 +36,12 @@ public class ArticleLabel implements Serializable {
         this.articleId = articleId;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
+    public Long getLabelId() {
+        return labelId;
     }
 
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
+    public void setLabelId(Long labelId) {
+        this.labelId = labelId;
     }
 
     public Boolean getState() {
