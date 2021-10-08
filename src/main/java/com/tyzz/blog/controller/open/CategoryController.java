@@ -2,6 +2,7 @@ package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.CategoryDTO;
+import com.tyzz.blog.entity.dto.CategoryPageDTO;
 import com.tyzz.blog.service.CategoryService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +41,15 @@ public class CategoryController {
     public Result remove(@PathVariable Long categoryId) {
         categoryService.remove(categoryId);
         return Result.success();
+    }
+
+    @GetMapping("/list")
+    public Result list(CategoryPageDTO categoryPageDTO) {
+        return Result.success(categoryService.listPage(categoryPageDTO));
+    }
+
+    @GetMapping("/hot")
+    public Result hot() {
+        return Result.success(categoryService.hotList());
     }
 }

@@ -13,5 +13,13 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <select id="hotList" resultType="java.lang.Long">
+        SELECT category_id FROM article GROUP BY category_id ORDER BY COUNT(category_id) DESC LIMIT 10
+    </select>
 
+    <select id="listByIds" parameterType="java.util.ArrayList" resultMap="BaseResultMap">
+        select * from category c
+        where c.state = 1 and c.show = 1
+        and c.category_id in <foreach item="item" collection="list" open="(" separator="," close=")">#{item}</foreach>
+    </select>
 </mapper>
