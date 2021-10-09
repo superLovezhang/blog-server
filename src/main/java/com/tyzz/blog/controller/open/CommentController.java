@@ -39,11 +39,11 @@ public class CommentController {
 
     /**
      * 获取评论列表
-     * @param pageVO
+     * @param pageDTO
      * @return
      */
     @GetMapping("/list")
-    public Result list(CommentPageDTO pageVO) {
-        return Result.success(commentService.listPage(pageVO));
+    public Result list(CommentPageDTO pageDTO) {
+        return Result.success(commentService.listPage(pageDTO));
     }
 }
