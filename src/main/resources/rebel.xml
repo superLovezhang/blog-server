@@ -9,7 +9,7 @@
 	<id>blog</id>
 
 	<classpath>
-		<dir name="D:/workspace/blog/target/classes">
+		<dir name="${rebel.projectpath.blog}/target\classes">
 		</dir>
 	</classpath>
 

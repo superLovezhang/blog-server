@@ -1,6 +1,5 @@
 package com.tyzz.blog.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tyzz.blog.dao.ArticleDao;
 import com.tyzz.blog.entity.Article;
@@ -12,6 +11,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (Article)表服务实现类
@@ -51,11 +51,11 @@ public class ArticleService {
     }
 
     public Page<Article> listPage(ArticlePageDTO articlePageDTO) {
-        Page<Object> page = Page.of(articlePageDTO.getPage(), articlePageDTO.getSize());
-        QueryWrapper<Article> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc(articlePageDTO.getSortColumn())
-               .like("articleName", articlePageDTO.getSearchValue());
-        //todo 中间表查询= =
-        return null;
+        Page<Article> page = Page.of(articlePageDTO.getPage(), articlePageDTO.getSize());
+        return articleDao.listPage(page, articlePageDTO);
+    }
+
+    public List<Article> hotList() {
+        return articleDao.hotList();
     }
 }

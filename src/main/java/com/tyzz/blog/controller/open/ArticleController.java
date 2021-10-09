@@ -32,7 +32,7 @@ public class ArticleController {
      * @return
      */
     @GetMapping("/list")
-    public Result list(@Validated @RequestBody ArticlePageDTO articlePageDTO) {
+    public Result list(ArticlePageDTO articlePageDTO) {
         return Result.success(articleService.listPage(articlePageDTO));
     }
 
@@ -57,5 +57,14 @@ public class ArticleController {
     public Result detail(@PathVariable Long articleId) {
         Article article = articleService.selectOneById(articleId);
         return Result.success(articleService.pojoToDTO(article));
+    }
+
+    /**
+     * 获取热门推荐文章
+     * @return
+     */
+    @GetMapping("/hot")
+    public Result hot() {
+        return Result.success(articleService.hotList());
     }
 }

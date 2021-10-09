@@ -15,4 +15,29 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <select id="listPage" parameterType="com.tyzz.blog.entity.dto.ArticlePageDTO" resultMap="BaseResultMap">
+        <choose>
+            <when test="articlePageDTO.labelId != null">
+                SELECT a.* FROM article a WHERE a.article_id IN (
+                    SELECT al.article_id FROM article_label al WHERE al.label_id = #{articlePageDTO.labelId}
+                )
+            </when>
+            <otherwise>
+                SELECT * FROM article a
+            </otherwise>
+        </choose>
+        WHERE a.article_name like concat('%',#{articlePageDTO.searchValue},'%')
+        and a.state = 1
+        <if test="articlePageDTO.categoryId != null">
+            and a.category_id = #{articlePageDTO.categoryId}
+        </if>
+        ORDER BY concat('a.', #{articlePageDTO.underscoreSortColumn}) DESC
+    </select>
+
+    <select id="hostList" resultMap="BaseResultMap">
+        select * from article
+        where state = 1
+        order by view_count desc
+        limit 10
+    </select>
 </mapper>

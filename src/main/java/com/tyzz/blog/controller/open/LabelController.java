@@ -21,23 +21,42 @@ public class LabelController {
     @Resource
     private LabelService labelService;
 
+    /**
+     * 保存标签
+     * @param labelDTO
+     * @return
+     */
     @PostMapping("/save")
     public Result save(@Validated LabelDTO labelDTO) {
         labelService.save(labelDTO);
         return Result.success();
     }
 
+    /**
+     * 移除标签
+     * @param labelId
+     * @return
+     */
     @DeleteMapping("/remove/{labelId}")
     public Result remove(@PathVariable Long labelId) {
         labelService.remove(labelId);
         return Result.success();
     }
 
+    /**
+     * 获取分页标签列表
+     * @param labelPageDTO
+     * @return
+     */
     @GetMapping("/list")
     public Result list(LabelPageDTO labelPageDTO) {
         return Result.success(labelService.listPage(labelPageDTO));
     }
 
+    /**
+     * 获取热门前十标签
+     * @return
+     */
     @GetMapping("/hot")
     public Result hot() {
         return Result.success(labelService.hotList());

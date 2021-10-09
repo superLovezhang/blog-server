@@ -43,11 +43,20 @@ public class CategoryController {
         return Result.success();
     }
 
+    /**
+     * 分页查询分类列表
+     * @param categoryPageDTO
+     * @return
+     */
     @GetMapping("/list")
     public Result list(CategoryPageDTO categoryPageDTO) {
         return Result.success(categoryService.listPage(categoryPageDTO));
     }
 
+    /**
+     * 查询热门前十分类
+     * @return
+     */
     @GetMapping("/hot")
     public Result hot() {
         return Result.success(categoryService.hotList());

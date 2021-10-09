@@ -45,6 +45,6 @@ public class LabelService {
 
     public List<Label> hotList() {
         List<Long> labelIds = articleLabelService.listHotIds();
-        return null;
+        return labelDao.selectBatchIds(labelIds);
     }
 }
