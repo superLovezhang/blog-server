@@ -1,8 +1,8 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
+import com.tyzz.blog.service.OssService;
 import com.tyzz.blog.service.UserService;
-import com.tyzz.blog.util.OssUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,9 +21,12 @@ public class OssController {
     @Resource
     private UserService userService;
 
+    @Resource
+    private OssService ossService;
+
     @GetMapping("/credential")
     public Result credential() {
 //        User user = userService.currentUser();
-        return Result.success(OssUtils.generateCredentials());
+        return Result.success(ossService.getCredentials());
     }
 }

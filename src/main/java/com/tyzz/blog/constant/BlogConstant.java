@@ -9,4 +9,6 @@ package com.tyzz.blog.constant;
 public class BlogConstant {
     public final static String AUTHORIZED_URL_PATTERN = "/admin/**";
     public final static String UNAUTHORIZED_URL_PATTERN = "/open/**";
+
+    public final static String OSS_CREDENTIALS_KEY = "credentials";
 }
