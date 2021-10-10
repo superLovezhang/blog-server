@@ -19,7 +19,6 @@ public class OssService {
     private RedisService redisService;
 
     public AssumeRoleResponse.Credentials getCredentials() {
-        //todo 先去缓存取 取不到生成
         Object notCastValue = redisService.get(BlogConstant.OSS_CREDENTIALS_KEY);
         if (notCastValue != null) {
             return (AssumeRoleResponse.Credentials) notCastValue;
