@@ -17,18 +17,23 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Result test(MethodArgumentNotValidException e) {
+    public Result argumentNotValidException(MethodArgumentNotValidException e) {
         FieldError fieldError = e.getBindingResult().getFieldError();
         return Result.fail(fieldError.getDefaultMessage());
     }
 
     @ExceptionHandler(BlogLoginInvalidException.class)
-    public Result loginException(BlogLoginInvalidException e) {
+    public Result blogLoginInvalidException(BlogLoginInvalidException e) {
         return Result.result(ResponseCode.LOGIN_STATUS_ILLEGAL, e.getMessage());
     }
 
     @ExceptionHandler(BlogException.class)
-    public Result loginException(BlogException e) {
+    public Result blogException(BlogException e) {
+        return Result.fail(e.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public Result exception(Exception e) {
         return Result.fail(e.getMessage());
     }
 }
