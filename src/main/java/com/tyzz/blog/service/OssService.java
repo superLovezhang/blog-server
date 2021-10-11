@@ -24,7 +24,7 @@ public class OssService {
             return (AssumeRoleResponse.Credentials) notCastValue;
         }
         AssumeRoleResponse.Credentials credentials = OssUtils.generateCredentials();
-        redisService.set(BlogConstant.OSS_CREDENTIALS_KEY, credentials);
+        redisService.set(BlogConstant.OSS_CREDENTIALS_KEY, credentials, 3600);
         return credentials;
     }
 }
