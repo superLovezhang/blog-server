@@ -46,6 +46,10 @@ public class StringUtils {
         return result.toString();
     }
 
+    public static String htmlToPlainText(String html) {
+        return html.replaceAll("<\\/?.+?\\/?>", "");
+    }
+
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
     }

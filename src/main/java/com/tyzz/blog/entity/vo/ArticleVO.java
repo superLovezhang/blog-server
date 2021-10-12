@@ -25,6 +25,10 @@ public class ArticleVO {
 
     private String content;
 
+    private String previewContent;
+
+    private String cover;
+
     private Integer viewCount;
 
     private Integer like;

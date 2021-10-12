@@ -1,8 +1,10 @@
 package com.tyzz.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.tyzz.blog.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
@@ -15,6 +17,7 @@ import java.util.Date;
  * @since 2021-09-26 10:51:06
  */
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Article implements Serializable {
@@ -33,6 +36,8 @@ public class Article implements Serializable {
 
     private String articleType;
 
+    private String cover;
+
     private Long categoryId;
     
     private Integer viewCount;
@@ -45,77 +50,7 @@ public class Article implements Serializable {
     
     private Date updateTime;
 
-
-    public Long getArticleId() {
-        return articleId;
+    public String getPreviewContent() {
+        return StringUtils.htmlToPlainText(this.content);
     }
-
-    public void setArticleId(Long articleId) {
-        this.articleId = articleId;
-    }
-
-    public String getArticleName() {
-        return articleName;
-    }
-
-    public void setArticleName(String articleName) {
-        this.articleName = articleName;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Integer getViewCount() {
-        return viewCount;
-    }
-
-    public void setViewCount(Integer viewCount) {
-        this.viewCount = viewCount;
-    }
-
-    public Integer getLike() {
-        return like;
-    }
-
-    public void setLike(Integer like) {
-        this.like = like;
-    }
-
-    public Boolean getState() {
-        return state;
-    }
-
-    public void setState(Boolean state) {
-        this.state = state;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
 }

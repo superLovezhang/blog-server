@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
             throw new BlogException("邮箱或密码错误");
         }
         result.put("token", JwtUtils.buildToken(user));
-        result.put("user", userService.pojoToDTO(user));
+        result.put("user", userService.pojoToVO(user));
         return result;
     }
 
@@ -88,7 +88,10 @@ public class UserService implements UserDetailsService {
         return userDao.selectById(userId);
     }
 
-    public UserVO pojoToDTO(User user) {
+    public UserVO pojoToVO(User user) {
+        if (user == null) {
+            return null;
+        }
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
         return userVO;

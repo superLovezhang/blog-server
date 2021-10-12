@@ -1,7 +1,7 @@
 package com.tyzz.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 
@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2021-09-26 10:24:36
  */
 public interface ArticleDao extends BaseMapper<Article> {
-    Page<Article> listPage(Page<Article> page, ArticlePageDTO articlePageDTO);
+    BlogPage<Article> listPage(BlogPage<Article> page, ArticlePageDTO articlePageDTO);
 
     List<Article> hotList();
 }

@@ -1,7 +1,6 @@
 package com.tyzz.blog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.CommentDao;
 import com.tyzz.blog.entity.Comment;
@@ -42,7 +41,7 @@ public class CommentService {
         commentDao.insert(comment);
     }
 
-    public Page<CommentTreeVO> listPage(CommentPageDTO pageDTO) {
+    public BlogPage<CommentTreeVO> listPage(CommentPageDTO pageDTO) {
         BlogPage<Comment> page = BlogPage.of(pageDTO.getPage(), pageDTO.getSize());
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("parentId", null);
@@ -57,7 +56,7 @@ public class CommentService {
         CommentTreeVO commentTreeVO = new CommentTreeVO();
         BeanUtils.copyProperties(comment, commentTreeVO);
         User user = userService.selectById(comment.getUserId());
-        commentTreeVO.setUser(userService.pojoToDTO(user));
+        commentTreeVO.setUser(userService.pojoToVO(user));
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("parentId", comment.getCommentId());
         wrapper.orderByAsc("createTime");
@@ -83,7 +82,7 @@ public class CommentService {
                 .updateTime(comment.getUpdateTime())
                 .like(comment.getLike())
                 .content(comment.getContent())
-                .user(userService.pojoToDTO(user))
+                .user(userService.pojoToVO(user))
                 .build();
     }
 

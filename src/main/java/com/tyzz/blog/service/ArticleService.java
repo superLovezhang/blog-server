@@ -1,6 +1,6 @@
 package com.tyzz.blog.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.ArticleDao;
 import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.entity.User;
@@ -46,16 +46,33 @@ public class ArticleService {
         ArticleVO articleVO = new ArticleVO();
         BeanUtils.copyProperties(article, articleVO);
         User user = userService.selectById(article.getUserId());
-        articleVO.setUser(userService.pojoToDTO(user));
+        articleVO.setUser(userService.pojoToVO(user));
         return articleVO;
     }
 
-    public Page<Article> listPage(ArticlePageDTO articlePageDTO) {
-        Page<Article> page = Page.of(articlePageDTO.getPage(), articlePageDTO.getSize());
+    public BlogPage<Article> listPage(ArticlePageDTO articlePageDTO) {
+        BlogPage<Article> page = BlogPage.of(articlePageDTO.getPage(), articlePageDTO.getSize());
         return articleDao.listPage(page, articlePageDTO);
     }
 
     public List<Article> hotList() {
         return articleDao.hotList();
+    }
+
+    public ArticleVO pojoToVO(Article article) {
+        Long userId = article.getUserId();
+        User user = userService.selectById(userId);
+        return ArticleVO.builder()
+                    .articleId(article.getArticleId())
+                    .articleName(article.getArticleName())
+                    .content(article.getContent())
+                    .cover(article.getCover())
+                    .createTime(article.getCreateTime())
+                    .updateTime(article.getUpdateTime())
+                    .like(article.getLike())
+                    .user(userService.pojoToVO(user))
+                    .previewContent(article.getPreviewContent())
+                    .viewCount(article.getViewCount())
+                    .build();
     }
 }

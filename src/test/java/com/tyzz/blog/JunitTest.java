@@ -10,9 +10,7 @@ import com.tyzz.blog.util.StringUtils;
  */
 public class JunitTest {
     public static void main(String[] args) {
-        String camelStr = "userInformationData";
-        String underscoreStr = "user_information_data";
-        System.out.println(StringUtils.camelToUnderscore(camelStr));
-        System.out.println(StringUtils.underscoreToCamel(underscoreStr));
+        String htmlStr = "<div>1211</div><span>我还是非常爱你的</span>";
+        System.out.println(StringUtils.htmlToPlainText(htmlStr));
     }
 }

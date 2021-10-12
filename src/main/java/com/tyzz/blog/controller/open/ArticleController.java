@@ -33,7 +33,7 @@ public class ArticleController {
      */
     @GetMapping("/list")
     public Result list(ArticlePageDTO articlePageDTO) {
-        return Result.success(articleService.listPage(articlePageDTO));
+        return Result.success(articleService.listPage(articlePageDTO).map(articleService::pojoToVO));
     }
 
     /**

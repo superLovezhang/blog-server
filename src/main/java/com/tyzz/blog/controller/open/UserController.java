@@ -19,11 +19,22 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    /**
+     * 登录
+     * @param email
+     * @param password
+     * @return
+     */
     @GetMapping("/login")
     public Result login(@RequestParam String email, @RequestParam String password) {
         return Result.success(userService.login(email, password));
     }
 
+    /**
+     * 注册
+     * @param user
+     * @return
+     */
     @PutMapping("/register")
     public Result register(@Validated @RequestBody UserDTO user) {
         userService.register(user);
