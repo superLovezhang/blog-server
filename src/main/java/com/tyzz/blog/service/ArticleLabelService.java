@@ -4,7 +4,6 @@ import com.tyzz.blog.dao.ArticleLabelDao;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * (ArticleLabel)表服务实现类
@@ -16,8 +15,4 @@ import java.util.List;
 public class ArticleLabelService {
     @Resource
     private ArticleLabelDao articleLabelDao;
-
-    public List<Long> listHotIds() {
-        return articleLabelDao.listHotIds();
-    }
 }

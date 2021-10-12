@@ -11,4 +11,10 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <select id="hotList" resultMap="BaseResultMap">
+        select * from label
+        where state = 1
+        order by sort
+        limit 10
+    </select>
 </mapper>

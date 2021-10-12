@@ -13,13 +13,9 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <select id="hotList" resultType="java.lang.Long">
-        SELECT a.category_id FROM article a
-        LEFT JOIN category c ON a.`category_id` = c.`category_id`
-        WHERE c.state = 1
-        AND c.show = 1
-        GROUP BY a.category_id
-        ORDER BY COUNT(a.category_id) DESC
+    <select id="hotList" resultMap="BaseResultMap">
+        SELECT * from category
+        ORDER BY sort
         LIMIT 10
     </select>
 

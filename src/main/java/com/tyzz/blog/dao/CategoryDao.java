@@ -12,7 +12,7 @@ import java.util.List;
  * @since 2021-09-26 10:24:49
  */
 public interface CategoryDao extends BaseMapper<Category> {
-    List<Long> hotList();
+    List<Category> hotList();
 
     List<Category> listByIds(List<Long> categoryIds);
 }

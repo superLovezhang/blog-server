@@ -45,7 +45,6 @@ public class CategoryService {
     }
 
     public List<Category> hotList() {
-        List<Long> categoryIds = categoryDao.hotList();
-        return categoryDao.listByIds(categoryIds);
+        return categoryDao.hotList();
     }
 }
