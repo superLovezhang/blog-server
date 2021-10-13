@@ -92,4 +92,10 @@ public class CommentService {
         commentVO.setReplyComment(pojoToVOWithoutReply(replyComment));
         return commentVO;
     }
+
+    public Integer countByArticleId(Long articleId) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_id", articleId);
+        return commentDao.selectCount(wrapper);
+    }
 }

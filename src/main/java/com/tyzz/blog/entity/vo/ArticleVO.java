@@ -29,9 +29,11 @@ public class ArticleVO {
 
     private String cover;
 
+    private Integer commentCount;
+
     private Integer viewCount;
 
-    private Integer like;
+    private Integer likes;
 
     private Date createTime;
 

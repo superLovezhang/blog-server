@@ -1,7 +1,6 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
@@ -55,8 +54,7 @@ public class ArticleController {
      */
     @GetMapping("/{articleId}")
     public Result detail(@PathVariable Long articleId) {
-        Article article = articleService.selectOneById(articleId);
-        return Result.success(articleService.pojoToDTO(article));
+        return Result.success(articleService.pojoToVO(articleService.viewArticleDetail(articleId)));
     }
 
     /**

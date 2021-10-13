@@ -42,7 +42,7 @@ public class Article implements Serializable {
     
     private Integer viewCount;
     
-    private Integer like;
+    private Integer likes;
     
     private Boolean state;
     

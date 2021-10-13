@@ -7,7 +7,6 @@ import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.vo.ArticleVO;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -25,6 +24,8 @@ public class ArticleService {
     private ArticleDao articleDao;
     @Resource
     private UserService userService;
+    @Resource
+    private CommentService commentService;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -42,14 +43,6 @@ public class ArticleService {
         articleDao.insert(article);
     }
 
-    public ArticleVO pojoToDTO(Article article) {
-        ArticleVO articleVO = new ArticleVO();
-        BeanUtils.copyProperties(article, articleVO);
-        User user = userService.selectById(article.getUserId());
-        articleVO.setUser(userService.pojoToVO(user));
-        return articleVO;
-    }
-
     public BlogPage<Article> listPage(ArticlePageDTO articlePageDTO) {
         BlogPage<Article> page = BlogPage.of(articlePageDTO.getPage(), articlePageDTO.getSize());
         return articleDao.listPage(page, articlePageDTO);
@@ -62,6 +55,7 @@ public class ArticleService {
     public ArticleVO pojoToVO(Article article) {
         Long userId = article.getUserId();
         User user = userService.selectById(userId);
+        commentService.countByArticleId(article.getArticleId());
         return ArticleVO.builder()
                     .articleId(article.getArticleId())
                     .articleName(article.getArticleName())
@@ -69,10 +63,18 @@ public class ArticleService {
                     .cover(article.getCover())
                     .createTime(article.getCreateTime())
                     .updateTime(article.getUpdateTime())
-                    .like(article.getLike())
+                    .likes(article.getLikes())
                     .user(userService.pojoToVO(user))
                     .previewContent(article.getPreviewContent())
                     .viewCount(article.getViewCount())
+                    .commentCount(0)
                     .build();
+    }
+
+    public Article viewArticleDetail(Long articleId) {
+        Article article = selectOneById(articleId);
+        article.setViewCount(article.getViewCount() + 1);
+        articleDao.updateById(article);
+        return article;
     }
 }

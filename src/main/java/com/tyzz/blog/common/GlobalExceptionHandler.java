@@ -29,11 +29,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BlogException.class)
     public Result blogException(BlogException e) {
+        e.printStackTrace();
         return Result.fail(e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
     public Result exception(Exception e) {
+        e.printStackTrace();
         return Result.fail(e.getMessage());
     }
 }
