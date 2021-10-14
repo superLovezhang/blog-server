@@ -1,6 +1,8 @@
 package com.tyzz.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tyzz.blog.common.LongPrimaryKeySerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,7 @@ public class Label implements Serializable {
     private static final long serialVersionUID = -46878161881989582L;
 
     @TableId
+    @JsonSerialize(using = LongPrimaryKeySerializer.class)
     private Long labelId;
 
     private String labelName;

@@ -47,8 +47,14 @@ public class CommentController {
         return Result.success(commentService.listPage(pageDTO));
     }
 
-    @PostMapping("/like")
-    public Result like() {
-        return null;
+    /**
+     * 点赞或者取消点赞评论
+     * @return
+     */
+    @PostMapping("/like/{commentId}")
+    public Result like(@PathVariable Long commentId) {
+        User user = userService.currentUser();
+        commentService.like(commentId, user);
+        return Result.success();
     }
 }

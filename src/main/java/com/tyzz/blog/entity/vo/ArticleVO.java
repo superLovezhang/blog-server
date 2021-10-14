@@ -1,5 +1,7 @@
 package com.tyzz.blog.entity.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tyzz.blog.common.LongPrimaryKeySerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,6 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleVO {
+    @JsonSerialize(using = LongPrimaryKeySerializer.class)
     private Long articleId;
 
     private String articleName;

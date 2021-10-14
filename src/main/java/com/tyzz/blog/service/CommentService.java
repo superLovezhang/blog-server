@@ -5,16 +5,19 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.CommentDao;
 import com.tyzz.blog.entity.Comment;
+import com.tyzz.blog.entity.CommentUser;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.CommentDTO;
 import com.tyzz.blog.entity.dto.CommentPageDTO;
 import com.tyzz.blog.entity.vo.CommentTreeVO;
 import com.tyzz.blog.entity.vo.CommentVO;
+import com.tyzz.blog.exception.BlogException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -29,6 +32,8 @@ public class CommentService {
     private CommentDao commentDao;
     @Resource
     private UserService userService;
+    @Resource
+    private CommentUserService commentUserService;
 
 
     public void comment(CommentDTO commentDTO, User user) {
@@ -57,8 +62,10 @@ public class CommentService {
     private CommentTreeVO buildCommentTree(Comment comment) {
         CommentTreeVO commentTreeVO = new CommentTreeVO();
         BeanUtils.copyProperties(comment, commentTreeVO);
-        commentTreeVO.setPics(comment.getArrayPics());
         User user = userService.selectById(comment.getUserId());
+
+        commentTreeVO.setLikes(commentUserService.countByComment(comment));
+        commentTreeVO.setPics(comment.getArrayPics());
         commentTreeVO.setUser(userService.pojoToVO(user));
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("parent_id", comment.getCommentId());
@@ -85,12 +92,14 @@ public class CommentService {
             pics = comment.getPics().split(",");
         }
         return CommentVO.builder()
+                .commentId(comment.getCommentId())
                 .createTime(comment.getCreateTime())
                 .updateTime(comment.getUpdateTime())
-                .likes(comment.getLikes())
+                .likes(commentUserService.countByComment(comment))
                 .content(comment.getContent())
                 .pics(pics)
                 .user(userService.pojoToVO(user))
+                .articleId(comment.getArticleId())
                 .build();
     }
 
@@ -105,5 +114,16 @@ public class CommentService {
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
         wrapper.eq("article_id", articleId);
         return commentDao.selectCount(wrapper);
+    }
+
+    public void like(Long commentId, User user) {
+        Comment comment = Optional.of(commentDao.selectById(commentId))
+                .orElseThrow(() -> new BlogException("该评论不存在"));
+        CommentUser commentUser = commentUserService.findOneByCommentAndUser(comment, user);
+        if (commentUser == null) {
+            commentUserService.create(comment, user);
+            return;
+        }
+        commentUserService.remove(commentUser);
     }
 }

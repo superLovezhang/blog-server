@@ -1,5 +1,7 @@
 package com.tyzz.blog.entity.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tyzz.blog.common.LongPrimaryKeySerializer;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -14,11 +16,17 @@ import java.util.List;
  */
 @Data
 public class CommentTreeVO {
+    @JsonSerialize(using = LongPrimaryKeySerializer.class)
+    private Long commentId;
+
     private String content;
 
     private String[] pics;
 
     private UserVO user;
+
+    @JsonSerialize(using = LongPrimaryKeySerializer.class)
+    private Long articleId;
 
     private List<CommentVO> children = new ArrayList<CommentVO>();
 

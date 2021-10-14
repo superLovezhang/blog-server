@@ -1,6 +1,10 @@
 package com.tyzz.blog.service;
 
-import com.tyzz.blog.entity.dao.CommentUserDao;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.tyzz.blog.dao.CommentUserDao;
+import com.tyzz.blog.entity.Comment;
+import com.tyzz.blog.entity.CommentUser;
+import com.tyzz.blog.entity.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,4 +19,30 @@ import javax.annotation.Resource;
 public class CommentUserService {
     @Resource
     private CommentUserDao commentUserDao;
+
+    public CommentUser findOneByCommentAndUser(Comment comment, User user) {
+        QueryWrapper<CommentUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("comment_id", comment.getCommentId());
+        wrapper.eq("user_id", user.getUserId());
+        return commentUserDao.selectOne(wrapper);
+    }
+
+    public CommentUser create(Comment comment, User user) {
+        CommentUser build = CommentUser.builder()
+                .commentId(comment.getCommentId())
+                .userId(user.getUserId())
+                .build();
+        commentUserDao.insert(build);
+        return build;
+    }
+
+    public void remove(CommentUser commentUser) {
+        commentUserDao.deleteById(commentUser.getCommentUserId());
+    }
+
+    public int countByComment(Comment comment) {
+        QueryWrapper<CommentUser> wrapper = new QueryWrapper<>();
+        wrapper.eq("comment_id", comment.getCommentId());
+        return commentUserDao.selectCount(wrapper);
+    }
 }

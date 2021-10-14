@@ -1,5 +1,7 @@
 package com.tyzz.blog.entity.vo;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.tyzz.blog.common.LongPrimaryKeySerializer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +20,9 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 public class CommentVO {
+    @JsonSerialize(using = LongPrimaryKeySerializer.class)
+    private Long commentId;
+
     private String content;
 
     private String[] pics;
@@ -25,6 +30,9 @@ public class CommentVO {
     private UserVO user;
 
     private CommentVO replyComment;
+
+    @JsonSerialize(using = LongPrimaryKeySerializer.class)
+    private Long articleId;
 
     private Integer likes;
 
