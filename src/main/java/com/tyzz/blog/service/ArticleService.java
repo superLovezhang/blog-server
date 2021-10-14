@@ -55,7 +55,6 @@ public class ArticleService {
     public ArticleVO pojoToVO(Article article) {
         Long userId = article.getUserId();
         User user = userService.selectById(userId);
-        commentService.countByArticleId(article.getArticleId());
         return ArticleVO.builder()
                     .articleId(article.getArticleId())
                     .articleName(article.getArticleName())
@@ -67,7 +66,7 @@ public class ArticleService {
                     .user(userService.pojoToVO(user))
                     .previewContent(article.getPreviewContent())
                     .viewCount(article.getViewCount())
-                    .commentCount(0)
+                    .commentCount(commentService.countByArticleId(article.getArticleId()))
                     .build();
     }
 

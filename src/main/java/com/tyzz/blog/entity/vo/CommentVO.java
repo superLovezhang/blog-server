@@ -20,11 +20,13 @@ import java.util.Date;
 public class CommentVO {
     private String content;
 
+    private String[] pics;
+
     private UserVO user;
 
     private CommentVO replyComment;
 
-    private Integer like;
+    private Integer likes;
 
     private Date createTime;
 

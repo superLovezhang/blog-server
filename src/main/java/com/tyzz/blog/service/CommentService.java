@@ -1,6 +1,7 @@
 package com.tyzz.blog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.CommentDao;
 import com.tyzz.blog.entity.Comment;
@@ -36,6 +37,7 @@ public class CommentService {
                 .replyId(commentDTO.getReplyId())
                 .parentId(commentDTO.getParentId())
                 .content(commentDTO.getContent())
+                .pics(commentDTO.getPics())
                 .userId(user.getUserId())
                 .build();
         commentDao.insert(comment);
@@ -44,9 +46,9 @@ public class CommentService {
     public BlogPage<CommentTreeVO> listPage(CommentPageDTO pageDTO) {
         BlogPage<Comment> page = BlogPage.of(pageDTO.getPage(), pageDTO.getSize());
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-        wrapper.eq("parentId", null);
+        wrapper.isNull("parent_id");
         if (pageDTO.getArticleId() != null) {
-            wrapper.eq("articleId", pageDTO.getArticleId());
+            wrapper.eq("article_id", pageDTO.getArticleId());
         }
         BlogPage<Comment> commentPage = commentDao.selectPage(page, wrapper);
         return commentPage.map(this::buildCommentTree);
@@ -55,11 +57,12 @@ public class CommentService {
     private CommentTreeVO buildCommentTree(Comment comment) {
         CommentTreeVO commentTreeVO = new CommentTreeVO();
         BeanUtils.copyProperties(comment, commentTreeVO);
+        commentTreeVO.setPics(comment.getArrayPics());
         User user = userService.selectById(comment.getUserId());
         commentTreeVO.setUser(userService.pojoToVO(user));
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
-        wrapper.eq("parentId", comment.getCommentId());
-        wrapper.orderByAsc("createTime");
+        wrapper.eq("parent_id", comment.getCommentId());
+        wrapper.orderByAsc("create_time");
         List<Comment> children = commentDao.selectList(wrapper);
         commentTreeVO.setChildren(assembledChildren(children));
         return commentTreeVO;
@@ -77,11 +80,16 @@ public class CommentService {
             return null;
         }
         User user = userService.selectById(comment.getUserId());
+        String[] pics = null;
+        if (StringUtils.isNotBlank(comment.getPics())) {
+            pics = comment.getPics().split(",");
+        }
         return CommentVO.builder()
                 .createTime(comment.getCreateTime())
                 .updateTime(comment.getUpdateTime())
-                .like(comment.getLike())
+                .likes(comment.getLikes())
                 .content(comment.getContent())
+                .pics(pics)
                 .user(userService.pojoToVO(user))
                 .build();
     }

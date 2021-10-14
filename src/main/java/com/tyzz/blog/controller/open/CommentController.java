@@ -46,4 +46,9 @@ public class CommentController {
     public Result list(CommentPageDTO pageDTO) {
         return Result.success(commentService.listPage(pageDTO));
     }
+
+    @PostMapping("/like")
+    public Result like() {
+        return null;
+    }
 }

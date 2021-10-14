@@ -16,11 +16,13 @@ import java.util.List;
 public class CommentTreeVO {
     private String content;
 
+    private String[] pics;
+
     private UserVO user;
 
     private List<CommentVO> children = new ArrayList<CommentVO>();
 
-    private Integer like;
+    private Integer likes;
 
     private Date createTime;
 

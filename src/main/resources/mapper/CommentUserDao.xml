@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tyzz.blog.entity.dao.CommentUserDao">
+
+    <resultMap id="BaseResultMap" type="com.tyzz.blog.entity.entity.CommentUser">
+        <!--@Table comment_user-->
+        <result property="commentUserId" column="comment_user_id" jdbcType="INTEGER"/>
+        <result property="commentId" column="comment_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="state" column="state" jdbcType="BOOLEAN"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="BaseResultMap">
+        select
+          comment_user_id, comment_id, user_id, state
+        from blog.comment_user
+        where comment_user_id = #{commentUserId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="BaseResultMap">
+        select
+          comment_user_id, comment_id, user_id, state
+        from blog.comment_user
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="BaseResultMap">
+        select
+          comment_user_id, comment_id, user_id, state
+        from blog.comment_user
+        <where>
+            <if test="commentUserId != null">
+                and comment_user_id = #{commentUserId}
+            </if>
+            <if test="commentId != null">
+                and comment_id = #{commentId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="state != null">
+                and state = #{state}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="commentUserId" useGeneratedKeys="true">
+        insert into blog.comment_user(comment_id, user_id, state)
+        values (#{commentId}, #{userId}, #{state})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update blog.comment_user
+        <set>
+            <if test="commentId != null">
+                comment_id = #{commentId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="state != null">
+                state = #{state},
+            </if>
+        </set>
+        where comment_user_id = #{commentUserId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from blog.comment_user where comment_user_id = #{commentUserId}
+    </delete>
+
+</mapper>
