@@ -1,6 +1,8 @@
 package com.tyzz.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.tyzz.blog.constant.BlogConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
@@ -55,7 +57,7 @@ public class User implements Serializable {
     }
 
     public String getAvatar() {
-        return avatar;
+        return StringUtils.isNotBlank(avatar) ? avatar : BlogConstant.USER_DEFAULT_AVATAR;
     }
 
     public void setAvatar(String avatar) {
