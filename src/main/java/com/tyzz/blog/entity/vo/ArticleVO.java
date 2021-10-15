@@ -38,6 +38,8 @@ public class ArticleVO {
 
     private Integer likes;
 
+    private boolean collected = false;
+
     private Date createTime;
 
     private Date updateTime;

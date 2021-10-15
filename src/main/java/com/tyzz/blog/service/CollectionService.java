@@ -30,8 +30,8 @@ public class CollectionService {
     public Page<Collection> pageByUser(User user, BasePageDTO pageVO) {
         Page<Collection> page = Page.of(pageVO.getPage(), pageVO.getSize());
         QueryWrapper<Collection> wrapper = new QueryWrapper<>();
-        wrapper.eq("userId", user.getUserId())
-               .isNotNull("articleId");
+        wrapper.eq("user_id", user.getUserId())
+               .isNotNull("article_id");
         return collectionDao.selectPage(page, wrapper);
     }
 
@@ -39,8 +39,8 @@ public class CollectionService {
         Article article = Optional.ofNullable(articleService.selectOneById(articleId))
                 .orElseThrow(() -> new BlogException("该文章不存在"));
         QueryWrapper<Collection> wrapper = new QueryWrapper<>();
-        wrapper.eq("articleId", article.getArticleId())
-               .eq("userId", user.getUserId());
+        wrapper.eq("article_id", article.getArticleId())
+               .eq("user_id", user.getUserId());
         Collection collection = collectionDao.selectOne(wrapper);
         if (collection == null) {
             Collection build = Collection.builder()
@@ -51,5 +51,12 @@ public class CollectionService {
             return;
         }
         collectionDao.deleteById(collection.getCollectionId());
+    }
+
+    public Collection findOneByUserAndArticle(User currentUser, Article article) {
+        QueryWrapper<Collection> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", currentUser.getUserId());
+        wrapper.eq("article_id", article.getArticleId());
+        return collectionDao.selectOne(wrapper);
     }
 }

@@ -42,7 +42,7 @@ public class ArticleController {
      */
     @PutMapping("/save")
     public Result save(@Validated @RequestBody ArticleDTO articleDTO) {
-        User user = userService.currentUser();
+        User user = userService.currentUserNotExistThrowException();
         articleService.save(user, articleDTO);
         return Result.success();
     }

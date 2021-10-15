@@ -29,7 +29,7 @@ public class OssController {
 
     @GetMapping("/credential")
     public Result credential() {
-//        User user = userService.currentUser();
+//        User user = userService.currentUserNotExistThrowException();
         return Result.success(ossService.getCredentials());
     }
 }

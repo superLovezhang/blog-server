@@ -34,6 +34,8 @@ public class CommentVO {
     @JsonSerialize(using = LongPrimaryKeySerializer.class)
     private Long articleId;
 
+    private boolean selfLike = false;
+
     private Integer likes;
 
     private Date createTime;

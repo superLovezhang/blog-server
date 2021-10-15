@@ -46,12 +46,22 @@ public class UserService implements UserDetailsService {
     public User currentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication instanceof AnonymousAuthenticationToken) {
-            throw new BlogException("请登录");
+            return null;
         }
         BlogAuthenticationToken blogAuthenticationToken = (BlogAuthenticationToken) authentication;
-        User currentUser = Optional.ofNullable(blogAuthenticationToken.getCurrentUser())
-                .orElseThrow(() -> new BlogException("请登录"));
+        User currentUser = blogAuthenticationToken.getCurrentUser();
+        if (currentUser == null) {
+            return null;
+        }
         return userDao.selectById(currentUser.getUserId());
+    }
+
+    public User currentUserNotExistThrowException() {
+        User user = currentUser();
+        if (user == null) {
+            throw new BlogException("请登录");
+        }
+        return user;
     }
 
     public Map<String, Object> login(String email, String password) {

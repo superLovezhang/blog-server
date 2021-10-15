@@ -32,7 +32,7 @@ public class CommentController {
      */
     @PutMapping
     public Result comment(@Validated @RequestBody CommentDTO commentDTO) {
-        User user = userService.currentUser();
+        User user = userService.currentUserNotExistThrowException();
         commentService.comment(commentDTO, user);
         return Result.success();
     }
@@ -53,7 +53,7 @@ public class CommentController {
      */
     @PostMapping("/like/{commentId}")
     public Result like(@PathVariable Long commentId) {
-        User user = userService.currentUser();
+        User user = userService.currentUserNotExistThrowException();
         commentService.like(commentId, user);
         return Result.success();
     }

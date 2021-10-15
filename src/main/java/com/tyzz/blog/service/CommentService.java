@@ -63,8 +63,11 @@ public class CommentService {
         CommentTreeVO commentTreeVO = new CommentTreeVO();
         BeanUtils.copyProperties(comment, commentTreeVO);
         User user = userService.selectById(comment.getUserId());
+        User currentUser = userService.currentUser();
+        CommentUser commentUser = commentUserService.findOneByCommentAndUser(comment, currentUser);
 
         commentTreeVO.setLikes(commentUserService.countByComment(comment));
+        commentTreeVO.setSelfLike(commentUser != null);
         commentTreeVO.setPics(comment.getArrayPics());
         commentTreeVO.setUser(userService.pojoToVO(user));
         QueryWrapper<Comment> wrapper = new QueryWrapper<>();
@@ -91,11 +94,14 @@ public class CommentService {
         if (StringUtils.isNotBlank(comment.getPics())) {
             pics = comment.getPics().split(",");
         }
+        User currentUser = userService.currentUser();
+        CommentUser commentUser = commentUserService.findOneByCommentAndUser(comment, currentUser);
         return CommentVO.builder()
                 .commentId(comment.getCommentId())
                 .createTime(comment.getCreateTime())
                 .updateTime(comment.getUpdateTime())
                 .likes(commentUserService.countByComment(comment))
+                .selfLike(commentUser != null)
                 .content(comment.getContent())
                 .pics(pics)
                 .user(userService.pojoToVO(user))

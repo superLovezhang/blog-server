@@ -30,7 +30,7 @@ public class CollectionController {
      */
     @GetMapping("/list")
     public Result list(BasePageDTO pageVO) {
-        User user = userService.currentUser();
+        User user = userService.currentUserNotExistThrowException();
         return Result.success(collectionService.pageByUser(user, pageVO));
     }
 
@@ -41,7 +41,7 @@ public class CollectionController {
      */
     @PostMapping("/collect/{articleId}")
     public Result collect(@PathVariable Long articleId) {
-        User user = userService.currentUser();
+        User user = userService.currentUserNotExistThrowException();
         collectionService.collect(user, articleId);
         return Result.success();
     }

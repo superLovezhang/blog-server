@@ -3,6 +3,7 @@ package com.tyzz.blog.service;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.ArticleDao;
 import com.tyzz.blog.entity.Article;
+import com.tyzz.blog.entity.Collection;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
@@ -26,6 +27,8 @@ public class ArticleService {
     private UserService userService;
     @Resource
     private CommentService commentService;
+    @Resource
+    private CollectionService collectionService;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -54,6 +57,8 @@ public class ArticleService {
 
     public ArticleVO pojoToVO(Article article) {
         Long userId = article.getUserId();
+        User currentUser = userService.currentUser();
+        Collection collection = collectionService.findOneByUserAndArticle(currentUser, article);
         User user = userService.selectById(userId);
         return ArticleVO.builder()
                     .articleId(article.getArticleId())
@@ -63,6 +68,7 @@ public class ArticleService {
                     .createTime(article.getCreateTime())
                     .updateTime(article.getUpdateTime())
                     .likes(article.getLikes())
+                    .collected(collection != null)
                     .user(userService.pojoToVO(user))
                     .previewContent(article.getPreviewContent())
                     .viewCount(article.getViewCount())
