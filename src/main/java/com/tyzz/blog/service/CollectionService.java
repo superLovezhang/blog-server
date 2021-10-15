@@ -59,4 +59,10 @@ public class CollectionService {
         wrapper.eq("article_id", article.getArticleId());
         return collectionDao.selectOne(wrapper);
     }
+
+    public Integer countByArticle(Article article) {
+        QueryWrapper<Collection> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_id", article.getArticleId());
+        return collectionDao.selectCount(wrapper);
+    }
 }

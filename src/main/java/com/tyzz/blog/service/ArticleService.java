@@ -67,7 +67,7 @@ public class ArticleService {
                     .cover(article.getCover())
                     .createTime(article.getCreateTime())
                     .updateTime(article.getUpdateTime())
-                    .likes(article.getLikes())
+                    .likes(collectionService.countByArticle(article))
                     .collected(collection != null)
                     .user(userService.pojoToVO(user))
                     .previewContent(article.getPreviewContent())
