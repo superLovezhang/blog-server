@@ -32,7 +32,7 @@ public class UserController {
 
     @GetMapping("/userInfo")
     public Result userInfo() {
-        return Result.success(userService.currentUserNotExistThrowException());
+        return Result.success(userService.currentUser());
     }
 
     /**
