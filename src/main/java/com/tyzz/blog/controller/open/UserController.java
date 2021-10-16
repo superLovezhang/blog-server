@@ -30,6 +30,11 @@ public class UserController {
         return Result.success(userService.login(email, password));
     }
 
+    @GetMapping("/userInfo")
+    public Result userInfo() {
+        return Result.success(userService.currentUserNotExistThrowException());
+    }
+
     /**
      * 注册
      * @param user
