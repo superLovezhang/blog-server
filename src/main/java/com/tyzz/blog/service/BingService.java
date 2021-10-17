@@ -25,16 +25,6 @@ public class BingService {
     @Resource
     private ObjectMapper om;
 
-    /**
-     * 根据分页参数获取必应图片
-     * page=(page-1)*size+1 count=Math.ceil(size/8) requestStart=(page-1)*size+1
-     * 如果size <= 8
-     * count=1 requestSize=6 requestStart=0
-     * 如果size > 8
-     * count=3 最后一次requestSize=18-(3-1)*8=2 requestStart=37
-     * @param pageDTO
-     * @return ArrayList<Object>
-     */
     public ArrayList<Object> list(BasePageDTO pageDTO) {
         ArrayList<Object> result = new ArrayList<>();
         try {

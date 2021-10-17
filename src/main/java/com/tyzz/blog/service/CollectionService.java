@@ -54,6 +54,9 @@ public class CollectionService {
     }
 
     public Collection findOneByUserAndArticle(User currentUser, Article article) {
+        if (currentUser == null) {
+            return null;
+        }
         QueryWrapper<Collection> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", currentUser.getUserId());
         wrapper.eq("article_id", article.getArticleId());

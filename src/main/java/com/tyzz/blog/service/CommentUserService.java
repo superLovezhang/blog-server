@@ -21,6 +21,9 @@ public class CommentUserService {
     private CommentUserDao commentUserDao;
 
     public CommentUser findOneByCommentAndUser(Comment comment, User user) {
+        if (user == null) {
+            return null;
+        }
         QueryWrapper<CommentUser> wrapper = new QueryWrapper<>();
         wrapper.eq("comment_id", comment.getCommentId());
         wrapper.eq("user_id", user.getUserId());
