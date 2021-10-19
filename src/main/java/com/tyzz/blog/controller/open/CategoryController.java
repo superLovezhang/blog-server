@@ -54,6 +54,15 @@ public class CategoryController {
     }
 
     /**
+     * 查询所有分类
+     * @return
+     */
+    @GetMapping("/listAll")
+    public Result listAll() {
+        return Result.success(categoryService.listAll());
+    }
+
+    /**
      * 查询热门前十分类
      * @return
      */

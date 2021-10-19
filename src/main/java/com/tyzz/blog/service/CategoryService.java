@@ -27,7 +27,6 @@ public class CategoryService {
                 .categoryId(categoryDTO.getCategoryId())
                 .categoryName(categoryDTO.getCategoryName())
                 .iconClass(categoryDTO.getIconClass())
-                .show(categoryDTO.getShow())
                 .build();
         categoryDao.insert(category);
     }
@@ -46,5 +45,9 @@ public class CategoryService {
 
     public List<Category> hotList() {
         return categoryDao.hotList();
+    }
+
+    public List<Category> listAll() {
+        return categoryDao.selectList(new QueryWrapper<Category>());
     }
 }

@@ -61,4 +61,9 @@ public class LabelController {
     public Result hot() {
         return Result.success(labelService.hotList());
     }
+
+    @GetMapping("/listAll")
+    public Result listAll() {
+        return Result.success(labelService.listAll());
+    }
 }

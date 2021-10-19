@@ -19,6 +19,4 @@ public class CategoryDTO {
 
     @NotBlank(message = "图标不能为空")
     private String iconClass;
-
-    private Boolean show;
 }

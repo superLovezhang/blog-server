@@ -30,8 +30,6 @@ public class Category implements Serializable {
     
     private String iconClass;
     
-    private Boolean show;
-    
     private Boolean state;
     
     private Date updateTime;
@@ -61,14 +59,6 @@ public class Category implements Serializable {
 
     public void setIconClass(String iconClass) {
         this.iconClass = iconClass;
-    }
-
-    public Boolean getShow() {
-        return show;
-    }
-
-    public void setShow(Boolean show) {
-        this.show = show;
     }
 
     public Boolean getState() {

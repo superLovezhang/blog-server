@@ -46,4 +46,8 @@ public class LabelService {
     public List<Label> hotList() {
         return labelDao.hotList();
     }
+
+    public List<Label> listAll() {
+        return labelDao.selectList(new QueryWrapper<Label>());
+    }
 }
