@@ -40,7 +40,7 @@ public class ArticleController {
      * @param articleDTO
      * @return
      */
-    @PutMapping("/save")
+    @PostMapping("/save")
     public Result save(@Validated @RequestBody ArticleDTO articleDTO) {
         User user = userService.currentUserNotExistThrowException();
         articleService.save(user, articleDTO);
