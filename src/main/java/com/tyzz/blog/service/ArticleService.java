@@ -9,6 +9,7 @@ import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.vo.ArticleVO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -36,6 +37,7 @@ public class ArticleService {
         return articleDao.selectById(articleId);
     }
 
+    @Transactional
     public void save(User user, ArticleDTO articleDTO) {
         Article article = Article.builder()
                 .linkAddress(articleDTO.getLinkAddress())
