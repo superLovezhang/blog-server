@@ -29,6 +29,8 @@ public class ArticleService {
     private CommentService commentService;
     @Resource
     private CollectionService collectionService;
+    @Resource
+    private ArticleLabelService articleLabelService;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -41,9 +43,11 @@ public class ArticleService {
                 .articleName(articleDTO.getArticleName())
                 .content(articleDTO.getContent())
                 .articleId(articleDTO.getArticleId())
+                .categoryId(articleDTO.getCategoryId())
                 .userId(user.getUserId())
                 .build();
         articleDao.insert(article);
+        articleLabelService.attach(article, articleDTO);
     }
 
     public BlogPage<Article> listPage(ArticlePageDTO articlePageDTO) {

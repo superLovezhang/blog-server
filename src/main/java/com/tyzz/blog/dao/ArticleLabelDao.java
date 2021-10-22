@@ -1,5 +1,8 @@
 package com.tyzz.blog.dao;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.tyzz.blog.entity.ArticleLabel;
+
 import java.util.List;
 
 /**
@@ -8,6 +11,6 @@ import java.util.List;
  * @author makejava
  * @since 2021-10-05 23:05:22
  */
-public interface ArticleLabelDao {
+public interface ArticleLabelDao extends BaseMapper<ArticleLabel> {
     List<Long> listHotIds();
 }
