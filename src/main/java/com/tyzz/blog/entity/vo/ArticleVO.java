@@ -28,6 +28,8 @@ public class ArticleVO {
 
     private String content;
 
+    private String htmlContent;
+
     private String previewContent;
 
     private String cover;

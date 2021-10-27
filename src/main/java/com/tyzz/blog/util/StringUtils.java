@@ -1,5 +1,8 @@
 package com.tyzz.blog.util;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Description:
  *
@@ -7,6 +10,8 @@ package com.tyzz.blog.util;
  * DateTime: 2021-10-09 10:47
  */
 public class StringUtils {
+    private static final Pattern coverPattern = Pattern.compile("src=\"(.+?)\"");
+
     public static String camelToUnderscore(String camelStr) {
         if (isEmpty(camelStr)) {
             return "";
@@ -48,6 +53,14 @@ public class StringUtils {
 
     public static String htmlToPlainText(String html) {
         return html.replaceAll("<\\/?.+?\\/?>", "");
+    }
+
+    public static String pickCoverFromHtml(String html) {
+        Matcher matcher = coverPattern.matcher(html);
+        if (matcher.find()) {
+            return matcher.group(1);
+        }
+        return null;
     }
 
     public static boolean isEmpty(String str) {

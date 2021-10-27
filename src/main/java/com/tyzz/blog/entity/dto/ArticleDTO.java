@@ -28,6 +28,9 @@ public class ArticleDTO {
     @NotBlank
     private String content;
 
+    @NotBlank
+    private String htmlContent;
+
     @NotNull
     private String articleType;
 

@@ -32,7 +32,9 @@ public class Article implements Serializable {
     private String articleName;
     
     private Long userId;
-    
+
+    private String htmlContent;
+
     private String content;
 
     private String linkAddress;
@@ -54,6 +56,6 @@ public class Article implements Serializable {
     private Date updateTime;
 
     public String getPreviewContent() {
-        return StringUtils.htmlToPlainText(this.content);
+        return StringUtils.htmlToPlainText(this.htmlContent);
     }
 }

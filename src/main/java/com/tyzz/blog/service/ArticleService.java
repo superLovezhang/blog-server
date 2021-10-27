@@ -8,6 +8,7 @@ import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.vo.ArticleVO;
+import com.tyzz.blog.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -44,9 +45,11 @@ public class ArticleService {
                 .articleType(articleDTO.getArticleType())
                 .articleName(articleDTO.getArticleName())
                 .content(articleDTO.getContent())
+                .htmlContent(articleDTO.getHtmlContent())
                 .articleId(articleDTO.getArticleId())
                 .categoryId(articleDTO.getCategoryId())
                 .userId(user.getUserId())
+                .cover(StringUtils.pickCoverFromHtml(articleDTO.getHtmlContent()))
                 .build();
         articleDao.insert(article);
         articleLabelService.attach(article, articleDTO);
@@ -70,6 +73,7 @@ public class ArticleService {
                     .articleId(article.getArticleId())
                     .articleName(article.getArticleName())
                     .content(article.getContent())
+                    .htmlContent(article.getHtmlContent())
                     .cover(article.getCover())
                     .createTime(article.getCreateTime())
                     .updateTime(article.getUpdateTime())
