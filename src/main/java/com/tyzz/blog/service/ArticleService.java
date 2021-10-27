@@ -65,6 +65,9 @@ public class ArticleService {
     }
 
     public ArticleVO pojoToVO(Article article) {
+        if (article == null) {
+            return null;
+        }
         Long userId = article.getUserId();
         User currentUser = userService.currentUser();
         Collection collection = collectionService.findOneByUserAndArticle(currentUser, article);
