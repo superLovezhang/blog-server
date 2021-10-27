@@ -43,7 +43,7 @@
         DESC
     </select>
 
-    <select id="hostList" resultMap="BaseResultMap">
+    <select id="hotList" resultMap="BaseResultMap">
         select * from article
         where state = 1
         order by view_count desc

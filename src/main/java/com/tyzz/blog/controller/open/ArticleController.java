@@ -10,6 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.stream.Collectors;
 
 /**
  * (Article)表控制层
@@ -63,6 +64,9 @@ public class ArticleController {
      */
     @GetMapping("/hot")
     public Result hot() {
-        return Result.success(articleService.hotList());
+        return Result.success(articleService.hotList()
+                .stream()
+                .map(articleService::pojoToVO)
+                .collect(Collectors.toList()));
     }
 }
