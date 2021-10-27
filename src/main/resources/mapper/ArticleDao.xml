@@ -33,7 +33,14 @@
         <if test="articlePageDTO.categoryId != null">
             and a.category_id = #{articlePageDTO.categoryId}
         </if>
-        ORDER BY concat('a.', #{articlePageDTO.underscoreSortColumn}) DESC
+        ORDER BY
+        <if test="articlePageDTO.underscoreSortColumn == 'create_time'">
+            a.create_time
+        </if>
+        <if test="articlePageDTO.underscoreSortColumn == 'view_count'">
+            a.view_count
+        </if>
+        DESC
     </select>
 
     <select id="hostList" resultMap="BaseResultMap">
