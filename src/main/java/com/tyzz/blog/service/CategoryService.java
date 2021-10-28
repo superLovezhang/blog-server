@@ -6,6 +6,8 @@ import com.tyzz.blog.dao.CategoryDao;
 import com.tyzz.blog.entity.Category;
 import com.tyzz.blog.entity.dto.CategoryDTO;
 import com.tyzz.blog.entity.dto.CategoryPageDTO;
+import com.tyzz.blog.entity.vo.CategoryVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,5 +51,20 @@ public class CategoryService {
 
     public List<Category> listAll() {
         return categoryDao.selectList(new QueryWrapper<Category>());
+    }
+
+    public CategoryVO pojoToVO(Category category) {
+        if (category == null) {
+            return null;
+        }
+        CategoryVO categoryVO = new CategoryVO();
+        BeanUtils.copyProperties(category, categoryVO);
+        return categoryVO;
+    }
+
+    public Category selectOneById(Long categoryId) {
+        QueryWrapper<Category> wrapper = new QueryWrapper<>();
+        wrapper.eq("category_id", categoryId);
+        return categoryDao.selectOne(wrapper);
     }
 }

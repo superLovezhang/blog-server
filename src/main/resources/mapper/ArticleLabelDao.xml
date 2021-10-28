@@ -9,4 +9,10 @@
         <result property="labelId" column="label_id" jdbcType="INTEGER"/>
         <result property="state" column="state" jdbcType="BOOLEAN"/>
     </resultMap>
+
+    <select id="labelsByArticleId" resultType="com.tyzz.blog.entity.Label">
+        select l.* from label l where l.label_id in (
+           select al.label_id from article_label al where al.state = 1 and al.article_id = #{articleId}
+        ) and l.state = 1
+    </select>
 </mapper>

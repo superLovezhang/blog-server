@@ -4,6 +4,7 @@ import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.ArticleDao;
 import com.tyzz.blog.entity.Article;
 import com.tyzz.blog.entity.Collection;
+import com.tyzz.blog.entity.Label;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * (Article)表服务实现类
@@ -29,6 +31,10 @@ public class ArticleService {
     private UserService userService;
     @Resource
     private CommentService commentService;
+    @Resource
+    private LabelService labelService;
+    @Resource
+    private CategoryService categoryService;
     @Resource
     private CollectionService collectionService;
     @Resource
@@ -68,6 +74,7 @@ public class ArticleService {
         if (article == null) {
             return null;
         }
+        List<Label> labels = articleLabelService.labelsByArticle(article);
         Long userId = article.getUserId();
         User currentUser = userService.currentUser();
         Collection collection = collectionService.findOneByUserAndArticle(currentUser, article);
@@ -85,7 +92,10 @@ public class ArticleService {
                     .user(userService.pojoToVO(user))
                     .previewContent(article.getPreviewContent())
                     .viewCount(article.getViewCount())
+                    .linkAddress(article.getLinkAddress())
                     .commentCount(commentService.countByArticleId(article.getArticleId()))
+                    .category(categoryService.pojoToVO(categoryService.selectOneById(article.getCategoryId())))
+                    .labels(labels.stream().map(labelService::pojoToVO).collect(Collectors.toList()))
                     .build();
     }
 

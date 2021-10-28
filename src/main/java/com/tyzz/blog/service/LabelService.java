@@ -6,6 +6,8 @@ import com.tyzz.blog.dao.LabelDao;
 import com.tyzz.blog.entity.Label;
 import com.tyzz.blog.entity.dto.LabelDTO;
 import com.tyzz.blog.entity.dto.LabelPageDTO;
+import com.tyzz.blog.entity.vo.LabelVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -49,5 +51,14 @@ public class LabelService {
 
     public List<Label> listAll() {
         return labelDao.selectList(new QueryWrapper<Label>());
+    }
+
+    public LabelVO pojoToVO(Label label) {
+        if (label == null) {
+            return null;
+        }
+        LabelVO labelVO = new LabelVO();
+        BeanUtils.copyProperties(label, labelVO);
+        return labelVO;
     }
 }

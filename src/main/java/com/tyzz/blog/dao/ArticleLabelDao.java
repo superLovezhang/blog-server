@@ -2,6 +2,7 @@ package com.tyzz.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tyzz.blog.entity.ArticleLabel;
+import com.tyzz.blog.entity.Label;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ import java.util.List;
  */
 public interface ArticleLabelDao extends BaseMapper<ArticleLabel> {
     List<Long> listHotIds();
+
+    List<Label> labelsByArticleId(Long articleId);
 }

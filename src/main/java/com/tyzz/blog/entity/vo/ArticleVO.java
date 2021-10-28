@@ -7,7 +7,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Description:
@@ -31,6 +33,14 @@ public class ArticleVO {
     private String htmlContent;
 
     private String previewContent;
+
+    private String linkAddress;
+
+    private String articleType;
+
+    private CategoryVO category;
+
+    private List<LabelVO> labels = new ArrayList();
 
     private String cover;
 
