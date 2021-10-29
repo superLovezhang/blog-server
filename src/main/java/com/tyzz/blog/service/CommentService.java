@@ -54,6 +54,8 @@ public class CommentService {
         wrapper.isNull("parent_id");
         if (pageDTO.getArticleId() != null) {
             wrapper.eq("article_id", pageDTO.getArticleId());
+        } else {
+            wrapper.isNull("article_id");
         }
         BlogPage<Comment> commentPage = commentDao.selectPage(page, wrapper);
         return commentPage.map(this::buildCommentTree);
