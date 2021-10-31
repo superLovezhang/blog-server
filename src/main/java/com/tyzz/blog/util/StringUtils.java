@@ -1,5 +1,6 @@
 package com.tyzz.blog.util;
 
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -65,5 +66,15 @@ public class StringUtils {
 
     public static boolean isEmpty(String str) {
         return str == null || str.length() == 0;
+    }
+
+    public static String generateRandomCode(int count) {
+        Random random = new Random();
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < count; i++) {
+            result.append(random.nextInt(10));
+        }
+        return result.toString();
     }
 }

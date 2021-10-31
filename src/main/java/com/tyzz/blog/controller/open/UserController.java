@@ -45,4 +45,15 @@ public class UserController {
         userService.register(user);
         return Result.success();
     }
+
+    /**
+     * 发送邮箱验证码
+     * @param email 邮箱
+     * @return
+     */
+    @PutMapping("/verifyCode")
+    public Result verifyCode(@RequestParam String email) {
+        userService.sendRegisterVerificationCode(email);
+        return Result.success();
+    }
 }

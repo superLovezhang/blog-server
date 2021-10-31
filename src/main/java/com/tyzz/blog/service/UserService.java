@@ -2,12 +2,15 @@ package com.tyzz.blog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.config.security.BlogAuthenticationToken;
+import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.JwtUtils;
+import com.tyzz.blog.util.StringUtils;
+import io.jsonwebtoken.lang.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,6 +40,10 @@ public class UserService implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Resource
     private UserService userService;
+    @Resource
+    private RedisService redisService;
+    @Resource
+    private EmailService emailService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -79,19 +86,28 @@ public class UserService implements UserDetailsService {
     }
 
     public void register(UserDTO user) {
+        validateRegisterInfo(user);
+        buildUser(user);
+    }
+
+    private void buildUser(UserDTO user) {
+        String encodePassword = bCryptPasswordEncoder.encode(user.getPassword());
+        User build = User.builder()
+                .password(encodePassword)
+                .email(user.getEmail())
+                .username(user.getUsername())
+                .build();
+        userDao.insert(build);
+    }
+
+    private void validateRegisterInfo(UserDTO user) {
         String email = user.getEmail();
+        Assert.isTrue(redisService.get(email + BlogConstant.REGISTER_VERIFY_PREFIX).equals(user.getVerifyCode()));
         QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("email", email);
         Integer count = userDao.selectCount(wrapper);
         if (count != 0) {
             throw new BlogException("当前邮箱已注册");
         }
-        String encodePassword = bCryptPasswordEncoder.encode(user.getPassword());
-        User build = User.builder()
-                .password(encodePassword)
-                .email(email)
-                .username(user.getUsername())
-                .build();
-        userDao.insert(build);
     }
 
     public User selectById(Long userId) {
@@ -105,5 +121,15 @@ public class UserService implements UserDetailsService {
         UserVO userVO = new UserVO();
         BeanUtils.copyProperties(user, userVO);
         return userVO;
+    }
+
+    public void sendRegisterVerificationCode(String email) {
+        String code = StringUtils.generateRandomCode(6);
+        redisService.set(BlogConstant.REGISTER_VERIFY_PREFIX + email, code);
+        emailService.sendPlainText(
+                BlogConstant.EMAIL_VERIFICATION_SUBJECT,
+                BlogConstant.EMAIL_VERIFICATION_TEXT + code,
+                email
+        );
     }
 }
