@@ -2,6 +2,8 @@ package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.UserDTO;
+import com.tyzz.blog.entity.group.CreateGroup;
+import com.tyzz.blog.entity.group.UpdateGroup;
 import com.tyzz.blog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -33,6 +35,10 @@ public class UserController {
         return Result.success(userService.login(email, password));
     }
 
+    /**
+     * 获取用户信息
+     * @return
+     */
     @GetMapping("/userInfo")
     public Result userInfo() {
         return Result.success(userService.currentUser());
@@ -44,7 +50,7 @@ public class UserController {
      * @return
      */
     @PutMapping("/register")
-    public Result register(@Validated @RequestBody UserDTO user) {
+    public Result register(@Validated(CreateGroup.class) @RequestBody UserDTO user) {
         userService.register(user);
         return Result.success();
     }
@@ -62,6 +68,15 @@ public class UserController {
                     String email
     ) {
         userService.sendRegisterVerificationCode(email);
+        return Result.success();
+    }
+
+    /**
+     * 保存用户信息
+     * @return
+     */
+    @PostMapping("/save")
+    public Result save(@Validated(UpdateGroup.class) @RequestBody UserDTO user) {
         return Result.success();
     }
 }
