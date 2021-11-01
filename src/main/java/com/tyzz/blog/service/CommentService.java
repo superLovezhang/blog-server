@@ -134,4 +134,11 @@ public class CommentService {
         }
         commentUserService.remove(commentUser);
     }
+
+    public void remove(Long commentId, User user) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("comment_id", commentId);
+        wrapper.eq("user_id", user.getUserId());
+        commentDao.delete(wrapper);
+    }
 }

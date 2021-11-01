@@ -57,4 +57,16 @@ public class CommentController {
         commentService.like(commentId, user);
         return Result.success();
     }
+
+    /**
+     * 删除评论
+     * @param commentId 评论id
+     * @return
+     */
+    @DeleteMapping("/remove/{commentId}")
+    public Result remove(@PathVariable Long commentId) {
+        User user = userService.currentUserNotExistThrowException();
+        commentService.remove(commentId, user);
+        return Result.success();
+    }
 }
