@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Email;
+
 /**
  * (User)表控制层
  *
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/open/user")
+@Validated
 public class UserController {
     private final UserService userService;
 
@@ -52,7 +55,12 @@ public class UserController {
      * @return
      */
     @PutMapping("/verifyCode")
-    public Result verifyCode(@RequestParam String email) {
+    @Validated
+    public Result verifyCode(
+            @RequestParam
+            @Email(message = "邮箱格式不正确")
+                    String email
+    ) {
         userService.sendRegisterVerificationCode(email);
         return Result.success();
     }

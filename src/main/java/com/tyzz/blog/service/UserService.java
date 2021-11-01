@@ -10,7 +10,6 @@ import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.JwtUtils;
 import com.tyzz.blog.util.StringUtils;
-import io.jsonwebtoken.lang.Assert;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -102,12 +101,19 @@ public class UserService implements UserDetailsService {
 
     private void validateRegisterInfo(UserDTO user) {
         String email = user.getEmail();
-        Assert.isTrue(redisService.get(email + BlogConstant.REGISTER_VERIFY_PREFIX).equals(user.getVerifyCode()));
         QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("email", email);
+        Object verifyCode = redisService.get(BlogConstant.REGISTER_VERIFY_PREFIX + email);
+        if (verifyCode == null || StringUtils.isEmpty(verifyCode.toString())) {
+            throw new BlogException("请发送验证码");
+        }
+        if (!verifyCode.toString().equals(user.getVerifyCode())) {
+            throw new BlogException("验证码不正确");
+        }
         Integer count = userDao.selectCount(wrapper);
         if (count != 0) {
             throw new BlogException("当前邮箱已注册");
         }
+        redisService.del(BlogConstant.REGISTER_VERIFY_PREFIX + email);
     }
 
     public User selectById(Long userId) {
