@@ -57,6 +57,7 @@ public class CommentService {
         } else {
             wrapper.isNull("article_id");
         }
+        wrapper.orderByDesc(pageDTO.getUnderscoreSortColumn());
         BlogPage<Comment> commentPage = commentDao.selectPage(page, wrapper);
         return commentPage.map(this::buildCommentTree);
     }
