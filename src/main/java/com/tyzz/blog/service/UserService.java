@@ -138,4 +138,14 @@ public class UserService implements UserDetailsService {
                 email
         );
     }
+
+    public void saveByDTO(User user, UserDTO userDTO) {
+        user.setAvatar(userDTO.getAvatar());
+        user.setUsername(userDTO.getUsername());
+        user.setBirthday(userDTO.getBirthday());
+        user.setCity(userDTO.getCity());
+        user.setDescription(userDTO.getDescription());
+        user.setGender(userDTO.getGender());
+        userDao.updateById(user);
+    }
 }

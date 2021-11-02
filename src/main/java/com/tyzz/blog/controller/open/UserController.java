@@ -1,6 +1,7 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
+import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.entity.group.CreateGroup;
 import com.tyzz.blog.entity.group.UpdateGroup;
@@ -76,7 +77,9 @@ public class UserController {
      * @return
      */
     @PostMapping("/save")
-    public Result save(@Validated(UpdateGroup.class) @RequestBody UserDTO user) {
+    public Result save(@Validated(UpdateGroup.class) @RequestBody UserDTO userDTO) {
+        User user = userService.currentUserNotExistThrowException();
+        userService.saveByDTO(user, userDTO);
         return Result.success();
     }
 }

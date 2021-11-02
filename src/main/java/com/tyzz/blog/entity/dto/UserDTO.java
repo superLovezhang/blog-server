@@ -28,7 +28,7 @@ public class UserDTO {
     @NotBlank(message = "验证码不能为空", groups = CreateGroup.class)
     private String verifyCode;
 
-    private Integer sex;
+    private Integer gender;
 
     private Date birthday;
 
