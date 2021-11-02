@@ -66,7 +66,7 @@ public class UserController {
     public Result verifyCode(
             @RequestParam
             @Email(message = "邮箱格式不正确")
-                    String email
+            String email
     ) {
         userService.sendRegisterVerificationCode(email);
         return Result.success();

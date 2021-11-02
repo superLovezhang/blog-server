@@ -1,8 +1,10 @@
 package com.tyzz.blog.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
+import com.tyzz.blog.constant.BlogConstant;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -49,4 +51,8 @@ public class User implements Serializable {
     private Date createTime;
     
     private Date updateTime;
+
+    public String getAvatar() {
+        return StringUtils.isNotBlank(avatar) ? avatar : BlogConstant.USER_DEFAULT_AVATAR;
+    }
 }
