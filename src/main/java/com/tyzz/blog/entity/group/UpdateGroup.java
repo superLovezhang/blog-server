@@ -6,5 +6,5 @@ package com.tyzz.blog.entity.group;
  * @Author: ZhangZhao
  * DateTime: 2021-11-01 19:54
  */
-public class UpdateGroup {
+public interface UpdateGroup {
 }
