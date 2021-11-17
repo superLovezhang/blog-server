@@ -1,5 +1,6 @@
 package com.tyzz.blog.entity.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.tyzz.blog.entity.group.CreateGroup;
 import com.tyzz.blog.entity.group.UpdateGroup;
 import lombok.Data;
@@ -30,6 +31,7 @@ public class UserDTO {
 
     private Integer gender;
 
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone="GMT+8")
     private Date birthday;
 
     private String description;
