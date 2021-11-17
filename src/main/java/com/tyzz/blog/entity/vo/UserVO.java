@@ -29,6 +29,14 @@ public class UserVO {
 
     private String email;
 
+    private Integer gender;
+
+    private Date birthday;
+
+    private String description;
+
+    private String city;
+
     private Date createTime;
 
     private Date updateTime;
