@@ -42,7 +42,7 @@ public class UserController {
      */
     @GetMapping("/userInfo")
     public Result userInfo() {
-        return Result.success(userService.currentUser());
+        return Result.success(userService.pojoToVO(userService.currentUser()));
     }
 
     /**
