@@ -15,4 +15,6 @@ public class BlogConstant {
     public final static String PWD_VERIFY_PREFIX = "PASSWORD::";
     public final static String EMAIL_VERIFICATION_SUBJECT = "博客注册验证码";
     public final static String EMAIL_VERIFICATION_TEXT = "您的验证码为：";
+    public final static String EMAIL_PWD_SUBJECT = "博客修改密码验证码";
+    public final static String EMAIL_PWD_TEXT = "您当前修改密码验证码为：";
 }

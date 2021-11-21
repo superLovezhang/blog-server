@@ -8,6 +8,7 @@ import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.entity.dto.UserPasswordDTO;
 import com.tyzz.blog.entity.vo.UserVO;
+import com.tyzz.blog.enums.VerifyCodeType;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.JwtUtils;
 import com.tyzz.blog.util.StringUtils;
@@ -130,12 +131,13 @@ public class UserService implements UserDetailsService {
         return userVO;
     }
 
-    public void sendRegisterVerificationCode(String email) {
+    public void sendRegisterVerificationCode(String email, Integer codeNumber) {
         String code = StringUtils.generateRandomCode(6);
-        redisService.set(BlogConstant.REGISTER_VERIFY_PREFIX + email, code);
+        VerifyCodeType verifyCodeType = VerifyCodeType.getInstanceByNumber(codeNumber);
+        redisService.set(verifyCodeType.getCode() + email, code);
         emailService.sendPlainText(
-                BlogConstant.EMAIL_VERIFICATION_SUBJECT,
-                BlogConstant.EMAIL_VERIFICATION_TEXT + code,
+                verifyCodeType.getSubject(),
+                verifyCodeType.getText() + code,
                 email
         );
     }
