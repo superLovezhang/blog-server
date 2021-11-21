@@ -3,6 +3,7 @@ package com.tyzz.blog.controller.open;
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.UserDTO;
+import com.tyzz.blog.entity.dto.UserPasswordDTO;
 import com.tyzz.blog.entity.group.CreateGroup;
 import com.tyzz.blog.entity.group.UpdateGroup;
 import com.tyzz.blog.service.UserService;
@@ -80,6 +81,17 @@ public class UserController {
     public Result save(@Validated(UpdateGroup.class) @RequestBody UserDTO userDTO) {
         User user = userService.currentUserNotExistThrowException();
         userService.saveByDTO(user, userDTO);
+        return Result.success();
+    }
+
+    /**
+     * 修改用户密码
+     * @return
+     */
+    @PostMapping("/updatePassword")
+    public Result updatePassword(@RequestBody UserPasswordDTO userDTO) {
+        User user = userService.currentUserNotExistThrowException();
+        userService.updatePassword(userDTO, user);
         return Result.success();
     }
 }

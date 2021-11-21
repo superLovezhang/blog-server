@@ -6,6 +6,7 @@ import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.UserDTO;
+import com.tyzz.blog.entity.dto.UserPasswordDTO;
 import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.JwtUtils;
@@ -146,6 +147,15 @@ public class UserService implements UserDetailsService {
         user.setCity(userDTO.getCity());
         user.setDescription(userDTO.getDescription());
         user.setGender(userDTO.getGender());
+        userDao.updateById(user);
+    }
+
+    public void updatePassword(UserPasswordDTO userDTO, User user) {
+        Object sourceVerifyCode = redisService.get(BlogConstant.PWD_VERIFY_PREFIX + user.getEmail());
+        if (sourceVerifyCode == null || StringUtils.isEmpty(sourceVerifyCode.toString())) {
+            throw new BlogException("请发送验证码");
+        }
+        user.setPassword(userDTO.getPassword());
         userDao.updateById(user);
     }
 }
