@@ -157,7 +157,7 @@ public class UserService implements UserDetailsService {
         if (sourceVerifyCode == null || StringUtils.isEmpty(sourceVerifyCode.toString())) {
             throw new BlogException("请发送验证码");
         }
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(bCryptPasswordEncoder.encode(userDTO.getPassword()));
         userDao.updateById(user);
     }
 }
