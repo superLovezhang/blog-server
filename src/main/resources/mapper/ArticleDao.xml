@@ -26,7 +26,26 @@
                 SELECT a.* FROM article a where
             </otherwise>
         </choose>
+
         a.state = 1
+
+        <choose>
+            <when test="articlePageDTO.key == 1">
+                and a.user_id = #{articlePageDTO.userId}
+            </when>
+            <when test="articlePageDTO.key == 2">
+                and a.article_id IN (
+                SELECT c.article_id FROM collection c WHERE c.user_id = #{articlePageDTO.userId} AND c.state = 1
+                )
+            </when>
+            <when test="articlePageDTO.key == 3">
+                and a.`article_id` IN (
+                SELECT DISTINCT c.article_id FROM COMMENT c
+                   WHERE c.user_id = #{articlePageDTO.userId} AND c.article_id IS NOT NULL AND c.state = 1
+                )
+            </when>
+        </choose>
+
         <if test="articlePageDTO.searchValue != null and articlePageDTO.searchValue != ''">
             and a.article_name like concat('%',#{articlePageDTO.searchValue},'%')
         </if>

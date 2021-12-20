@@ -13,4 +13,6 @@ public class ArticlePageDTO extends BasePageDTO {
     private String searchValue = "";
     private Long categoryId;
     private Long labelId;
+    private Integer key;
+    private Long userId;
 }

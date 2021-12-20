@@ -33,6 +33,10 @@ public class ArticleController {
      */
     @GetMapping("/list")
     public Result list(ArticlePageDTO articlePageDTO) {
+        if (articlePageDTO.getKey() != null) {
+            User user = userService.currentUserNotExistThrowException();
+            articlePageDTO.setUserId(user.getUserId());
+        }
         return Result.success(articleService.listPage(articlePageDTO).map(articleService::pojoToVO));
     }
 
