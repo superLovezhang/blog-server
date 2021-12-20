@@ -21,6 +21,7 @@ import java.util.ArrayList;
 @Service
 public class BingService {
     private static final String BING_WALL_PAPER_URL_PATTERN = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=%d&n=%d&mkt=zh-CN";
+    private static final String TODAY_WALL_PAPER = "https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1&mkt=zh-CN";
     private static final int MAX_REQUEST_LENGTH = 8;
     @Resource
     private ObjectMapper om;
@@ -52,5 +53,9 @@ public class BingService {
             throw new BlogException(e.getMessage());
         }
         return result;
+    }
+
+    public BingDTO getTodayPaper() throws JsonProcessingException {
+        return om.readValue(HttpClientUtils.get(TODAY_WALL_PAPER), BingDTO.class);
     }
 }

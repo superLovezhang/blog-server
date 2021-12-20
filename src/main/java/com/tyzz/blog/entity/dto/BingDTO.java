@@ -13,6 +13,25 @@ import java.util.List;
  */
 @Data
 public class BingDTO {
-    private List<Object> images = new ArrayList<Object>();
+    private List<BingImage> images = new ArrayList();
     private Object tooltips;
+}
+
+@Data
+class BingImage {
+    private String startdate;
+    private String fullstartdate;
+    private String enddata;
+    private String url;
+    private String urlbase;
+    private String copyright;
+    private String copyrightlink;
+    private String title;
+    private String quiz;
+    private boolean wp;
+    private String hsh;
+    private int drk;
+    private int top;
+    private int bot;
+    private Object hs;
 }
