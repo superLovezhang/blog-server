@@ -3,6 +3,7 @@ package com.tyzz.blog.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
+import com.tyzz.blog.enums.ArticleType;
 import com.tyzz.blog.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -39,7 +40,7 @@ public class Article implements Serializable {
 
     private String linkAddress;
 
-    private String articleType;
+    private ArticleType articleType;
 
     private String cover;
 

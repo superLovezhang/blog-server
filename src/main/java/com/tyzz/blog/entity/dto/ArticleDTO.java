@@ -1,5 +1,6 @@
 package com.tyzz.blog.entity.dto;
 
+import com.tyzz.blog.enums.ArticleType;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -32,7 +33,7 @@ public class ArticleDTO {
     private String htmlContent;
 
     @NotNull
-    private String articleType;
+    private ArticleType articleType;
 
     private String linkAddress;
 }
