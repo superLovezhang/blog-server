@@ -20,6 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
     private final UserService userService;
 
+    @GetMapping("/userInfo")
+    public Result userInfo() {
+        return Result.success(userService.pojoToVO(userService.currentUser()));
+    }
+
     @GetMapping("/list")
     public Result list(UserAdminPageDTO dto) {
         return Result.success(userService.listPage(dto).map(userService::pojoToVO));
