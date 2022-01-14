@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
 import com.tyzz.blog.constant.BlogConstant;
+import com.tyzz.blog.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -51,6 +52,10 @@ public class User implements Serializable {
     private Date createTime;
     
     private Date updateTime;
+
+    private UserStatus status = UserStatus.NORMAL;
+
+    private String frozenReason;
 
     public String getAvatar() {
         return StringUtils.isNotBlank(avatar) ? avatar : BlogConstant.USER_DEFAULT_AVATAR;
