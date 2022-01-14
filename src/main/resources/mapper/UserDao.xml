@@ -2,25 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tyzz.blog.dao.UserDao">
 
-    <resultMap id="BaseResultMap" type="com.tyzz.blog.entity.User">
-        <!--@Table user-->
-        <result property="userId" column="user_id" jdbcType="INTEGER"/>
-        <result property="username" column="username" jdbcType="VARCHAR"/>
-        <result property="avatar" column="avatar" jdbcType="VARCHAR"/>
-        <result property="state" column="state" jdbcType="BOOLEAN"/>
-        <result property="email" column="email" jdbcType="VARCHAR"/>
-        <result property="password" column="password" jdbcType="VARCHAR"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-    </resultMap>
+    <select id="listPage" resultType="User">
+        select * from user
+        where state = 1
+        <if test="dto.gender != null">
+            and gender = #{dto.gender}
+        </if>
+        <if test="dto.searchValue != null">
+            and username like concat('%', #{searchValue}, '%')
+        </if>
+        <if test="dto.status != null">
+            and status = #{dto.status}
+        </if>
+        order by #{dto.underscoreSortColumn} desc
+    </select>
 
-
-<!--    &lt;!&ndash;查询单个&ndash;&gt;-->
-<!--    <select id="queryById" resultMap="BaseResultMap">-->
-<!--        select-->
-<!--            user_id, username, avatar, state, email, password, create_time, update_time-->
-<!--        from blog.user-->
-<!--        where email = #{email}-->
-<!--        and state = 1-->
-<!--    </select>-->
 </mapper>

@@ -2,6 +2,7 @@ package com.tyzz.blog.entity.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
+import com.tyzz.blog.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,6 +37,10 @@ public class UserVO {
     private String description;
 
     private String city;
+
+    private UserStatus status = UserStatus.NORMAL;
+
+    private String frozenReason;
 
     private Date createTime;
 
