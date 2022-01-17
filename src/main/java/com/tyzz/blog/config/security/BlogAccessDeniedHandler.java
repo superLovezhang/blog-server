@@ -19,6 +19,5 @@ public class BlogAccessDeniedHandler implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AccessDeniedException e) {
         ResponseUtils.unauthenticatedResponse(httpServletResponse);
-        return;
     }
 }

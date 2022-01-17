@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import org.apache.ibatis.type.Alias;
 
 import java.io.Serializable;
 
@@ -13,6 +14,7 @@ import java.io.Serializable;
  * @author makejava
  * @since 2021-09-26 10:51:06
  */
+@Alias("BlogCollection")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
