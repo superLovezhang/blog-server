@@ -3,7 +3,7 @@ package com.tyzz.blog.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tyzz.blog.dao.CategoryDao;
-import com.tyzz.blog.entity.Category;
+import com.tyzz.blog.entity.pojo.Category;
 import com.tyzz.blog.entity.dto.CategoryDTO;
 import com.tyzz.blog.entity.dto.CategoryPageDTO;
 import com.tyzz.blog.entity.vo.CategoryVO;

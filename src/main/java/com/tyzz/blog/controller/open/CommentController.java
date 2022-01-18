@@ -1,7 +1,7 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.dto.CommentPageDTO;
 import com.tyzz.blog.entity.dto.CommentDTO;
 import com.tyzz.blog.service.CommentService;

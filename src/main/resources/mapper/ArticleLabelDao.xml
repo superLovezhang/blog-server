@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tyzz.blog.dao.ArticleLabelDao">
 
-    <resultMap id="BaseResultMap" type="com.tyzz.blog.entity.ArticleLabel">
+    <resultMap id="BaseResultMap" type="com.tyzz.blog.entity.pojo.ArticleLabel">
         <!--@Table article_label-->
         <result property="articleLabelId" column="article_label_id" jdbcType="INTEGER"/>
         <result property="articleId" column="article_id" jdbcType="INTEGER"/>
@@ -10,7 +10,7 @@
         <result property="state" column="state" jdbcType="BOOLEAN"/>
     </resultMap>
 
-    <select id="labelsByArticleId" resultType="com.tyzz.blog.entity.Label">
+    <select id="labelsByArticleId" resultType="com.tyzz.blog.entity.pojo.Label">
         select l.* from label l where l.label_id in (
            select al.label_id from article_label al where al.state = 1 and al.article_id = #{articleId}
         ) and l.state = 1

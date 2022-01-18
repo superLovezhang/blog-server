@@ -1,7 +1,7 @@
 package com.tyzz.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tyzz.blog.entity.CommentUser;
+import com.tyzz.blog.entity.pojo.CommentUser;
 
 /**
  * (CommentUser)表数据库访问层

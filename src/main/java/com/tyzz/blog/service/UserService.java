@@ -1,15 +1,14 @@
 package com.tyzz.blog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.config.security.BlogAuthenticationToken;
 import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.dao.UserDao;
-import com.tyzz.blog.entity.User;
 import com.tyzz.blog.entity.dto.UserAdminPageDTO;
 import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.entity.dto.UserPasswordDTO;
+import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.enums.VerifyCodeType;
 import com.tyzz.blog.exception.BlogException;
@@ -165,7 +164,7 @@ public class UserService implements UserDetailsService {
     }
 
     public BlogPage<User> listPage(UserAdminPageDTO dto) {
-        Page<User> page = Page.of(dto.getPage(), dto.getSize());
+        BlogPage<User> page = BlogPage.of(dto.getPage(), dto.getSize());
         return userDao.listPage(dto, page);
     }
 }

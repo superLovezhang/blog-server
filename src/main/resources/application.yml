@@ -40,4 +40,4 @@ mybatis-plus:
       logic-delete-value: 0
       logic-not-delete-value: 1
       id-type: assign_id #主键默认为雪花
-  type-aliases-package: com/tyzz/blog/entity
+  type-aliases-package: com/tyzz/blog/entity/pojo

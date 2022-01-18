@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity;
+package com.tyzz.blog.entity.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;

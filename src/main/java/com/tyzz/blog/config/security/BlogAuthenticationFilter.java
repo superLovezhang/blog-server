@@ -1,7 +1,8 @@
 package com.tyzz.blog.config.security;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.pojo.Administrator;
+import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.util.JwtUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,13 +26,36 @@ public class BlogAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String token = request.getHeader("Authorization");
+        String platform = request.getHeader("platform");
         if (StringUtils.isNotBlank(token)) {
-            User user = JwtUtils.checkToken(token);
-            List<SimpleGrantedAuthority> roleList = Collections.singletonList(new SimpleGrantedAuthority("USER"));
-            BlogAuthenticationToken authenticationToken = new BlogAuthenticationToken(user.getUsername(), token, roleList);
-            authenticationToken.setCurrentUser(user);
+            BlogAuthenticationToken authenticationToken;
+            if (isBackEnd(platform)) {
+                authenticationToken = buildAdminAuthenticationToken(token);
+            } else {
+                authenticationToken = buildUserAuthenticationToken(token);
+            }
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
         filterChain.doFilter(request, response);
+    }
+
+    private BlogAuthenticationToken buildAdminAuthenticationToken(String token) {
+        Administrator admin = JwtUtils.checkAdminToken(token);
+        List<SimpleGrantedAuthority> roleList = Collections.singletonList(new SimpleGrantedAuthority("ADMIN"));
+        BlogAuthenticationToken authenticationToken = new BlogAuthenticationToken(admin.getAdminName(), token, roleList);
+        authenticationToken.setAdmin(admin);
+        return authenticationToken;
+    }
+
+    private BlogAuthenticationToken buildUserAuthenticationToken(String token) {
+        User user = JwtUtils.checkToken(token);
+        List<SimpleGrantedAuthority> roleList = Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        BlogAuthenticationToken authenticationToken = new BlogAuthenticationToken(user.getUsername(), token, roleList);
+        authenticationToken.setCurrentUser(user);
+        return authenticationToken;
+    }
+
+    public boolean isBackEnd(String platform) {
+        return "ADMIN".equals(platform);
     }
 }

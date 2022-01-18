@@ -1,6 +1,7 @@
 package com.tyzz.blog.util;
 
-import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.pojo.Administrator;
+import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.exception.BlogLoginInvalidException;
 import io.jsonwebtoken.*;
 
@@ -25,12 +26,31 @@ public class JwtUtils {
         return encode(claims);
     }
 
+    public static String buildAdminToken(Administrator admin) {
+        HashMap<String, Object> claims = new HashMap<>();
+        claims.put("adminId", admin.getAdminId());
+        claims.put("adminName", admin.getAdminName());
+        return encode(claims);
+    }
+
     public static User checkToken(String token) {
         try {
             Claims claims = decode(token);
             return User.builder()
                         .userId(Long.parseLong(claims.get("userId").toString()))
                         .username(claims.get("username").toString())
+                        .build();
+        } catch (Exception e) {
+            throw new BlogLoginInvalidException("登录信息异常");
+        }
+    }
+
+    public static Administrator checkAdminToken(String token) {
+        try {
+            Claims claims = decode(token);
+            return Administrator.builder()
+                        .adminId(Long.parseLong(claims.get("adminId").toString()))
+                        .adminName(claims.get("adminName").toString())
                         .build();
         } catch (Exception e) {
             throw new BlogLoginInvalidException("登录信息异常");

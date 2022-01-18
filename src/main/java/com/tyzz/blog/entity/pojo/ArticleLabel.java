@@ -1,4 +1,4 @@
-package com.tyzz.blog.entity;
+package com.tyzz.blog.entity.pojo;
 
 import java.io.Serializable;
 

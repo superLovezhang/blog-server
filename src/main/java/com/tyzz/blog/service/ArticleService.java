@@ -2,10 +2,10 @@ package com.tyzz.blog.service;
 
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.ArticleDao;
-import com.tyzz.blog.entity.Article;
-import com.tyzz.blog.entity.Collection;
-import com.tyzz.blog.entity.Label;
-import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.pojo.Article;
+import com.tyzz.blog.entity.pojo.Collection;
+import com.tyzz.blog.entity.pojo.Label;
+import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.vo.ArticleVO;

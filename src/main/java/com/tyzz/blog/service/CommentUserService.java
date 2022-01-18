@@ -2,9 +2,9 @@ package com.tyzz.blog.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.dao.CommentUserDao;
-import com.tyzz.blog.entity.Comment;
-import com.tyzz.blog.entity.CommentUser;
-import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.pojo.Comment;
+import com.tyzz.blog.entity.pojo.CommentUser;
+import com.tyzz.blog.entity.pojo.User;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

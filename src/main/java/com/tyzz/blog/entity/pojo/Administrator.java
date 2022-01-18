@@ -1,8 +1,10 @@
-package com.tyzz.blog.entity;
+package com.tyzz.blog.entity.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
+import com.tyzz.blog.constant.BlogConstant;
+import com.tyzz.blog.util.StringUtils;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,6 +41,10 @@ public class Administrator implements Serializable {
     private Boolean state;
     
     private Date createTime;
-    
+
     private Date updateTime;
+
+    public String getAvatar() {
+        return StringUtils.isEmpty(avatar) ? BlogConstant.USER_DEFAULT_AVATAR : avatar;
+    }
 }

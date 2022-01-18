@@ -1,6 +1,7 @@
 package com.tyzz.blog.config.security;
 
-import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.pojo.Administrator;
+import com.tyzz.blog.entity.pojo.User;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -14,6 +15,7 @@ import java.util.Collection;
  */
 public class BlogAuthenticationToken extends UsernamePasswordAuthenticationToken {
     private User currentUser;
+    private Administrator admin;
 
     public BlogAuthenticationToken(Object principal, Object credentials) {
         super(principal, credentials);
@@ -29,5 +31,13 @@ public class BlogAuthenticationToken extends UsernamePasswordAuthenticationToken
 
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
+    }
+
+    public Administrator getAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(Administrator admin) {
+        this.admin = admin;
     }
 }

@@ -1,7 +1,7 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.User;
+import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.service.ArticleService;

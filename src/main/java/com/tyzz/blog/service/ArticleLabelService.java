@@ -1,9 +1,9 @@
 package com.tyzz.blog.service;
 
 import com.tyzz.blog.dao.ArticleLabelDao;
-import com.tyzz.blog.entity.Article;
-import com.tyzz.blog.entity.ArticleLabel;
-import com.tyzz.blog.entity.Label;
+import com.tyzz.blog.entity.pojo.Article;
+import com.tyzz.blog.entity.pojo.ArticleLabel;
+import com.tyzz.blog.entity.pojo.Label;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import org.springframework.stereotype.Service;
 

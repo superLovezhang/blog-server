@@ -1,7 +1,7 @@
 package com.tyzz.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tyzz.blog.entity.Category;
+import com.tyzz.blog.entity.pojo.Category;
 
 import java.util.List;
 

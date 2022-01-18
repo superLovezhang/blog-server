@@ -2,7 +2,7 @@ package com.tyzz.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tyzz.blog.common.BlogPage;
-import com.tyzz.blog.entity.Article;
+import com.tyzz.blog.entity.pojo.Article;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 
 import java.util.List;
