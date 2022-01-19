@@ -44,9 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers(BlogConstant.AUTHORIZED_URL_PATTERN)
-                .hasRole("ADMIN")
-                .antMatchers(BlogConstant.UNAUTHORIZED_URL_PATTERN, "/druid/**")
+//                .antMatchers(BlogConstant.AUTHORIZED_URL_PATTERN)
+//                .hasRole("ADMIN")
+                .antMatchers(BlogConstant.UNAUTHORIZED_URL_PATTERN, "/druid/**", "/admin/administrator/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

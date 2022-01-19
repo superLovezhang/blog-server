@@ -2,6 +2,7 @@ package com.tyzz.blog.controller.admin;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.UserAdminPageDTO;
+import com.tyzz.blog.enums.UserStatus;
 import com.tyzz.blog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -21,5 +22,14 @@ public class UserController {
     @GetMapping("/list")
     public Result list(UserAdminPageDTO dto) {
         return Result.success(userService.listPage(dto).map(userService::pojoToVO));
+    }
+
+    @PostMapping("/ban")
+    public Result ban(@RequestParam long userId,
+                      @RequestParam(required = false, defaultValue = "NORMAL") UserStatus status
+                      )
+    {
+        userService.ban(userId, status);
+        return Result.success();
     }
 }

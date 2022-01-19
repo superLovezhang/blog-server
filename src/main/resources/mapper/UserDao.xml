@@ -9,7 +9,7 @@
             and gender = #{dto.gender}
         </if>
         <if test="dto.searchValue != null">
-            and username like concat('%', #{searchValue}, '%')
+            and username like concat('%', #{dto.searchValue}, '%')
         </if>
         <if test="dto.status != null">
             and status = #{dto.status}

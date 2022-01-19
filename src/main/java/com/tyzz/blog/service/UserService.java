@@ -10,6 +10,7 @@ import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.entity.dto.UserPasswordDTO;
 import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.vo.UserVO;
+import com.tyzz.blog.enums.UserStatus;
 import com.tyzz.blog.enums.VerifyCodeType;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.JwtUtils;
@@ -166,5 +167,12 @@ public class UserService implements UserDetailsService {
     public BlogPage<User> listPage(UserAdminPageDTO dto) {
         BlogPage<User> page = BlogPage.of(dto.getPage(), dto.getSize());
         return userDao.listPage(dto, page);
+    }
+
+    public void ban(long userId, UserStatus status) {
+        User user = Optional.ofNullable(userDao.selectById(userId))
+                .orElseThrow(() -> new BlogException("该用户不存在"));
+        user.setStatus(status);
+        userDao.updateById(user);
     }
 }
