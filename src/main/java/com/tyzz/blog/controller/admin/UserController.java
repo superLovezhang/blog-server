@@ -26,10 +26,11 @@ public class UserController {
 
     @PostMapping("/ban")
     public Result ban(@RequestParam long userId,
-                      @RequestParam(required = false, defaultValue = "NORMAL") UserStatus status
+                      @RequestParam(required = false, defaultValue = "NORMAL") UserStatus status,
+                      String frozenReason
                       )
     {
-        userService.ban(userId, status);
+        userService.ban(userId, status, frozenReason);
         return Result.success();
     }
 }

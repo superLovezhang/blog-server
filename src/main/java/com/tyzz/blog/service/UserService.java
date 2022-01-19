@@ -169,10 +169,11 @@ public class UserService implements UserDetailsService {
         return userDao.listPage(dto, page);
     }
 
-    public void ban(long userId, UserStatus status) {
+    public void ban(long userId, UserStatus status, String frozenReason) {
         User user = Optional.ofNullable(userDao.selectById(userId))
                 .orElseThrow(() -> new BlogException("该用户不存在"));
         user.setStatus(status);
+        user.setFrozenReason(frozenReason);
         userDao.updateById(user);
     }
 }
