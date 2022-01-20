@@ -3,6 +3,7 @@ package com.tyzz.blog.entity.pojo;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
+import com.tyzz.blog.enums.ArticleStatus;
 import com.tyzz.blog.enums.ArticleType;
 import com.tyzz.blog.util.StringUtils;
 import lombok.AllArgsConstructor;
@@ -49,6 +50,8 @@ public class Article implements Serializable {
     private Integer viewCount;
     
     private Integer likes;
+
+    private ArticleStatus status;
     
     private Boolean state;
     
