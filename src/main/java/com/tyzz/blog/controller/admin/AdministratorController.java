@@ -21,11 +21,20 @@ import org.springframework.web.bind.annotation.*;
 public class AdministratorController {
     private final AdministratorService administratorService;
 
+    /**
+     * 管理员登陆
+     * @param login
+     * @return
+     */
     @PostMapping("/login")
     public Result login(@Validated @RequestBody LoginDTO login) {
         return Result.success(administratorService.login(login.getEmail(), login.getPassword()));
     }
 
+    /**
+     * 获取当前管理员信息
+     * @return
+     */
     @GetMapping("/userInfo")
     public Result userInfo() {
         return Result.success(AdministratorConverter.INSTANCE.admin2AdminVO(administratorService.currentAdmin()));

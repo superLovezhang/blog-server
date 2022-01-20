@@ -19,11 +19,23 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
 
+    /**
+     * 管理端获取用户列表分页接口
+     * @param dto 查询参数
+     * @return 分页信息
+     */
     @GetMapping("/list")
     public Result list(UserAdminPageDTO dto) {
         return Result.success(userService.listPage(dto).map(userService::pojoToVO));
     }
 
+    /**
+     * 禁用/恢复用户账号
+     * @param userId 用户id
+     * @param status 用户状态
+     * @param frozenReason 禁用原因
+     * @return 操作结果
+     */
     @PostMapping("/ban")
     public Result ban(@RequestParam long userId,
                       @RequestParam(required = false, defaultValue = "NORMAL") UserStatus status,
