@@ -52,6 +52,8 @@ public class Article implements Serializable {
     private Integer likes;
 
     private ArticleStatus status;
+
+    private String refuseReason;
     
     private Boolean state;
     
