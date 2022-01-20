@@ -13,6 +13,7 @@ import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.enums.UserStatus;
 import com.tyzz.blog.enums.VerifyCodeType;
 import com.tyzz.blog.exception.BlogException;
+import com.tyzz.blog.exception.BlogLoginInvalidException;
 import com.tyzz.blog.util.JwtUtils;
 import com.tyzz.blog.util.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -64,7 +65,11 @@ public class UserService implements UserDetailsService {
         if (currentUser == null) {
             return null;
         }
-        return userDao.selectById(currentUser.getUserId());
+        User user = userDao.selectById(currentUser.getUserId());
+        if (user != null && user.getStatus().equals(UserStatus.FROZEN)) {
+            throw new BlogLoginInvalidException("账户已被冻结，请联系管理员");
+        }
+        return user;
     }
 
     public User currentUserNotExistThrowException() {
