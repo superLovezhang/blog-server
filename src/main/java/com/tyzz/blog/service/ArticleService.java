@@ -1,20 +1,25 @@
 package com.tyzz.blog.service;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.ArticleDao;
+import com.tyzz.blog.entity.dto.ArticleAdminPageDTO;
+import com.tyzz.blog.entity.dto.ArticleDTO;
+import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.pojo.Article;
 import com.tyzz.blog.entity.pojo.Collection;
 import com.tyzz.blog.entity.pojo.Label;
 import com.tyzz.blog.entity.pojo.User;
-import com.tyzz.blog.entity.dto.ArticleDTO;
-import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.vo.ArticleVO;
+import com.tyzz.blog.enums.ArticleStatus;
+import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -104,5 +109,28 @@ public class ArticleService {
         article.setViewCount(article.getViewCount() + 1);
         articleDao.updateById(article);
         return article;
+    }
+
+    public BlogPage<Article> adminList(ArticleAdminPageDTO dto) {
+        BlogPage<Article> page = BlogPage.of(dto.getPage(), dto.getSize());
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        if (dto.getArticleType() != null) {
+            wrapper.eq("article_type", dto.getArticleType());
+        }
+        if (dto.getSearchValue() != null) {
+            wrapper.like("article_name", dto.getSearchValue());
+        }
+        if (dto.getStatus() != null) {
+            wrapper.eq("status", dto.getStatus());
+        }
+        return articleDao.selectPage(page, wrapper);
+    }
+
+    public void audit(Long articleId, ArticleStatus status, String refuseReason) {
+        Article article = Optional.ofNullable(articleDao.selectById(articleId))
+                .orElseThrow(() -> new BlogException("该文章不存在"));
+        article.setStatus(status);
+        article.setRefuseReason(refuseReason);
+        articleDao.updateById(article);
     }
 }
