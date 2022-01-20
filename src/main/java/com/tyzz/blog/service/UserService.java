@@ -84,6 +84,9 @@ public class UserService implements UserDetailsService {
         if (!matches) {
             throw new BlogException("邮箱或密码错误");
         }
+        if (user.getStatus().equals(UserStatus.FROZEN)) {
+            throw new BlogException("账户已被冻结，请联系管理员");
+        }
         result.put("token", JwtUtils.buildToken(user));
         result.put("user", userService.pojoToVO(user));
         return result;
