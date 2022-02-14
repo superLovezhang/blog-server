@@ -56,6 +56,8 @@ public class ArticleVO {
 
     private ArticleStatus status;
 
+    private String refuseReason;
+
     private Date createTime;
 
     private Date updateTime;

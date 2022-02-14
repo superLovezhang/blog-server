@@ -121,7 +121,7 @@ public class ArticleService {
         Article article = Optional.ofNullable(articleDao.selectById(articleId))
                 .orElseThrow(() -> new BlogException("该文章不存在"));
         article.setStatus(status);
-        article.setRefuseReason(refuseReason);
+        article.setRefuseReason(StringUtils.isEmpty(refuseReason) ? "" : refuseReason);
         articleDao.updateById(article);
     }
 }

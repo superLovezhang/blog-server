@@ -17,5 +17,6 @@ public interface ArticleConverter {
     ArticleConverter INSTANCE = Mappers.getMapper(ArticleConverter.class);
 
     @Mapping(target = "status", source = "status")
+    @Mapping(target = "refuseReason", source = "refuseReason")
     ArticleVO article2VO(Article article);
 }

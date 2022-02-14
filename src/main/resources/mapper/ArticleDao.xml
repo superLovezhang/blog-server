@@ -52,6 +52,7 @@
         <if test="articlePageDTO.categoryId != null">
             and a.category_id = #{articlePageDTO.categoryId}
         </if>
+        and a.status = 'PASS'
         ORDER BY
         <if test="articlePageDTO.underscoreSortColumn == 'create_time'">
             a.create_time
