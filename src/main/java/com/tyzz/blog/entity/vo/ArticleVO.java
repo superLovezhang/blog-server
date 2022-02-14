@@ -2,6 +2,8 @@ package com.tyzz.blog.entity.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
+import com.tyzz.blog.enums.ArticleStatus;
+import com.tyzz.blog.enums.ArticleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,7 +38,7 @@ public class ArticleVO {
 
     private String linkAddress;
 
-    private String articleType;
+    private ArticleType articleType;
 
     private CategoryVO category;
 
@@ -51,6 +53,8 @@ public class ArticleVO {
     private Integer likes;
 
     private boolean collected = false;
+
+    private ArticleStatus status;
 
     private Date createTime;
 

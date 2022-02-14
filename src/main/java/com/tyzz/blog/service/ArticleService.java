@@ -3,6 +3,7 @@ package com.tyzz.blog.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.ArticleDao;
+import com.tyzz.blog.entity.convert.ArticleConverter;
 import com.tyzz.blog.entity.dto.ArticleAdminPageDTO;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
@@ -84,24 +85,14 @@ public class ArticleService {
         User currentUser = userService.currentUser();
         Collection collection = collectionService.findOneByUserAndArticle(currentUser, article);
         User user = userService.selectById(userId);
-        return ArticleVO.builder()
-                    .articleId(article.getArticleId())
-                    .articleName(article.getArticleName())
-                    .content(article.getContent())
-                    .htmlContent(article.getHtmlContent())
-                    .cover(article.getCover())
-                    .createTime(article.getCreateTime())
-                    .updateTime(article.getUpdateTime())
-                    .likes(collectionService.countByArticle(article))
-                    .collected(collection != null)
-                    .user(userService.pojoToVO(user))
-                    .previewContent(article.getPreviewContent())
-                    .viewCount(article.getViewCount())
-                    .linkAddress(article.getLinkAddress())
-                    .commentCount(commentService.countByArticleId(article.getArticleId()))
-                    .category(categoryService.pojoToVO(categoryService.selectOneById(article.getCategoryId())))
-                    .labels(labels.stream().map(labelService::pojoToVO).collect(Collectors.toList()))
-                    .build();
+        ArticleVO articleVO = ArticleConverter.INSTANCE.article2VO(article);
+        articleVO.setLikes(collectionService.countByArticle(article));
+        articleVO.setUser(userService.pojoToVO(user));
+        articleVO.setCommentCount(commentService.countByArticleId(article.getArticleId()));
+        articleVO.setCategory(categoryService.pojoToVO(categoryService.selectOneById(article.getCategoryId())));
+        articleVO.setLabels(labels.stream().map(labelService::pojoToVO).collect(Collectors.toList()));
+        articleVO.setCollected(collection != null);
+        return articleVO;
     }
 
     public Article viewArticleDetail(Long articleId) {
