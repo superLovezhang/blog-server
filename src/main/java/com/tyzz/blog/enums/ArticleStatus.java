@@ -29,6 +29,6 @@ public enum ArticleStatus implements IEnum<String> {
 
     @Override
     public String getValue() {
-        return desc;
+        return this.name();
     }
 }

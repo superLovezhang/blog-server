@@ -4,12 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.CommentDao;
+import com.tyzz.blog.entity.convert.CommentConverter;
 import com.tyzz.blog.entity.dto.CommentAdminPageDTO;
 import com.tyzz.blog.entity.dto.CommentDTO;
 import com.tyzz.blog.entity.dto.CommentPageDTO;
 import com.tyzz.blog.entity.pojo.Comment;
 import com.tyzz.blog.entity.pojo.CommentUser;
 import com.tyzz.blog.entity.pojo.User;
+import com.tyzz.blog.entity.vo.CommentAdminVO;
 import com.tyzz.blog.entity.vo.CommentTreeVO;
 import com.tyzz.blog.entity.vo.CommentVO;
 import com.tyzz.blog.enums.NotificationType;
@@ -164,5 +166,14 @@ public class CommentService {
                 .orElseThrow(() -> new BlogException("该评论不存在"));
         Long userId = comment.getUserId();
         return userService.selectById(userId);
+    }
+    
+    public CommentAdminVO pojo2AdminVO(Comment comment) {
+        if (comment == null) {
+            return null;
+        }
+        CommentAdminVO commentAdminVO = CommentConverter.INSTANCE.comment2AdminVO(comment);
+        commentAdminVO.setUser(userService.pojoToVO(userService.selectById(comment.getUserId())));
+        return commentAdminVO;
     }
 }

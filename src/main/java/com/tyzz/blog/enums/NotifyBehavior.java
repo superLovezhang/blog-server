@@ -20,6 +20,6 @@ public enum NotifyBehavior {
     }
 
     public String getDesc() {
-        return desc;
+        return this.desc;
     }
 }

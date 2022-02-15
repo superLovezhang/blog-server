@@ -8,7 +8,6 @@ package com.tyzz.blog.controller.admin;
  */
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.convert.CommentConverter;
 import com.tyzz.blog.entity.dto.CommentAdminPageDTO;
 import com.tyzz.blog.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +21,7 @@ public class CommentController {
 
     @GetMapping("/list")
     public Result list(CommentAdminPageDTO dto) {
-        return Result.success(commentService.adminList(dto).map(CommentConverter.INSTANCE::comment2AdminVO));
+        return Result.success(commentService.adminList(dto).map(commentService::pojo2AdminVO));
     }
 
     @DeleteMapping

@@ -22,8 +22,10 @@
         where c.state = 1
         and u.state = 1
         <if test="dto.searchValue != null">
-            and c.content like CONCAT('%', #{dto.searchValue}, '%')
-            and u.username like CONCAT('%', #{dto.searchValue}, '%')
+            and (
+            c.content like CONCAT('%', #{dto.searchValue}, '%')
+            or u.username like CONCAT('%', #{dto.searchValue}, '%')
+            )
         </if>
         order by c.create_time desc
     </select>

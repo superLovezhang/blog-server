@@ -23,6 +23,6 @@ public enum UserStatus implements IEnum<String> {
 
     @Override
     public String getValue() {
-        return this.message;
+        return this.name();
     }
 }
