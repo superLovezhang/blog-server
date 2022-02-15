@@ -4,18 +4,22 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.dao.CommentDao;
+import com.tyzz.blog.entity.dto.CommentAdminPageDTO;
+import com.tyzz.blog.entity.dto.CommentDTO;
+import com.tyzz.blog.entity.dto.CommentPageDTO;
 import com.tyzz.blog.entity.pojo.Comment;
 import com.tyzz.blog.entity.pojo.CommentUser;
 import com.tyzz.blog.entity.pojo.User;
-import com.tyzz.blog.entity.dto.CommentDTO;
-import com.tyzz.blog.entity.dto.CommentPageDTO;
 import com.tyzz.blog.entity.vo.CommentTreeVO;
 import com.tyzz.blog.entity.vo.CommentVO;
+import com.tyzz.blog.enums.NotificationType;
+import com.tyzz.blog.enums.NotifyBehavior;
 import com.tyzz.blog.exception.BlogException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -26,14 +30,13 @@ import java.util.stream.Collectors;
  * @author makejava
  * @since 2021-09-26 10:24:49
  */
+@RequiredArgsConstructor
 @Service("commentService")
 public class CommentService {
-    @Resource
-    private CommentDao commentDao;
-    @Resource
-    private UserService userService;
-    @Resource
-    private CommentUserService commentUserService;
+    private final CommentDao commentDao;
+    private final UserService userService;
+    private final NotificationService notificationService;
+    private final CommentUserService commentUserService;
 
 
     public void comment(CommentDTO commentDTO, User user) {
@@ -141,5 +144,25 @@ public class CommentService {
         wrapper.eq("comment_id", commentId);
         wrapper.eq("user_id", user.getUserId());
         commentDao.delete(wrapper);
+    }
+
+    public BlogPage<Comment> adminList(CommentAdminPageDTO dto) {
+        BlogPage<Comment> page = BlogPage.of(dto.getPage(), dto.getSize());
+        return commentDao.adminList(dto, page);
+    }
+
+    @Transactional
+    public void adminRemove(long commentId, String removeReason) {
+        User user = Optional.ofNullable(findUserByCommentId(commentId))
+                .orElseThrow(() -> new BlogException("该评论不存在"));
+        notificationService.createDeny(NotificationType.COMMENT, removeReason, NotifyBehavior.DELETE, user);
+        commentDao.deleteById(commentId);
+    }
+
+    private User findUserByCommentId(long commentId) {
+        Comment comment = Optional.ofNullable(commentDao.selectById(commentId))
+                .orElseThrow(() -> new BlogException("该评论不存在"));
+        Long userId = comment.getUserId();
+        return userService.selectById(userId);
     }
 }

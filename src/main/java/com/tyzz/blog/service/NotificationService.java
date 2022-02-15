@@ -1,6 +1,11 @@
 package com.tyzz.blog.service;
 
+import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.dao.NotificationDao;
+import com.tyzz.blog.entity.pojo.Notification;
+import com.tyzz.blog.entity.pojo.User;
+import com.tyzz.blog.enums.NotificationType;
+import com.tyzz.blog.enums.NotifyBehavior;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,4 +19,31 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificationService {
     private final NotificationDao notificationDao;
+
+    public void createSuccess(NotificationType type, User user) {
+        Notification notification = createNotification(type, user, String.format(BlogConstant.NOTIFICATION_SUCCESS_TEMPLATE, type.getDesc()));
+        notificationDao.insert(notification);
+    }
+
+    private Notification createNotification(NotificationType type, User user, String content) {
+        return Notification.builder()
+                .content(content)
+                .notificationType(type)
+                .userId(user.getUserId())
+                .build();
+    }
+
+    public void createDeny(
+            NotificationType type,
+            String reason,
+            NotifyBehavior behavior,
+            User user
+    ) {
+        Notification notification = createNotification(
+                type,
+                user,
+                String.format(BlogConstant.NOTIFICATION_DENY_TEMPLATE, type.getDesc(), behavior.getDesc(), reason)
+        );
+        notificationDao.insert(notification);
+    }
 }

@@ -16,4 +16,15 @@
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
+    <select id="adminList" resultType="Comment">
+        SELECT c.*, u.* FROM COMMENT c
+        LEFT JOIN USER u ON ( c.`user_id` = u.`user_id` )
+        where c.state = 1
+        and u.state = 1
+        <if test="dto.searchValue != null">
+            and c.content like CONCAT('%', #{dto.searchValue}, '%')
+            and u.username like CONCAT('%', #{dto.searchValue}, '%')
+        </if>
+        order by c.create_time desc
+    </select>
 </mapper>
