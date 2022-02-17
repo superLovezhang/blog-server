@@ -68,6 +68,10 @@ public class StringUtils {
         return str == null || str.length() == 0;
     }
 
+    public static boolean isNotEmpty(String str) {
+        return !isEmpty(str);
+    }
+
     public static String generateRandomCode(int count) {
         Random random = new Random();
         StringBuilder result = new StringBuilder();

@@ -13,12 +13,14 @@ import com.tyzz.blog.entity.pojo.Label;
 import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.vo.ArticleVO;
 import com.tyzz.blog.enums.ArticleStatus;
+import com.tyzz.blog.enums.NotificationType;
+import com.tyzz.blog.enums.NotifyBehavior;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -29,22 +31,17 @@ import java.util.stream.Collectors;
  * @author makejava
  * @since 2021-09-26 10:24:46
  */
+@RequiredArgsConstructor
 @Service("articleService")
 public class ArticleService {
-    @Resource
-    private ArticleDao articleDao;
-    @Resource
-    private UserService userService;
-    @Resource
-    private CommentService commentService;
-    @Resource
-    private LabelService labelService;
-    @Resource
-    private CategoryService categoryService;
-    @Resource
-    private CollectionService collectionService;
-    @Resource
-    private ArticleLabelService articleLabelService;
+    private final ArticleDao articleDao;
+    private final UserService userService;
+    private final CommentService commentService;
+    private final LabelService labelService;
+    private final CategoryService categoryService;
+    private final CollectionService collectionService;
+    private final ArticleLabelService articleLabelService;
+    private final NotificationService notificationService;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -117,11 +114,26 @@ public class ArticleService {
         return articleDao.selectPage(page, wrapper);
     }
 
+    @Transactional
     public void audit(Long articleId, ArticleStatus status, String refuseReason) {
         Article article = Optional.ofNullable(articleDao.selectById(articleId))
                 .orElseThrow(() -> new BlogException("该文章不存在"));
         article.setStatus(status);
-        article.setRefuseReason(StringUtils.isEmpty(refuseReason) ? "" : refuseReason);
+        // 发送通知
+        if (StringUtils.isNotEmpty(refuseReason)) {
+            notificationService.createDeny(
+                    NotificationType.ARTICLE,
+                    refuseReason,
+                    NotifyBehavior.REJECT,
+                    userService.selectById(article.getUserId())
+            );
+        } else {
+            refuseReason = "";
+            notificationService.createSuccess(
+                    NotificationType.ARTICLE,
+                    userService.selectById(article.getUserId()));
+        }
+        article.setRefuseReason(refuseReason);
         articleDao.updateById(article);
     }
 }
