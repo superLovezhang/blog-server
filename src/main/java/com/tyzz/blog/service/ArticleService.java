@@ -18,6 +18,7 @@ import com.tyzz.blog.enums.NotifyBehavior;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,12 +35,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service("articleService")
 public class ArticleService {
+    @Autowired
+    private CollectionService collectionService;
+
     private final ArticleDao articleDao;
     private final UserService userService;
     private final CommentService commentService;
     private final LabelService labelService;
     private final CategoryService categoryService;
-    private final CollectionService collectionService;
     private final ArticleLabelService articleLabelService;
     private final NotificationService notificationService;
 
