@@ -18,7 +18,7 @@
 
     <select id="adminList" resultType="Comment">
         SELECT c.*, u.* FROM comment c
-        LEFT JOIN USER u ON ( c.`user_id` = u.`user_id` )
+        LEFT JOIN user u ON ( c.`user_id` = u.`user_id` )
         where c.state = 1
         and u.state = 1
         <if test="dto.searchValue != null">
