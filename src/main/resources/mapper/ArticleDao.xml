@@ -66,6 +66,7 @@
     <select id="hotList" resultMap="BaseResultMap">
         select * from article
         where state = 1
+        and status = 'PASS'
         order by view_count desc
         limit 10
     </select>
