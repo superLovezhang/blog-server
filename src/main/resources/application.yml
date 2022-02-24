@@ -1,5 +1,8 @@
 server:
     port: 8000
+    ssl:
+      key-store: 7304675_www.tyzz.top.pfx
+      key-store-password: U083hOuv
 spring:
   application:
       name: blog
