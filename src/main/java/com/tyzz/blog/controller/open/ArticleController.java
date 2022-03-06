@@ -28,6 +28,7 @@ public class ArticleController {
 
     /**
      * 获取文章列表
+     *
      * @param articlePageDTO
      * @return
      */
@@ -42,6 +43,7 @@ public class ArticleController {
 
     /**
      * 保存文章
+     *
      * @param articleDTO
      * @return
      */
@@ -54,6 +56,7 @@ public class ArticleController {
 
     /**
      * 获取文章详情
+     *
      * @param articleId
      * @return
      */
@@ -64,6 +67,7 @@ public class ArticleController {
 
     /**
      * 获取热门推荐文章
+     *
      * @return
      */
     @GetMapping("/hot")
@@ -72,5 +76,11 @@ public class ArticleController {
                 .stream()
                 .map(articleService::pojoToVO)
                 .collect(Collectors.toList()));
+    }
+
+    @GetMapping("/ensurePermissionDetail")
+    public Result ensurePermissionDetail(@RequestParam Long articleId) {
+        User user = userService.currentUserNotExistThrowException();
+        return Result.success(articleService.pojoToVO(articleService.selectOneByIdAndUser(articleId, user)));
     }
 }

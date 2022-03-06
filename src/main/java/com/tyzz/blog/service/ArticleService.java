@@ -16,6 +16,7 @@ import com.tyzz.blog.enums.ArticleStatus;
 import com.tyzz.blog.enums.NotificationType;
 import com.tyzz.blog.enums.NotifyBehavior;
 import com.tyzz.blog.exception.BlogException;
+import com.tyzz.blog.factory.ArticleFactory;
 import com.tyzz.blog.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,19 +53,17 @@ public class ArticleService {
 
     @Transactional
     public void save(User user, ArticleDTO articleDTO) {
-        Article article = Article.builder()
-                .linkAddress(articleDTO.getLinkAddress())
-                .articleType(articleDTO.getArticleType())
-                .articleName(articleDTO.getArticleName())
-                .content(articleDTO.getContent())
-                .htmlContent(articleDTO.getHtmlContent())
-                .articleId(articleDTO.getArticleId())
-                .categoryId(articleDTO.getCategoryId())
-                .userId(user.getUserId())
-                .cover(StringUtils.pickCoverFromHtml(articleDTO.getHtmlContent()))
-                .build();
-        articleDao.insert(article);
+        Article article = ArticleFactory.articleDTO2PO(articleDTO, user);
+        saveArticle(article);
         articleLabelService.attach(article, articleDTO);
+    }
+
+    private void saveArticle(Article article) {
+        if (null != article.getArticleId()) {
+            articleDao.updateById(article);
+        } else {
+            articleDao.insert(article);
+        }
     }
 
     public BlogPage<Article> listPage(ArticlePageDTO articlePageDTO) {
@@ -138,5 +137,13 @@ public class ArticleService {
         }
         article.setRefuseReason(refuseReason);
         articleDao.updateById(article);
+    }
+
+    public Article selectOneByIdAndUser(Long id, User user) {
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_id", id);
+        wrapper.eq("user_id", user.getUserId());
+        return Optional.ofNullable(articleDao.selectOne(wrapper))
+                .orElseThrow(() -> new BlogException("当前文章不存在"));
     }
 }

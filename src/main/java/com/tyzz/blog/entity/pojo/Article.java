@@ -62,6 +62,11 @@ public class Article implements Serializable {
     private Date updateTime;
 
     public String getPreviewContent() {
-        return StringUtils.htmlToPlainText(this.htmlContent);
+        String previewContent = StringUtils.htmlToPlainText(this.htmlContent);
+        if (previewContent.length() >= 200) {
+            return previewContent.substring(0, 200);
+        } else {
+            return previewContent;
+        }
     }
 }
