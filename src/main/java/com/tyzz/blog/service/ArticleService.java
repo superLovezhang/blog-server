@@ -146,4 +146,11 @@ public class ArticleService {
         return Optional.ofNullable(articleDao.selectOne(wrapper))
                 .orElseThrow(() -> new BlogException("当前文章不存在"));
     }
+
+    public void remove(long articleId, User user) {
+        QueryWrapper<Article> wrapper = new QueryWrapper<Article>()
+                .eq("article_id", articleId)
+                .eq("user_id", user.getUserId());
+        articleDao.delete(wrapper);
+    }
 }

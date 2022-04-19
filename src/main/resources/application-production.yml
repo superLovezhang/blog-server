@@ -2,3 +2,6 @@ server:
   ssl:
     key-store: 7304675_www.tyzz.top.pfx
     key-store-password: U083hOuv
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl

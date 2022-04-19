@@ -78,9 +78,21 @@ public class ArticleController {
                 .collect(Collectors.toList()));
     }
 
+    /**
+     * 确保有权限的获取文章详情 用于编辑文章
+     * @param articleId 文章ID
+     * @return
+     */
     @GetMapping("/ensurePermissionDetail")
     public Result ensurePermissionDetail(@RequestParam Long articleId) {
         User user = userService.currentUserNotExistThrowException();
         return Result.success(articleService.pojoToVO(articleService.selectOneByIdAndUser(articleId, user)));
+    }
+
+    @DeleteMapping("/remove/{articleId}")
+    public Result remove(@PathVariable long articleId) {
+        User user = userService.currentUserNotExistThrowException();
+        articleService.remove(articleId, user);
+        return Result.success();
     }
 }
