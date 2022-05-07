@@ -30,7 +30,11 @@ public class ExecuteTimeAspect {
     //通知就是对切入点方法的具体处理逻辑
     @Around("pointcut()")//而连接点就是目标方法
     public Object executeTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("当前访问地址：{}，用户IP：{} =======================================", request.getRequestURI(), request.getHeader("remoteAddress"));
+        log.info("当前访问地址：{}，用户IP：{} 客户端：{} =======================================",
+                request.getRequestURI(),
+                request.getRemoteAddr(),
+                request.getHeader("user-agent")
+                );
 
 
         long start = System.currentTimeMillis();
