@@ -85,7 +85,8 @@ public class ArticleService {
         Collection collection = collectionService.findOneByUserAndArticle(currentUser, article);
         User user = userService.selectById(userId);
         ArticleVO articleVO = ArticleConverter.INSTANCE.article2VO(article);
-        articleVO.setLikes(collectionService.countByArticle(article));
+//        articleVO.setLikes(collectionService.countByArticle(article));
+        articleVO.setCollects(collectionService.countByArticle(article));
         articleVO.setUser(userService.pojoToVO(user));
         articleVO.setCommentCount(commentService.countByArticleId(article.getArticleId()));
         articleVO.setCategory(categoryService.pojoToVO(categoryService.selectOneById(article.getCategoryId())));

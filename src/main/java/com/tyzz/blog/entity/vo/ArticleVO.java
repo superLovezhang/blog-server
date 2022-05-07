@@ -42,7 +42,7 @@ public class ArticleVO {
 
     private CategoryVO category;
 
-    private List<LabelVO> labels = new ArrayList();
+    private List<LabelVO> labels = new ArrayList<>();
 
     private String cover;
 
@@ -50,9 +50,13 @@ public class ArticleVO {
 
     private Integer viewCount;
 
-    private Integer likes;
+    private Integer likes = 0;
+
+    private Integer collects = 0;
 
     private boolean collected = false;
+
+    private boolean liked = false;
 
     private ArticleStatus status;
 

@@ -45,4 +45,16 @@ public class CollectionController {
         collectionService.collect(user, articleId);
         return Result.success();
     }
+
+    /**
+     * 点赞/取消点赞文章
+     * @param articleId 文章ID
+     * @return
+     */
+    @PostMapping("/like/{articleId}")
+    public Result like(@PathVariable Long articleId) {
+        User user = userService.currentUserNotExistThrowException();
+        collectionService.collect(user, articleId);
+        return Result.success();
+    }
 }

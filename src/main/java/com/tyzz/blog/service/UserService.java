@@ -3,7 +3,6 @@ package com.tyzz.blog.service;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.config.security.BlogAuthenticationToken;
-import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.dto.UserAdminPageDTO;
 import com.tyzz.blog.entity.dto.UserDTO;
@@ -30,6 +29,8 @@ import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
+import static com.tyzz.blog.constant.BlogConstant.*;
 
 /**
  * (User)表服务实现类
@@ -115,7 +116,7 @@ public class UserService implements UserDetailsService {
     private void validateRegisterInfo(UserDTO user) {
         String email = user.getEmail();
         QueryWrapper<User> wrapper = new QueryWrapper<User>().eq("email", email);
-        Object verifyCode = redisService.get(BlogConstant.REGISTER_VERIFY_PREFIX + email);
+        Object verifyCode = redisService.get(REGISTER_VERIFY_PREFIX + email);
         if (verifyCode == null || StringUtils.isEmpty(verifyCode.toString())) {
             throw new BlogException("请发送验证码");
         }
@@ -126,7 +127,7 @@ public class UserService implements UserDetailsService {
         if (count != 0) {
             throw new BlogException("当前邮箱已注册");
         }
-        redisService.del(BlogConstant.REGISTER_VERIFY_PREFIX + email);
+        redisService.del(REGISTER_VERIFY_PREFIX + email);
     }
 
     public User selectById(Long userId) {
@@ -164,7 +165,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void updatePassword(UserPasswordDTO userDTO, User user) {
-        Object sourceVerifyCode = redisService.get(BlogConstant.PWD_VERIFY_PREFIX + user.getEmail());
+        Object sourceVerifyCode = redisService.get(PWD_VERIFY_PREFIX + user.getEmail());
         if (sourceVerifyCode == null || StringUtils.isEmpty(sourceVerifyCode.toString())) {
             throw new BlogException("请发送验证码");
         }
