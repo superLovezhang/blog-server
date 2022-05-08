@@ -48,8 +48,8 @@ public class Article implements Serializable {
     private Long categoryId;
     
     private Integer viewCount;
-    
-    private Integer likes;
+
+    private Integer commentCount;
 
     private ArticleStatus status;
 

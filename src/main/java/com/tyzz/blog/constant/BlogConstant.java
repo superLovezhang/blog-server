@@ -16,10 +16,12 @@ public class BlogConstant {
     public final static String OSS_CREDENTIALS_KEY = "credentials";
 
     /*=======redis的key常量============*/
+    public final static String SPLIT_CHAR = "::";
     public final static String REGISTER_VERIFY_PREFIX = "REGISTER::";
     public final static String PWD_VERIFY_PREFIX = "PASSWORD::";
-    public final static String ARTICLE_LIKE = "ARTICLE::LIKE::";
-    public final static String COMMENT_LIKE = "COMMENT::LIKE::";
+    public final static String ARTICLE_LIKE = "ARTICLE::LIKE";
+    public final static String ARTICLE_COLLECT = "ARTICLE::COLLECT";
+    public final static String COMMENT_LIKE = "COMMENT::LIKE";
 
     /*=======字符串拼接============*/
     public final static String EMAIL_VERIFICATION_SUBJECT = "博客注册验证码";

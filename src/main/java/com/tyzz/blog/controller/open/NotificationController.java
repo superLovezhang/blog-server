@@ -1,6 +1,6 @@
 package com.tyzz.blog.controller.open;
 
-import com.tyzz.blog.service.NotificationService;
+import com.tyzz.blog.service.impl.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

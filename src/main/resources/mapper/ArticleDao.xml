@@ -2,28 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.tyzz.blog.dao.ArticleDao">
 
-    <resultMap id="BaseResultMap" type="com.tyzz.blog.entity.pojo.Article">
-        <!--@Table article-->
-        <result property="articleId" column="article_id" jdbcType="INTEGER"/>
-        <result property="articleName" column="article_name" jdbcType="VARCHAR"/>
-        <result property="userId" column="user_id" jdbcType="INTEGER"/>
-        <result property="content" column="content" jdbcType="VARCHAR"/>
-        <result property="viewCount" column="view_count" jdbcType="INTEGER"/>
-        <result property="like" column="like" jdbcType="INTEGER"/>
-        <result property="state" column="state" jdbcType="BOOLEAN"/>
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-    </resultMap>
-
-    <select id="listPage" parameterType="com.tyzz.blog.entity.dto.ArticlePageDTO" resultMap="BaseResultMap">
+    <select id="listPage" parameterType="com.tyzz.blog.entity.dto.ArticlePageDTO" resultType="Article">
+        SELECT a.article_id, a.article_name, SUBSTRING(a.html_content, 1, 350) as html_content, a.cover, a.view_count, a.comment_count, a.create_time, a.update_time
+        FROM article a
         <choose>
             <when test="articlePageDTO.labelId != null">
-                SELECT a.* FROM article a WHERE a.article_id IN (
+                WHERE a.article_id IN (
                     SELECT al.article_id FROM article_label al WHERE al.label_id = #{articlePageDTO.labelId}
                 ) and
             </when>
             <otherwise>
-                SELECT a.* FROM article a where
+                where
             </otherwise>
         </choose>
 
@@ -63,7 +52,7 @@
         DESC
     </select>
 
-    <select id="hotList" resultMap="BaseResultMap">
+    <select id="hotList" resultType="Article">
         select * from article
         where state = 1
         and status = 'PASS'

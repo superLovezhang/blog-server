@@ -9,7 +9,7 @@ package com.tyzz.blog.controller.admin;
 
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.CommentAdminPageDTO;
-import com.tyzz.blog.service.CommentService;
+import com.tyzz.blog.service.impl.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

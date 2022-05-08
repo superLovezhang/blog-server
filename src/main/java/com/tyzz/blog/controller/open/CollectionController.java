@@ -3,8 +3,8 @@ package com.tyzz.blog.controller.open;
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.dto.BasePageDTO;
-import com.tyzz.blog.service.CollectionService;
-import com.tyzz.blog.service.UserService;
+import com.tyzz.blog.service.impl.CollectionService;
+import com.tyzz.blog.service.impl.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -41,18 +41,6 @@ public class CollectionController {
      */
     @PostMapping("/collect/{articleId}")
     public Result collect(@PathVariable Long articleId) {
-        User user = userService.currentUserNotExistThrowException();
-        collectionService.collect(user, articleId);
-        return Result.success();
-    }
-
-    /**
-     * 点赞/取消点赞文章
-     * @param articleId 文章ID
-     * @return
-     */
-    @PostMapping("/like/{articleId}")
-    public Result like(@PathVariable Long articleId) {
         User user = userService.currentUserNotExistThrowException();
         collectionService.collect(user, articleId);
         return Result.success();

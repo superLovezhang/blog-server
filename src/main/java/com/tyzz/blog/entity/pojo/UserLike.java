@@ -20,15 +20,17 @@ import java.io.Serializable;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentUser implements Serializable {
+public class UserLike implements Serializable {
     private static final long serialVersionUID = 693168820629216202L;
 
     @TableId
     @JsonSerialize(using = LongPrimaryKeySerializer.class)
-    private Long commentUserId;
+    private Long userLikeId;
     
     private Long commentId;
-    
+
+    private Long articleId;
+
     private Long userId;
 
     private Boolean state;

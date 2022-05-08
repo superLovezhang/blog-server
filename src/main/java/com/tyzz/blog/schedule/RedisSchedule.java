@@ -11,6 +11,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class RedisSchedule {
 
+    /**
+     * todo 每天晚上12点 同步点赞数据
+     */
+//    @Scheduled(cron = "")
+    public void syncLikesData() {
 
+    }
 
+    /**
+     * todo 每天晚上十一点同步收藏数据
+     */
+//    @Scheduled(cron = "")
+    public void syncCollectsData() {
+
+    }
 }

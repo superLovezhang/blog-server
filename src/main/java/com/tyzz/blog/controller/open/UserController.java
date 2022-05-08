@@ -6,7 +6,7 @@ import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.entity.dto.UserPasswordDTO;
 import com.tyzz.blog.entity.group.CreateGroup;
 import com.tyzz.blog.entity.group.UpdateGroup;
-import com.tyzz.blog.service.UserService;
+import com.tyzz.blog.service.impl.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

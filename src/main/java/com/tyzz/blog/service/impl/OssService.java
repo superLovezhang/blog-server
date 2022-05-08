@@ -1,4 +1,4 @@
-package com.tyzz.blog.service;
+package com.tyzz.blog.service.impl;
 
 import com.aliyuncs.auth.sts.AssumeRoleResponse;
 import com.tyzz.blog.constant.BlogConstant;

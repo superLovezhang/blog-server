@@ -1,4 +1,4 @@
-package com.tyzz.blog.service;
+package com.tyzz.blog.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -612,5 +612,4 @@ public class RedisService {
     public Set<ZSetOperations.TypedTuple> getZSetRank(String key, long start, long end) {
         return redisTemplate.opsForZSet().reverseRangeWithScores(key, start, end);
     }
-
 }

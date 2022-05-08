@@ -3,7 +3,7 @@ package com.tyzz.blog.controller.open;
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.CategoryDTO;
 import com.tyzz.blog.entity.dto.CategoryPageDTO;
-import com.tyzz.blog.service.CategoryService;
+import com.tyzz.blog.service.impl.CategoryService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

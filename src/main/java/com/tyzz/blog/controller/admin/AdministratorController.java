@@ -3,7 +3,7 @@ package com.tyzz.blog.controller.admin;
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.convert.AdministratorConverter;
 import com.tyzz.blog.entity.dto.LoginDTO;
-import com.tyzz.blog.service.AdministratorService;
+import com.tyzz.blog.service.impl.AdministratorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;

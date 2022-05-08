@@ -3,7 +3,7 @@ package com.tyzz.blog.controller.open;
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.LabelDTO;
 import com.tyzz.blog.entity.dto.LabelPageDTO;
-import com.tyzz.blog.service.LabelService;
+import com.tyzz.blog.service.impl.LabelService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 

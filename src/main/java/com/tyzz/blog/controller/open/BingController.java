@@ -3,7 +3,7 @@ package com.tyzz.blog.controller.open;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.BasePageDTO;
-import com.tyzz.blog.service.BingService;
+import com.tyzz.blog.service.impl.BingService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

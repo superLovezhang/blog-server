@@ -1,4 +1,4 @@
-package com.tyzz.blog.service;
+package com.tyzz.blog.service.impl;
 
 import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.dao.NotificationDao;

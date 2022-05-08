@@ -4,8 +4,8 @@ import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.dto.CommentPageDTO;
 import com.tyzz.blog.entity.dto.CommentDTO;
-import com.tyzz.blog.service.CommentService;
-import com.tyzz.blog.service.UserService;
+import com.tyzz.blog.service.impl.CommentService;
+import com.tyzz.blog.service.impl.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,17 +45,6 @@ public class CommentController {
     @GetMapping("/list")
     public Result list(CommentPageDTO pageDTO) {
         return Result.success(commentService.listPage(pageDTO));
-    }
-
-    /**
-     * 点赞或者取消点赞评论
-     * @return
-     */
-    @PostMapping("/like/{commentId}")
-    public Result like(@PathVariable Long commentId) {
-        User user = userService.currentUserNotExistThrowException();
-        commentService.like(commentId, user);
-        return Result.success();
     }
 
     /**

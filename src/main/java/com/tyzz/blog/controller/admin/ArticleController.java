@@ -3,7 +3,7 @@ package com.tyzz.blog.controller.admin;
 import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.dto.ArticleAdminPageDTO;
 import com.tyzz.blog.enums.ArticleStatus;
-import com.tyzz.blog.service.ArticleService;
+import com.tyzz.blog.service.impl.ArticleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

@@ -36,7 +36,7 @@ public class CommentVO {
 
     private boolean selfLike = false;
 
-    private Integer likes;
+    private long likes;
 
     private Date createTime;
 

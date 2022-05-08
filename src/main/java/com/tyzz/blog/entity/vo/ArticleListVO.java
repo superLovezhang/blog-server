@@ -2,47 +2,30 @@ package com.tyzz.blog.entity.vo;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
-import com.tyzz.blog.enums.ArticleStatus;
-import com.tyzz.blog.enums.ArticleType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Description:
+ * 文章列表VO类
  * @Author: ZhangZhao
- * DateTime: 2021-09-28 16:25
+ * DateTime: 2022-05-08 10:14
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleVO {
+public class ArticleListVO {
     @JsonSerialize(using = LongPrimaryKeySerializer.class)
     private Long articleId;
 
     private String articleName;
 
-    private UserVO user;
-
-    private String content;
-
-    private String htmlContent;
-
     private String previewContent;
-
-    private String linkAddress;
-
-    private ArticleType articleType;
-
-    private CategoryVO category;
-
-    private List<LabelVO> labels = new ArrayList<>();
 
     private String cover;
 
@@ -53,14 +36,6 @@ public class ArticleVO {
     private long likes = 0;
 
     private long collects = 0;
-
-    private boolean collected = false;
-
-    private boolean liked = false;
-
-    private ArticleStatus status;
-
-    private String refuseReason;
 
     private Date createTime;
 

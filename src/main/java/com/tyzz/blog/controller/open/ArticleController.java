@@ -4,8 +4,8 @@ import com.tyzz.blog.common.Result;
 import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
-import com.tyzz.blog.service.ArticleService;
-import com.tyzz.blog.service.UserService;
+import com.tyzz.blog.service.impl.ArticleService;
+import com.tyzz.blog.service.impl.UserService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +38,7 @@ public class ArticleController {
             User user = userService.currentUserNotExistThrowException();
             articlePageDTO.setUserId(user.getUserId());
         }
-        return Result.success(articleService.listPage(articlePageDTO).map(articleService::pojoToVO));
+        return Result.success(articleService.listPage(articlePageDTO).map(articleService::pojo2ListVO));
     }
 
     /**
@@ -67,7 +67,6 @@ public class ArticleController {
 
     /**
      * 获取热门推荐文章
-     *
      * @return
      */
     @GetMapping("/hot")
@@ -89,6 +88,11 @@ public class ArticleController {
         return Result.success(articleService.pojoToVO(articleService.selectOneByIdAndUser(articleId, user)));
     }
 
+    /**
+     * 删除文章
+     * @param articleId 待删除文章id
+     * @return
+     */
     @DeleteMapping("/remove/{articleId}")
     public Result remove(@PathVariable long articleId) {
         User user = userService.currentUserNotExistThrowException();

@@ -4,6 +4,8 @@ import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.tyzz.blog.constant.BlogConstant.SPLIT_CHAR;
+
 /**
  * Description:
  *
@@ -80,5 +82,22 @@ public class StringUtils {
             result.append(random.nextInt(10));
         }
         return result.toString();
+    }
+
+    public static String generateRedisKey(String prefix, String ...params) {
+        StringBuilder key = new StringBuilder(prefix);
+        for (String param : params) {
+            key.append(SPLIT_CHAR);
+            key.append(param);
+        }
+        return key.toString();
+    }
+    public static String generateRedisKey(String prefix, Long ...params) {
+        StringBuilder key = new StringBuilder(prefix);
+        for (Long param : params) {
+            key.append(SPLIT_CHAR);
+            key.append(param.toString());
+        }
+        return key.toString();
     }
 }

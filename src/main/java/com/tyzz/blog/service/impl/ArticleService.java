@@ -1,4 +1,4 @@
-package com.tyzz.blog.service;
+package com.tyzz.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.common.BlogPage;
@@ -8,24 +8,31 @@ import com.tyzz.blog.entity.dto.ArticleAdminPageDTO;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import com.tyzz.blog.entity.pojo.Article;
-import com.tyzz.blog.entity.pojo.Collection;
 import com.tyzz.blog.entity.pojo.Label;
 import com.tyzz.blog.entity.pojo.User;
+import com.tyzz.blog.entity.vo.ArticleListVO;
 import com.tyzz.blog.entity.vo.ArticleVO;
 import com.tyzz.blog.enums.ArticleStatus;
+import com.tyzz.blog.enums.LikeType;
 import com.tyzz.blog.enums.NotificationType;
 import com.tyzz.blog.enums.NotifyBehavior;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.factory.ArticleFactory;
+import com.tyzz.blog.service.ILike;
 import com.tyzz.blog.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.tyzz.blog.constant.BlogConstant.ARTICLE_COLLECT;
+import static com.tyzz.blog.constant.BlogConstant.ARTICLE_LIKE;
+
 
 /**
  * (Article)表服务实现类
@@ -35,17 +42,18 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @Service("articleService")
-public class ArticleService {
-    @Autowired
-    private CollectionService collectionService;
-
+public class ArticleService implements ILike {
     private final ArticleDao articleDao;
     private final UserService userService;
-    private final CommentService commentService;
     private final LabelService labelService;
     private final CategoryService categoryService;
     private final ArticleLabelService articleLabelService;
     private final NotificationService notificationService;
+    private final UserLikeService userLikeService;
+    private final CommonService commonService;
+    @Autowired
+    private CollectionService collectionService;
+    private final RedisService redisService;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -75,26 +83,6 @@ public class ArticleService {
         return articleDao.hotList();
     }
 
-    public ArticleVO pojoToVO(Article article) {
-        if (article == null) {
-            return null;
-        }
-        List<Label> labels = articleLabelService.labelsByArticle(article);
-        Long userId = article.getUserId();
-        User currentUser = userService.currentUser();
-        Collection collection = collectionService.findOneByUserAndArticle(currentUser, article);
-        User user = userService.selectById(userId);
-        ArticleVO articleVO = ArticleConverter.INSTANCE.article2VO(article);
-//        articleVO.setLikes(collectionService.countByArticle(article));
-        articleVO.setCollects(collectionService.countByArticle(article));
-        articleVO.setUser(userService.pojoToVO(user));
-        articleVO.setCommentCount(commentService.countByArticleId(article.getArticleId()));
-        articleVO.setCategory(categoryService.pojoToVO(categoryService.selectOneById(article.getCategoryId())));
-        articleVO.setLabels(labels.stream().map(labelService::pojoToVO).collect(Collectors.toList()));
-        articleVO.setCollected(collection != null);
-        return articleVO;
-    }
-
     public Article viewArticleDetail(Long articleId) {
         Article article = selectOneById(articleId);
         article.setViewCount(article.getViewCount() + 1);
@@ -117,7 +105,7 @@ public class ArticleService {
         return articleDao.selectPage(page, wrapper);
     }
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRED)
     public void audit(Long articleId, ArticleStatus status, String refuseReason) {
         Article article = Optional.ofNullable(articleDao.selectById(articleId))
                 .orElseThrow(() -> new BlogException("该文章不存在"));
@@ -153,5 +141,93 @@ public class ArticleService {
                 .eq("article_id", articleId)
                 .eq("user_id", user.getUserId());
         articleDao.delete(wrapper);
+    }
+
+    @Override
+    public void like(Long id, User user) {
+        commonService.commonSetOperation(id, user, LikeType.ARTICLE.getType(), this::getUserIdsByArticleId);
+    }
+
+    public List<Long> getUserIdsByArticleId(Long id) {
+        Article article = Optional.ofNullable(selectOneById(id))
+                .orElseThrow(() -> new BlogException("文章不存在"));
+        return userLikeService.findAllUserIdsByArticle(article);
+    }
+
+
+    public ArticleVO pojoToVO(Article article) {
+        if (article == null) {
+            return null;
+        }
+        List<Label> labels = articleLabelService.labelsByArticle(article);
+        Long userId = article.getUserId();
+        User currentUser = userService.currentUser();
+        User user = userService.selectById(userId);
+        Long articleId = article.getArticleId();
+        String likeKey = StringUtils.generateRedisKey(ARTICLE_LIKE, articleId);
+        String collectKey = StringUtils.generateRedisKey(ARTICLE_COLLECT, articleId);
+
+        ArticleVO articleVO = ArticleConverter.INSTANCE.article2VO(article);
+        articleVO.setLikes(userLikeService.count(articleId, likeKey, LikeType.ARTICLE));
+        articleVO.setCollects(collectionService.count(articleId, collectKey));
+        articleVO.setCollected(redisService.sHasKey(collectKey, currentUser.getUserId()));
+        articleVO.setLiked(redisService.sHasKey(likeKey, currentUser.getUserId()));
+        articleVO.setUser(userService.pojoToVO(user));
+        articleVO.setCommentCount(article.getCommentCount());
+        articleVO.setCategory(categoryService.pojoToVO(categoryService.selectOneById(article.getCategoryId())));
+        articleVO.setLabels(labels.stream().map(labelService::pojoToVO).collect(Collectors.toList()));
+        return articleVO;
+    }
+
+    public ArticleListVO pojo2ListVO(Article article) {
+        if (article == null) {
+            return null;
+        }
+        String likeKey = StringUtils.generateRedisKey(ARTICLE_LIKE, article.getArticleId());
+        String collectKey = StringUtils.generateRedisKey(ARTICLE_COLLECT, article.getArticleId());
+
+        return ArticleListVO.builder()
+                    .cover(article.getCover())
+                    .articleId(article.getArticleId())
+                    .commentCount(article.getCommentCount())
+                    .previewContent(article.getPreviewContent())
+                    .articleName(article.getArticleName())
+                    .viewCount(article.getViewCount())
+                    .likes(userLikeService.count(article.getArticleId(), likeKey, LikeType.ARTICLE))
+                    .collects(collectionService.count(article.getArticleId(), collectKey))
+                    .createTime(article.getCreateTime())
+                    .updateTime(article.getUpdateTime())
+                    .build();
+    }
+
+    /**
+     * 自增文章评论数
+     * @param articleId 文章id
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void incrCommentCount(Long articleId) {
+        updateCommentCount(articleId, 1);
+    }
+
+    /**
+     * 自减文章评论数
+     * @param articleId 文章id
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void decreCommentCount(Long articleId) {
+        updateCommentCount(articleId, -1);
+    }
+
+    /**
+     * 更新文章评论数
+     * @param articleId 文章id
+     * @param operateNum 操作数
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateCommentCount(Long articleId, int operateNum) {
+        Article article = Optional.ofNullable(articleDao.selectById(articleId))
+                .orElseThrow(() -> new BlogException("当前文章不存在"));
+        article.setCommentCount(article.getCommentCount() + operateNum);
+        articleDao.updateById(article);
     }
 }
