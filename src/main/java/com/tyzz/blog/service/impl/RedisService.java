@@ -1,5 +1,6 @@
 package com.tyzz.blog.service.impl;
 
+import com.tyzz.blog.schedule.service.RedisScanKeys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
@@ -17,6 +18,16 @@ public class RedisService {
 
     @Autowired
     private RedisTemplate redisTemplate;
+
+    /**
+     * 指定匹配字符串扫描键空间
+     * @param match 匹配字符
+     * @return 整个键空间符合的键列表
+     */
+    @SuppressWarnings("unchecked")
+    public List<String> scan(String match) {
+        return (List<String>) redisTemplate.execute(new RedisScanKeys(match));
+    }
 
     /**
      * 指定缓存失效时间

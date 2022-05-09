@@ -100,4 +100,8 @@ public class StringUtils {
         }
         return key.toString();
     }
+
+    public static String[] splitRedisKey(String s) {
+        return s.split(SPLIT_CHAR);
+    }
 }
