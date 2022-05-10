@@ -1,6 +1,6 @@
 package com.tyzz.blog.schedule;
 
-import com.tyzz.blog.schedule.service.redis.LikeSyncContext;
+import com.tyzz.blog.schedule.service.redis.RedisSyncContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,22 +14,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 public class RedisSchedule {
-    private final LikeSyncContext likeSyncContext;
+    private final RedisSyncContext redisSyncContext;
 
     /**
-     * 每天晚上12点 同步点赞数据
+     * 每天晚上12点 同步点赞数据 收藏数据
      */
     @Scheduled(cron = "0 0 24 * * *")
     public void syncLikesData() {
         //责任链+模板 解耦+减少冗余
-        likeSyncContext.invoke();
+        redisSyncContext.invoke();
     }
 
-    /**
-     * todo 每天晚上十二点同步收藏数据
-     */
-    @Scheduled(cron = "0 0 24 * * *")
-    public void syncCollectsData() {
-
-    }
 }

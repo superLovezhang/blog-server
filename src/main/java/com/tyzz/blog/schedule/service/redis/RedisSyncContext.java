@@ -14,9 +14,9 @@ import java.util.List;
  */
 @RequiredArgsConstructor
 @Component
-public class LikeSyncContext {
-    private final List<LikeSync> chain;
-    private LikeSync sync;
+public class RedisSyncContext {
+    private final List<RedisSync> chain;
+    private RedisSync sync;
 
     @PostConstruct
     private void init() {

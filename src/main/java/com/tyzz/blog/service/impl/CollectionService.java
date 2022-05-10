@@ -12,6 +12,8 @@ import com.tyzz.blog.exception.BlogException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -51,11 +53,11 @@ public class CollectionService {
     public List<Long> getUserIdsByArticleId(Long id) {
         Article article = Optional.ofNullable(articleService.selectOneById(id))
                 .orElseThrow(() -> new BlogException("该文章不存在"));
-        return findAllUserIdsByArticle(article);
+        return findAllUserIdsByArticle(article.getArticleId());
     }
 
-    public List<Long> findAllUserIdsByArticle(Article article) {
-        return collectionDao.findAllUserIdsByArticle(article);
+    public List<Long> findAllUserIdsByArticle(Long articleId) {
+        return collectionDao.findAllUserIdsByArticle(articleId);
     }
 
     public CollectionVO pojoToVO(Collection collection) {
@@ -69,5 +71,41 @@ public class CollectionService {
     public long count(Long id, String collectKey) {
         commonService.initCountData(id, this::getUserIdsByArticleId, collectKey);
         return redisService.sGetSetSize(collectKey) - 1;
+    }
+
+    /**
+     * 根据文章id和用户id删除
+     * @param articleId 文章id
+     * @param userId 用户id
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void delete(Long articleId, Long userId) {
+        QueryWrapper<Collection> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_id", articleId)
+                .eq("user_id", userId);
+        collectionDao.delete(wrapper);
+    }
+
+    /**
+     * 根据文章id和用户id创建Collection
+     * @param articleId 文章id {@link Article}
+     * @param userId 用户id {@link User}
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public Collection create(Long articleId, Long userId) {
+        return Collection.builder()
+                .articleId(articleId)
+                .userId(userId)
+                .build();
+    }
+
+    /**
+     * 保存collection对象
+     * @param collection
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void save(Collection collection) {
+        collectionDao.insert(collection);
     }
 }

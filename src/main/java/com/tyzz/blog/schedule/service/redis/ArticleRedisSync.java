@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Order(1)
 @Component
 @RequiredArgsConstructor
-public class ArticleLikeSync extends LikeSync {
+public class ArticleRedisSync extends RedisSync {
     private final RedisService redisService;
     private final UserLikeService userLikeService;
 

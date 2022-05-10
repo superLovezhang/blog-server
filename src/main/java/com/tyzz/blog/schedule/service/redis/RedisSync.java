@@ -14,9 +14,9 @@ import java.util.Set;
  * @Author: ZhangZhao
  * DateTime: 2022-05-10 10:21
  */
-public abstract class LikeSync {
+public abstract class RedisSync {
     // next handler reference
-    protected LikeSync next;
+    protected RedisSync next;
 
     /**
      * 对外暴露的同步方法
@@ -137,11 +137,11 @@ public abstract class LikeSync {
         return result;
     }
 
-    public LikeSync getNext() {
+    public RedisSync getNext() {
         return next;
     }
 
-    public void setNext(LikeSync next) {
+    public void setNext(RedisSync next) {
         this.next = next;
     }
 }

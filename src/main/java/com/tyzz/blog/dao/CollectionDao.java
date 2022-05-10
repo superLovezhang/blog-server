@@ -1,7 +1,6 @@
 package com.tyzz.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.tyzz.blog.entity.pojo.Article;
 import com.tyzz.blog.entity.pojo.Collection;
 import org.apache.ibatis.annotations.Param;
 
@@ -14,5 +13,5 @@ import java.util.List;
  * @since 2021-09-26 10:24:49
  */
 public interface CollectionDao extends BaseMapper<Collection> {
-    List<Long> findAllUserIdsByArticle(@Param("article") Article article);
+    List<Long> findAllUserIdsByArticle(@Param("articleId") Long articleId);
 }

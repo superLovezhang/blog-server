@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 @Order(2)
 @Component
 @RequiredArgsConstructor
-public class CommentLikeSync extends LikeSync {
+public class CommentRedisSync extends RedisSync {
     private final RedisService redisService;
     private final UserLikeService userLikeService;
 
