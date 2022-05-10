@@ -244,6 +244,6 @@ public class CommentService implements ILike {
     public List<Long> getUserIdsByCommentId(Long id) {
         Comment comment = Optional.of(selectOneById(id))
                 .orElseThrow(() -> new BlogException("该评论不存在"));
-        return userLikeService.findAllUserIdsByComment(comment);
+        return userLikeService.findAllUserIdsByComment(comment.getCommentId());
     }
 }

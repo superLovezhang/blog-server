@@ -1,6 +1,6 @@
 package com.tyzz.blog.service.impl;
 
-import com.tyzz.blog.schedule.service.RedisScanKeys;
+import com.tyzz.blog.schedule.service.redis.RedisScanKeys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;

@@ -151,7 +151,7 @@ public class ArticleService implements ILike {
     public List<Long> getUserIdsByArticleId(Long id) {
         Article article = Optional.ofNullable(selectOneById(id))
                 .orElseThrow(() -> new BlogException("文章不存在"));
-        return userLikeService.findAllUserIdsByArticle(article);
+        return userLikeService.findAllUserIdsByArticle(article.getArticleId());
     }
 
 

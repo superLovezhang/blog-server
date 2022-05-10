@@ -11,6 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.tyzz.blog.constant.BlogConstant.DEFAULT_DUMMY_ELEMENT;
+
 /**
  * Description:
  *
@@ -54,6 +56,8 @@ public class CommonService {
         if (!redisService.hasKey(key)) {
             //如果缓存不存在 先去数据库找到数据
             List<Long> userIds = obtainUserIds.apply(id);
+            //先添加一个虚拟元素 防止set集合为空 key自动删除了
+            redisService.sSet(key, DEFAULT_DUMMY_ELEMENT);
             if (!userIds.isEmpty()) {
                 //把数据添加缓存 再操作
                 redisService.sSet(key, userIds.toArray());

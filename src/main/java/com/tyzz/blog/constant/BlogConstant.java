@@ -14,6 +14,7 @@ public class BlogConstant {
     /*=======默认常量============*/
     public final static String USER_DEFAULT_AVATAR = "https://tyzzblog.oss-cn-beijing.aliyuncs.com/2021/10/21/1634823510837image.png";
     public final static String OSS_CREDENTIALS_KEY = "credentials";
+    public final static Long DEFAULT_DUMMY_ELEMENT = -1L;
 
     /*=======redis的key常量============*/
     public final static String SPLIT_CHAR = "::";

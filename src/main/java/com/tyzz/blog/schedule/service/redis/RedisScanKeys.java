@@ -1,4 +1,4 @@
-package com.tyzz.blog.schedule.service;
+package com.tyzz.blog.schedule.service.redis;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;

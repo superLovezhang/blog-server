@@ -68,6 +68,6 @@ public class CollectionService {
 
     public long count(Long id, String collectKey) {
         commonService.initCountData(id, this::getUserIdsByArticleId, collectKey);
-        return redisService.sGetSetSize(collectKey);
+        return redisService.sGetSetSize(collectKey) - 1;
     }
 }
