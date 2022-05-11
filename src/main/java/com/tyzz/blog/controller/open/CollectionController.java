@@ -1,8 +1,8 @@
 package com.tyzz.blog.controller.open;
 
 import com.tyzz.blog.common.Result;
-import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.dto.BasePageDTO;
+import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.service.impl.CollectionService;
 import com.tyzz.blog.service.impl.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +32,17 @@ public class CollectionController {
     public Result list(BasePageDTO pageVO) {
         User user = userService.currentUserNotExistThrowException();
         return Result.success(collectionService.pageByUser(user, pageVO));
+    }
+
+    /**
+     * 获取最近个人收藏文章列表
+     * @param size 列表长度 默认5
+     * @return
+     */
+    @GetMapping("/recent")
+    public Result recent(@RequestParam(required = false, defaultValue = "5") int size) {
+        User user = userService.currentUserNotExistThrowException();
+        return Result.success(collectionService.recentRecord(user, size));
     }
 
     /**

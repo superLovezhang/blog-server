@@ -39,10 +39,11 @@ public class ExecuteTimeAspect {
 
         long start = System.currentTimeMillis();
         Object result = joinPoint.proceed();
+
         long end = System.currentTimeMillis();
 
 
-        log.info("当前方法耗时：{} ms        =======================================", end - start);
+        log.info("当前{}方法耗时：{} ms =======================================", joinPoint.toShortString(),end - start);
         return result;
     }
 }

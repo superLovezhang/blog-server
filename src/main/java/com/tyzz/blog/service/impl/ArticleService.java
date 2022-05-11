@@ -11,6 +11,7 @@ import com.tyzz.blog.entity.pojo.Article;
 import com.tyzz.blog.entity.pojo.Label;
 import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.vo.ArticleListVO;
+import com.tyzz.blog.entity.vo.ArticleRecordVO;
 import com.tyzz.blog.entity.vo.ArticleVO;
 import com.tyzz.blog.enums.ArticleStatus;
 import com.tyzz.blog.enums.LikeType;
@@ -136,6 +137,10 @@ public class ArticleService implements ILike {
                 .orElseThrow(() -> new BlogException("当前文章不存在"));
     }
 
+    public Article selectOneListArticleById(Long id) {
+        return articleDao.selectOneListArticleById(id);
+    }
+
     public void remove(long articleId, User user) {
         QueryWrapper<Article> wrapper = new QueryWrapper<Article>()
                 .eq("article_id", articleId)
@@ -200,6 +205,17 @@ public class ArticleService implements ILike {
                     .build();
     }
 
+    public ArticleRecordVO pojo2RecordVO(Article article) {
+        if (article == null) {
+            return null;
+        }
+
+        return ArticleRecordVO.builder()
+                .articleId(article.getArticleId())
+                .articleName(article.getArticleName())
+                .build();
+    }
+
     /**
      * 自增文章评论数
      * @param articleId 文章id
@@ -229,5 +245,15 @@ public class ArticleService implements ILike {
                 .orElseThrow(() -> new BlogException("当前文章不存在"));
         article.setCommentCount(article.getCommentCount() + operateNum);
         articleDao.updateById(article);
+    }
+
+    /**
+     * 通过文章ids获取文章列表
+     * @param ids 文章id列表
+     * @return
+     */
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public List<Article> listRecordArticleInIds(List<Long> ids) {
+        return articleDao.listRecordArticleInIds(ids);
     }
 }

@@ -585,8 +585,42 @@ public class RedisService {
         return redisTemplate.opsForZSet().add(key, value, score);
     }
 
+    /**
+     * 有序set移除元素
+     * @param key set的key
+     * @param value 移除元素
+     * @return
+     */
+    public Long zRemove(String key, Object value) {
+        return redisTemplate.opsForZSet().remove(key, value);
+    }
+
+    public Long zGetSize(String key) {
+        return redisTemplate.opsForZSet().size(key);
+    }
+
     public long batchZSet(String key, Set<ZSetOperations.TypedTuple> typles) {
         return redisTemplate.opsForZSet().add(key, typles);
+    }
+
+    /**
+     * 获取zset前size个元素
+     * @param key zset的key
+     * @param size 长度
+     * @return
+     */
+    public Set<ZSetOperations.TypedTuple> zGetRange(String key, int size) {
+        return getZSetRank(key, 0, size);
+    }
+
+    /**
+     * 获取zset最后size个元素
+     * @param key zset的key
+     * @param size 长度
+     * @return
+     */
+    public Set<ZSetOperations.TypedTuple> zGetReverseRange(String key, int size) {
+        return getZSetRank(key, -size, -1);
     }
 
     public void zIncrementScore(String key, Object value, long delta) {
@@ -598,7 +632,7 @@ public class RedisService {
     }
 
     /**
-     * 获取zset数量
+     * 获取zset分数
      * @param key
      * @param value
      * @return

@@ -23,6 +23,7 @@ public class BlogConstant {
     public final static String ARTICLE_LIKE = "ARTICLE::LIKE";
     public final static String ARTICLE_COLLECT = "ARTICLE::COLLECT";
     public final static String COMMENT_LIKE = "COMMENT::LIKE";
+    public final static String USER_COLLECT_ARTICLE = "USER::COLLECT::ARTICLE";
 
     /*=======字符串拼接============*/
     public final static String EMAIL_VERIFICATION_SUBJECT = "博客注册验证码";

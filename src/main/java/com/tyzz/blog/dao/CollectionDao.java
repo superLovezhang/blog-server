@@ -14,4 +14,6 @@ import java.util.List;
  */
 public interface CollectionDao extends BaseMapper<Collection> {
     List<Long> findAllUserIdsByArticle(@Param("articleId") Long articleId);
+
+    List<Long> getArticleIdsByUserId(@Param("userId") Long userId);
 }

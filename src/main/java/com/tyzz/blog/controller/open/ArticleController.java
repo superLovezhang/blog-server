@@ -73,7 +73,7 @@ public class ArticleController {
     public Result hot() {
         return Result.success(articleService.hotList()
                 .stream()
-                .map(articleService::pojoToVO)
+                .map(articleService::pojo2RecordVO)
                 .collect(Collectors.toList()));
     }
 

@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Collection implements Serializable {
+public class Collection extends BaseEntity implements Serializable {
     private static final long serialVersionUID = -59113307433898013L;
 
     @TableId
@@ -27,9 +27,6 @@ public class Collection implements Serializable {
     private Long articleId;
     
     private Long userId;
-    
-    private Boolean state;
-
 
     public Long getCollectionId() {
         return collectionId;
@@ -53,14 +50,6 @@ public class Collection implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Boolean getState() {
-        return state;
-    }
-
-    public void setState(Boolean state) {
-        this.state = state;
     }
 
 }

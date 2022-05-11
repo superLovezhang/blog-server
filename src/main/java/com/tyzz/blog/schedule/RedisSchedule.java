@@ -19,7 +19,7 @@ public class RedisSchedule {
     /**
      * 每天晚上12点 同步点赞数据 收藏数据
      */
-    @Scheduled(cron = "0 0 24 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     public void syncLikesData() {
         //责任链+模板 解耦+减少冗余
         redisSyncContext.invoke();

@@ -1,9 +1,12 @@
 package com.tyzz.blog.util;
 
 import java.util.Random;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import static com.tyzz.blog.constant.BlogConstant.DEFAULT_DUMMY_ELEMENT;
 import static com.tyzz.blog.constant.BlogConstant.SPLIT_CHAR;
 
 /**
@@ -103,5 +106,11 @@ public class StringUtils {
 
     public static String[] splitRedisKey(String s) {
         return s.split(SPLIT_CHAR);
+    }
+
+    public static <T> Set<T> removeDummyElement(Set<T> elements) {
+        return elements.stream()
+                .filter(e -> !DEFAULT_DUMMY_ELEMENT.equals(e))
+                .collect(Collectors.toSet());
     }
 }

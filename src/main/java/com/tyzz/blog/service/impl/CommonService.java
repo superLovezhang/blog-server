@@ -31,25 +31,29 @@ public class CommonService {
      * @param user 用户
      * @param prefix key的前缀
      * @param obtainUserIds 获取当前事物点赞用户ids函数
+     * @return true插入 false删除
      */
     @Transactional(propagation = Propagation.SUPPORTS)
-    public void commonSetOperation(Long id, User user,
+    public boolean commonSetOperation(Long id, User user,
                            String prefix,
                            Function<Long, List<Long>> obtainUserIds) {
         String key = StringUtils.generateRedisKey(prefix, id);
         initCountData(id, obtainUserIds, key);
         boolean hasKey = redisService.sHasKey(key, user.getUserId());
-        doLike(user, key, hasKey);
+        return doLike(user, key, hasKey);
     }
 
-    private void doLike(User user, String key, boolean hasKey) {
+    private boolean doLike(User user, String key, boolean hasKey) {
+        boolean result = false;
         //取消点赞
         if (hasKey) {
             redisService.setRemove(key, user.getUserId());
         } else {
             //点赞
             redisService.sSet(key, user.getUserId());
+            result = true;
         }
+        return result;
     }
 
     public void initCountData(Long id, Function<Long, List<Long>> obtainUserIds, String key) {

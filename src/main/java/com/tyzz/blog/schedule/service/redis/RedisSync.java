@@ -30,7 +30,7 @@ public abstract class RedisSync {
                 continue;
             }
 
-            Set<Long> rdbIds = getRdbIds(key);
+            Set<Long> rdbIds = StringUtils.removeDummyElement(getRdbIds(key));
             Set<Long> dbIds = getDbIds(entityId);
             List<List<Long>> insertAndDelIds = findInsertAndDelIds(rdbIds, dbIds);
             for (Long userId : obtainInsertIds(insertAndDelIds)) {
@@ -127,7 +127,7 @@ public abstract class RedisSync {
         Iterator<Long> dbIterator = db.iterator();
         while (dbIterator.hasNext()) {
             Long id = dbIterator.next();
-            if (!db.contains(id)) {
+            if (!rdb.contains(id)) {
                 result.get(1).add(id);
             } else {
                 rdb.remove(id);
@@ -135,10 +135,6 @@ public abstract class RedisSync {
         }
         result.get(0).addAll(new ArrayList<>(rdb));
         return result;
-    }
-
-    public RedisSync getNext() {
-        return next;
     }
 
     public void setNext(RedisSync next) {

@@ -9,19 +9,17 @@ import lombok.NoArgsConstructor;
 
 /**
  * Description:
- *
+ * 文章记录VO类
  * @Author: ZhangZhao
- * DateTime: 2021-10-27 21:01
+ * DateTime: 2022-05-11 15:14
  */
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CollectionVO {
+public class ArticleRecordVO {
     @JsonSerialize(using = LongPrimaryKeySerializer.class)
-    private Long collectionId;
+    private Long articleId;
 
-    private ArticleListVO article;
-
-    private UserVO user;
+    private String articleName;
 }

@@ -3,7 +3,8 @@
 <mapper namespace="com.tyzz.blog.dao.ArticleDao">
 
     <select id="listPage" parameterType="com.tyzz.blog.entity.dto.ArticlePageDTO" resultType="Article">
-        SELECT a.article_id, a.article_name, SUBSTRING(a.html_content, 1, 350) as html_content, a.cover, a.view_count, a.comment_count, a.create_time, a.update_time
+        SELECT a.article_id, a.article_name, SUBSTRING(a.html_content, 1, 350) as html_content,
+               a.cover, a.view_count, a.comment_count, a.create_time, a.update_time
         FROM article a
         <choose>
             <when test="articlePageDTO.labelId != null">
@@ -53,10 +54,32 @@
     </select>
 
     <select id="hotList" resultType="Article">
-        select * from article
+        select article_id, article_name from article
         where state = 1
         and status = 'PASS'
         order by view_count desc
         limit 10
+    </select>
+
+    <select id="selectOneListArticleById" resultType="Article">
+        select a.article_id, a.article_name, SUBSTRING(a.html_content, 1, 350) as html_content,
+               a.cover, a.view_count, a.comment_count, a.create_time, a.update_time
+        from article a
+        where a.state = 1
+        and a.article_id = #{id}
+    </select>
+
+    <select id="listRecordArticleInIds" resultType="Article">
+        select article_id, article_name
+        from article
+        where state = 1
+        and article_id in
+        <foreach collection="ids" item="id" index="index" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+        order by
+        <foreach collection="ids" item="id" index="index" open="FIELD(article_id," close=")" separator=",">
+            #{id}
+        </foreach>
     </select>
 </mapper>

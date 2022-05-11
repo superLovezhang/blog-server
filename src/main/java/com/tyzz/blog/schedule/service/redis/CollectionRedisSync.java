@@ -35,13 +35,13 @@ public class CollectionRedisSync extends RedisSync {
     protected Set<Long> getRdbIds(String key) {
         return redisService.sGet(key)
                 .stream()
-                .map(i -> (Long) i)
+                .map(i -> Long.valueOf(i.toString()))
                 .collect(Collectors.toSet());
     }
 
     @Override
     protected Set<Long> getDbIds(Long entityId) {
-        return new HashSet<>(collectionService.findAllUserIdsByArticle(entityId));
+        return new HashSet<>(collectionService.getUserIdsByArticleId(entityId));
     }
 
     @Override

@@ -7,12 +7,14 @@
           user_id
         from user_like
         where article_id = #{articleId}
+        and state = 1;
     </select>
 
     <select id="findAllUserIdsByComment" resultType="java.lang.Long">
         select
             user_id
         from user_like
-        where article_id = #{commentId}
+        where comment_id = #{commentId}
+        and state = 1;
     </select>
 </mapper>
