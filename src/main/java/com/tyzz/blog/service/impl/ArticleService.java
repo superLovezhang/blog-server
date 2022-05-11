@@ -175,8 +175,10 @@ public class ArticleService implements ILike {
         ArticleVO articleVO = ArticleConverter.INSTANCE.article2VO(article);
         articleVO.setLikes(userLikeService.count(articleId, likeKey, LikeType.ARTICLE));
         articleVO.setCollects(collectionService.count(articleId, collectKey));
-        articleVO.setCollected(redisService.sHasKey(collectKey, currentUser.getUserId()));
-        articleVO.setLiked(redisService.sHasKey(likeKey, currentUser.getUserId()));
+        if (currentUser != null) {
+            articleVO.setCollected(redisService.sHasKey(collectKey, currentUser.getUserId()));
+            articleVO.setLiked(redisService.sHasKey(likeKey, currentUser.getUserId()));
+        }
         articleVO.setUser(userService.pojoToVO(user));
         articleVO.setCommentCount(article.getCommentCount());
         articleVO.setCategory(categoryService.pojoToVO(categoryService.selectOneById(article.getCategoryId())));
