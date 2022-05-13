@@ -46,7 +46,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
 //                .antMatchers(BlogConstant.AUTHORIZED_URL_PATTERN)
 //                .hasRole("ADMIN")
-                .antMatchers(BlogConstant.UNAUTHORIZED_URL_PATTERN, "/druid/**", "/admin/administrator/login")
+                .antMatchers(BlogConstant.UNAUTHORIZED_URL_PATTERN,
+                        "/druid/**", "/message/websocket/**",
+                        "/admin/administrator/login")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

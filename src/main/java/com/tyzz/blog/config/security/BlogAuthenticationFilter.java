@@ -18,7 +18,7 @@ import java.util.List;
 
 /**
  * Description:
- *
+ * 获取用户登录信息拦截器
  * @Author: ZhangZhao
  * DateTime: 2021-09-27 15:06
  */
@@ -29,13 +29,17 @@ public class BlogAuthenticationFilter extends OncePerRequestFilter {
         String platform = request.getHeader("platform");
         if (StringUtils.isNotBlank(token)) {
             BlogAuthenticationToken authenticationToken;
+            // determine current request whether from admin platform
+            // then apply different ways to parse token.
             if (isBackEnd(platform)) {
                 authenticationToken = buildAdminAuthenticationToken(token);
             } else {
                 authenticationToken = buildUserAuthenticationToken(token);
             }
+            // set parsed token in to security context in the last.
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
+        // hand over to next filter to handle the request.
         filterChain.doFilter(request, response);
     }
 

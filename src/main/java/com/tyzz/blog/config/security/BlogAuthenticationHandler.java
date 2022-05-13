@@ -14,7 +14,7 @@ import java.io.IOException;
 
 /**
  * Description:
- *
+ * 认证失败处理器
  * @Author: ZhangZhao
  * DateTime: 2021-09-27 10:52
  */

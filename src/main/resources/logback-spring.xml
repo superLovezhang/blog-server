@@ -47,15 +47,17 @@
 
 
 
+    <springProfile name="dev">
+        <root level="DEBUG">
+            <appender-ref ref="CONSOLE" />
+        </root>
+    </springProfile>
     <!-- 默认日志输出级别 -->
-    <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <springProfile name="production">
+    <springProfile name="production">
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
             <appender-ref ref="INFO_FILE" />
             <appender-ref ref="ERROR_FILE" />
-        </springProfile>
-    </root>
-
-
-
+        </root>
+    </springProfile>
 </configuration>

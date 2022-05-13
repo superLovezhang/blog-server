@@ -9,7 +9,7 @@ import java.util.Collection;
 
 /**
  * Description:
- *
+ * 博客认证令牌 继承于UsernamePasswordAuthenticationToken 用于获取当前登录用户信息
  * @Author: ZhangZhao
  * DateTime: 2021-10-06 13:11
  */

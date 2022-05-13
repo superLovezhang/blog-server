@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Description:
- *
+ * 权限访问失败处理器
  * @Author: ZhangZhao
  * DateTime: 2021-09-27 10:39
  */
