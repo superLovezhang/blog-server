@@ -24,6 +24,8 @@ public class BlogConstant {
     public final static String ARTICLE_COLLECT = "ARTICLE::COLLECT";
     public final static String COMMENT_LIKE = "COMMENT::LIKE";
     public final static String USER_COLLECT_ARTICLE = "USER::COLLECT::ARTICLE";
+    public final static String CHAT_RECORD = "CHAT::RECORD";
+    public final static long DEFAULT_MAX_CHAT_SIZE = 50L;
 
     /*=======字符串拼接============*/
     public final static String EMAIL_VERIFICATION_SUBJECT = "博客注册验证码";

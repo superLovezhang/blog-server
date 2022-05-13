@@ -9,7 +9,8 @@ package com.tyzz.blog.enums;
 public enum MessageType {
     MESSAGE("消息"),
     INFO("服务端信息"),
-    TIP("服务端提示");
+    TIP("服务端提示"),
+    SYNC("服务端同步记录");
 
     private String value;
 

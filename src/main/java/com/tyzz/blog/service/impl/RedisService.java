@@ -7,10 +7,7 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -429,7 +426,7 @@ public class RedisService {
             return redisTemplate.opsForList().range(key, start, end);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -530,6 +527,34 @@ public class RedisService {
             redisTemplate.opsForList().rightPushAll(key, value);
             if (time > 0) expire(key, time);
             return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 向list右端压入一个元素
+     * @param key
+     * @return
+     */
+    public Object lRPush(String key, Object value) {
+        try {
+            return redisTemplate.opsForList().rightPush(key, value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /**
+     * 向list左端弹出一个元素
+     * @param key 键
+     * @return
+     */
+    public Object lLPop(String key) {
+        try {
+            return redisTemplate.opsForList().leftPop(key);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

@@ -33,16 +33,23 @@ public class WsMessageDTO {
 
     private MessageType messageType = MessageType.MESSAGE;
 
-    public static WsMessageDTO buildTip(Object tip) {
+    public static WsMessageDTO tipMessage(Object tip) {
         return WsMessageDTO.builder()
                 .messageType(MessageType.TIP)
                 .message(tip)
                 .build();
     }
-    public static WsMessageDTO buildInfo(Object info) {
+    public static WsMessageDTO infoMessage(Object info) {
         return WsMessageDTO.builder()
                 .messageType(MessageType.INFO)
                 .message(info)
+                .build();
+    }
+
+    public static WsMessageDTO SyncMessage(Object message) {
+        return WsMessageDTO.builder()
+                .messageType(MessageType.SYNC)
+                .message(message.toString())
                 .build();
     }
 }
