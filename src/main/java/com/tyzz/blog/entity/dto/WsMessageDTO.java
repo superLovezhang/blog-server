@@ -29,7 +29,7 @@ public class WsMessageDTO {
 
     private Object message;
 
-    private boolean anonymous = true;
+    private String username;
 
     private MessageType messageType = MessageType.MESSAGE;
 

@@ -1,5 +1,6 @@
 package com.tyzz.blog.websocket;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tyzz.blog.entity.dto.WsMessageDTO;
 import com.tyzz.blog.service.impl.RedisService;
@@ -16,8 +17,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.tyzz.blog.constant.BlogConstant.CHAT_RECORD;
-import static com.tyzz.blog.constant.BlogConstant.DEFAULT_MAX_CHAT_SIZE;
+import static com.tyzz.blog.constant.BlogConstant.*;
 
 /**
  * Description:
@@ -27,7 +27,7 @@ import static com.tyzz.blog.constant.BlogConstant.DEFAULT_MAX_CHAT_SIZE;
  */
 @Log4j2
 @Component
-@ServerEndpoint("/message/websocket/{userId}")
+@ServerEndpoint("/message/websocket/{userId}/{username}")
 public class WebSocketServer implements ApplicationContextAware {
     private final ObjectMapper mapper = new ObjectMapper();
 
@@ -44,6 +44,10 @@ public class WebSocketServer implements ApplicationContextAware {
      * 接收userId
      */
     private String userId;
+    /**
+     * 接收username
+     */
+    private String username;
 
 
     /**
@@ -52,9 +56,10 @@ public class WebSocketServer implements ApplicationContextAware {
      * @param userId 用户连接参数id
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam(value = "userId") String userId) {
+    public void onOpen(Session session, @PathParam(value = "userId") String userId, @PathParam(value = "username") String username) {
         this.session = session;
         this.userId = userId;
+        this.username = username;
         establishConnect(userId);
         afterOpen();
         log.info("用户：{} 连接成功！当前在线人数：{}", userId, webSocketMap.size());
@@ -65,6 +70,8 @@ public class WebSocketServer implements ApplicationContextAware {
         sendOnlineNum();
         // 向当前客户端发送历史聊天记录
         sendHistoryChats();
+        // 向所有客户端发送自己上线通知
+        sendOnlineNotification();
     }
 
     /**
@@ -79,11 +86,35 @@ public class WebSocketServer implements ApplicationContextAware {
         webSocketMap.put(userId, this);
     }
 
+    private void sendOnlineNotification() {
+        try {
+            String message = mapper.writeValueAsString(
+                    WsMessageDTO.tipMessage(
+                            String.format(CHAT_ONLINE_NOTIFICATION, username)
+                    ));
+            sendMessageToAll(message);
+        } catch (JsonProcessingException e) {
+            log.error(e);
+        }
+    }
+
+    private void sendOfflineNotification() {
+        try {
+            String message = mapper.writeValueAsString(
+                    WsMessageDTO.tipMessage(
+                            String.format(CHAT_OFFLINE_NOTIFICATION, username)
+                    ));
+            sendMessageToAll(message);
+        } catch (JsonProcessingException e) {
+            log.error(e);
+        }
+    }
+
     /**
      * 首次连接发送所有历史聊天记录
      */
     private void sendHistoryChats() {
-        sendMessageToAll(searchChatRecords());
+        sendMessage(searchChatRecords());
     }
 
     private List<Object> searchChatRecords() {
@@ -123,7 +154,7 @@ public class WebSocketServer implements ApplicationContextAware {
 
     private void saveMessage(String message) {
         long size = redisService.lGetListSize(CHAT_RECORD);
-        if (size > DEFAULT_MAX_CHAT_SIZE) {
+        if (size >= DEFAULT_MAX_CHAT_SIZE) {
             redisService.lLPop(CHAT_RECORD);
         }
         redisService.lRPush(CHAT_RECORD, message);
@@ -142,40 +173,28 @@ public class WebSocketServer implements ApplicationContextAware {
     }
 
     /**
-     * 向指定用户发送消息
-     * @param userId 用户id
-     * @param message 消息内容
+     * 向当前session发送多条消息
+     * @param messages 消息内容
      */
-    public void sendMessage(String userId, String message) {
+    public void sendMessage(List<Object> messages) {
         try {
-            if (webSocketMap.containsKey(userId)) {
-                webSocketMap.get(userId)
-                        .session
-                        .getBasicRemote()
-                        .sendText(message);
-            }
-        } catch (IOException e) {
-            log.error(e);
-        }
-    }
-
-    public void sendMessageToAll(String message) {
-        try {
-            for (WebSocketServer server : webSocketMap.values()) {
-                server.sendMessage(message);
-            }
+            session.getBasicRemote().sendText(mapper.
+                    writeValueAsString(
+                            WsMessageDTO.SyncMessage(messages)
+                    ));
         } catch (Exception e) {
             log.error(e);
         }
     }
 
-    public void sendMessageToAll(List<Object> messages) {
+    /**
+     * 向全体客户端发送单条消息
+     * @param message 消息内容
+     */
+    public void sendMessageToAll(String message) {
         try {
             for (WebSocketServer server : webSocketMap.values()) {
-                server.sendMessage(mapper.
-                        writeValueAsString(
-                                WsMessageDTO.SyncMessage(messages)
-                        ));
+                server.sendMessage(message);
             }
         } catch (Exception e) {
             log.error(e);
@@ -197,8 +216,9 @@ public class WebSocketServer implements ApplicationContextAware {
     @OnClose
     public void onClose() {
         webSocketMap.remove(userId);
-        log.info("用户 {} 退出！当前在线人数：{}", userId, webSocketMap.size());
         sendOnlineNum();
+        sendOfflineNotification();
+        log.info("用户 {} 退出！当前在线人数：{}", userId, webSocketMap.size());
     }
 
     /**
@@ -222,6 +242,12 @@ public class WebSocketServer implements ApplicationContextAware {
         log.error(error);
     }
 
+    /**
+     * 多例情况下 注入的依赖只有第一个实例有
+     * 所以依靠context获取ioc容器bean
+     * @param applicationContext
+     * @throws BeansException
+     */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         redisService = applicationContext.getBean(RedisService.class);
