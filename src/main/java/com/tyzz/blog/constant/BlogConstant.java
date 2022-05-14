@@ -36,6 +36,8 @@ public class BlogConstant {
     public final static String EMAIL_PWD_TEXT = "您当前修改密码验证码为：";
     public final static String NOTIFICATION_SUCCESS_TEMPLATE = "您的%s已通过";
     public final static String NOTIFICATION_DENY_TEMPLATE = "您的%s已%s，理由为【%s】";
+    public final static String OFFSITE_LOGIN_SUBJECT = "异地登陆提醒";
+    public final static String OFFSITE_LOGIN_NOTIFICATION = "您的账号在异地【%s】登陆成功，如有泄露，请尽快更改密码";
 
     public final static String CHAT_ONLINE_NOTIFICATION = "用户【%s】上线";
     public final static String CHAT_OFFLINE_NOTIFICATION = "用户【%s】下线";

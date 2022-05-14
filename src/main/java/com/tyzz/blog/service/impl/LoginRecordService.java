@@ -1,5 +1,6 @@
 package com.tyzz.blog.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tyzz.blog.dao.LoginRecordDao;
 import com.tyzz.blog.entity.pojo.LoginRecord;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,12 @@ public class LoginRecordService {
     @Transactional(propagation = Propagation.REQUIRED)
     public Object save(LoginRecord record) {
         return loginRecordDao.insert(record);
+    }
+
+    public LoginRecord lastRecord(Long userId) {
+        QueryWrapper<LoginRecord> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", userId)
+                .orderByDesc("create_time");
+        return loginRecordDao.selectOne(wrapper);
     }
 }

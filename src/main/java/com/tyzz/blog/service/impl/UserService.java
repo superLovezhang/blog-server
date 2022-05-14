@@ -103,33 +103,62 @@ public class UserService implements UserDetailsService {
         }
         result.put("token", JwtUtils.buildToken(user));
         result.put("user", userService.pojoToVO(user));
-        // todo写入本次登录地址
-        storageLoginAddress(user.getUserId(), request.getRemoteAddr(), loginRecordService::save);
+        checkAndStorageRecord(user.getUserId(), request.getRemoteAddr(), loginRecordService::save);
         return result;
     }
 
     /**
-     * 根据用户id和登录ip创建登录记录实体类然后保存
+     * 检查登陆记录并保存本次记录
      * @param userId 用户id
      * @param ip 登录ip
      * @param save 保存方法
      */
     @Async
     @SuppressWarnings("unchecked")
-    public void storageLoginAddress(Long userId, String ip, Function<LoginRecord, Object> save) {
+    public void checkAndStorageRecord(Long userId, String ip, Function<LoginRecord, Object> save) {
         String res = HttpClientUtils.get(BlogConstant.OPEN_URL_ADDRESS + ip);
         try {
             Map<String, String> response = om.readValue(res, Map.class);
             if (response.containsKey("data") && StringUtils.isNotEmpty(response.get("data"))) {
-                LoginRecord record = LoginRecord.builder()
-                        .userId(userId)
-                        .address(response.get("data"))
-                        .build();
-                save.apply(record);
+                String address = response.get("data");
+                String[] addressArr = address.split(" ");
+                if (addressArr.length > 1) {
+                    checkRecord(userId, addressArr[0]);
+                    saveRecord(userId, save, addressArr[0]);
+                }
             }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 检查登录地址
+     * @param userId 用户id
+     * @param address 本次登陆地址
+     */
+    private void checkRecord(Long userId, String address) {
+        LoginRecord record = loginRecordService.lastRecord(userId);
+        if (record != null && !address.equals(record.getAddress())) {
+            User user = userService.selectById(userId);
+            // 发邮件
+            String content = String.format(BlogConstant.OFFSITE_LOGIN_NOTIFICATION, address);
+            emailService.sendPlainText(BlogConstant.OFFSITE_LOGIN_SUBJECT, content, user.getEmail());
+        }
+    }
+
+    /**
+     * 保存本次登录记录
+     * @param userId 用户id
+     * @param save 保存方法
+     * @param address 登录地址
+     */
+    private void saveRecord(Long userId, Function<LoginRecord, Object> save, String address) {
+        LoginRecord record = LoginRecord.builder()
+                .userId(userId)
+                .address(address)
+                .build();
+        save.apply(record);
     }
 
     public void register(UserDTO user) {
