@@ -1,21 +1,28 @@
 package com.tyzz.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tyzz.blog.common.BlogPage;
 import com.tyzz.blog.config.security.BlogAuthenticationToken;
+import com.tyzz.blog.constant.BlogConstant;
 import com.tyzz.blog.dao.UserDao;
 import com.tyzz.blog.entity.dto.UserAdminPageDTO;
 import com.tyzz.blog.entity.dto.UserDTO;
 import com.tyzz.blog.entity.dto.UserPasswordDTO;
+import com.tyzz.blog.entity.pojo.LoginRecord;
 import com.tyzz.blog.entity.pojo.User;
 import com.tyzz.blog.entity.vo.UserVO;
 import com.tyzz.blog.enums.UserStatus;
 import com.tyzz.blog.enums.VerifyCodeType;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.exception.BlogLoginInvalidException;
+import com.tyzz.blog.util.HttpClientUtils;
 import com.tyzz.blog.util.JwtUtils;
 import com.tyzz.blog.util.StringUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,12 +32,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Function;
 
-import static com.tyzz.blog.constant.BlogConstant.*;
+import static com.tyzz.blog.constant.BlogConstant.PWD_VERIFY_PREFIX;
+import static com.tyzz.blog.constant.BlogConstant.REGISTER_VERIFY_PREFIX;
 
 /**
  * (User)表服务实现类
@@ -39,17 +48,16 @@ import static com.tyzz.blog.constant.BlogConstant.*;
  * @since 2021-09-26 10:24:49
  */
 @Service("userService")
+@RequiredArgsConstructor
 public class UserService implements UserDetailsService {
-    @Resource
-    private UserDao userDao;
-    @Resource
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Resource
-    private UserService userService;
-    @Resource
-    private RedisService redisService;
-    @Resource
-    private EmailService emailService;
+    private final UserDao userDao;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserService userService;
+    private final RedisService redisService;
+    private final EmailService emailService;
+    private final HttpServletRequest request;
+    private final ObjectMapper om;
+    private final LoginRecordService loginRecordService;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -95,7 +103,33 @@ public class UserService implements UserDetailsService {
         }
         result.put("token", JwtUtils.buildToken(user));
         result.put("user", userService.pojoToVO(user));
+        // todo写入本次登录地址
+        storageLoginAddress(user.getUserId(), request.getRemoteAddr(), loginRecordService::save);
         return result;
+    }
+
+    /**
+     * 根据用户id和登录ip创建登录记录实体类然后保存
+     * @param userId 用户id
+     * @param ip 登录ip
+     * @param save 保存方法
+     */
+    @Async
+    @SuppressWarnings("unchecked")
+    public void storageLoginAddress(Long userId, String ip, Function<LoginRecord, Object> save) {
+        String res = HttpClientUtils.get(BlogConstant.OPEN_URL_ADDRESS + ip);
+        try {
+            Map<String, String> response = om.readValue(res, Map.class);
+            if (response.containsKey("data") && StringUtils.isNotEmpty(response.get("data"))) {
+                LoginRecord record = LoginRecord.builder()
+                        .userId(userId)
+                        .address(response.get("data"))
+                        .build();
+                save.apply(record);
+            }
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     public void register(UserDTO user) {

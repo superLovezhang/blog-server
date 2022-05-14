@@ -10,6 +10,8 @@ public class BlogConstant {
     /*=======url常量============*/
     public final static String AUTHORIZED_URL_PATTERN = "/admin/**";
     public final static String UNAUTHORIZED_URL_PATTERN = "/open/**";
+    // 查询结果 data: "湖北省黄冈市 移通"
+    public final static String OPEN_URL_ADDRESS = "https://www.36ip.cn/?type=json&ip=";
 
     /*=======默认常量============*/
     public final static String USER_DEFAULT_AVATAR = "https://tyzzblog.oss-cn-beijing.aliyuncs.com/2021/10/21/1634823510837image.png";
