@@ -9,21 +9,31 @@ import com.baomidou.mybatisplus.annotation.IEnum;
  * DateTime: 2022-02-15 15:47
  */
 public enum NotificationType implements IEnum<String> {
-    COMMENT("评论"),
-    ARTICLE("文章");
+    COMMENT("评论", "点赞"),
+    ARTICLE("文章", "点赞");
 
-    private String desc;
+    private String type;
+    private String action;
 
-    NotificationType(String desc) {
-        this.desc = desc;
+    NotificationType(String type, String action) {
+        this.type = type;
+        this.action = action;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getType() {
+        return type;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
     }
 
     @Override

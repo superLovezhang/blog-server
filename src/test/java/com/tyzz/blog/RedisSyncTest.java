@@ -25,6 +25,10 @@ public class RedisSyncTest {
     }
 
     public static void main(String[] args) {
+
+
+
+
         String[] s = "湖北省黄冈市 移通".split(" ");
         System.out.println(s[0]);
     }

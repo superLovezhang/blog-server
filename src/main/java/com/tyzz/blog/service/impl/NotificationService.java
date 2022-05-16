@@ -21,7 +21,7 @@ public class NotificationService {
     private final NotificationDao notificationDao;
 
     public void createSuccess(NotificationType type, User user) {
-        Notification notification = createNotification(type, user, String.format(BlogConstant.NOTIFICATION_SUCCESS_TEMPLATE, type.getDesc()));
+        Notification notification = createNotification(type, user, String.format(BlogConstant.NOTIFICATION_SUCCESS_TEMPLATE, type.getType()));
         notificationDao.insert(notification);
     }
 
@@ -42,7 +42,7 @@ public class NotificationService {
         Notification notification = createNotification(
                 type,
                 user,
-                String.format(BlogConstant.NOTIFICATION_DENY_TEMPLATE, type.getDesc(), behavior.getDesc(), reason)
+                String.format(BlogConstant.NOTIFICATION_DENY_TEMPLATE, type.getType(), behavior.getDesc(), reason)
         );
         notificationDao.insert(notification);
     }

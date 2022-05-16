@@ -10,7 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * (Notification)实体类
@@ -22,7 +21,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notification implements Serializable {
+public class Notification extends BaseEntity implements Serializable {
     private static final long serialVersionUID = 866853030506013019L;
 
     @TableId
@@ -36,10 +35,4 @@ public class Notification implements Serializable {
     private Long userId;
 
     private Boolean read;
-    
-    private Boolean state;
-    
-    private Date updateTime;
-    
-    private Date createTime;
 }
