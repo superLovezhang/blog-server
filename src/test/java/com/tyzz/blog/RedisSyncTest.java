@@ -1,5 +1,6 @@
 package com.tyzz.blog;
 
+import com.tyzz.blog.enums.MessageStatus;
 import com.tyzz.blog.schedule.service.redis.RedisSyncContext;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,12 +25,7 @@ public class RedisSyncTest {
         context.invoke();
     }
 
-    public static void main(String[] args) {
-
-
-
-
-        String[] s = "湖北省黄冈市 移通".split(" ");
-        System.out.println(s[0]);
+    public static void main(String[] args)  {
+        System.out.println(MessageStatus.CONSUMER.name() + " " + MessageStatus.CONSUMER.getValue() + " " + MessageStatus.CONSUMER);
     }
 }
