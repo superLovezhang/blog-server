@@ -1,10 +1,13 @@
 package com.tyzz.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tyzz.blog.dao.MessageDao;
 import com.tyzz.blog.entity.pojo.Message;
+import com.tyzz.blog.entity.pojo.Notification;
+import com.tyzz.blog.exception.BlogException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MessageService {
     private final MessageDao messageDao;
-    private final JdbcTemplate jdbcTemplate;
+    private final ObjectMapper mapper;
 
     /**
      * 通过message id查找对应message
@@ -36,10 +39,12 @@ public class MessageService {
     /**
      * 保存消息实体类
      * @param message 消息实体类
+     * @return
      */
     @Transactional(propagation = Propagation.REQUIRED)
-    public void saveMessage(Message message) {
+    public Message saveMessage(Message message) {
         messageDao.updateById(message);
+        return message;
     }
 
     /**
@@ -48,6 +53,7 @@ public class MessageService {
      * @param maximumRetry 允许的最大重试次数
      * @return 失败消息列表
      */
+    @Transactional(propagation = Propagation.SUPPORTS)
     public List<Message> fetchFailureMessage(Integer limit, Integer maximumRetry) {
         QueryWrapper<Message> wrapper = new QueryWrapper<>();
         wrapper.eq("retry_count", maximumRetry)
@@ -55,9 +61,27 @@ public class MessageService {
         return messageDao.selectList(wrapper);
     }
 
+    /**
+     * 批量更新messages
+     * @param messages 消息列表
+     */
+    @Transactional(propagation = Propagation.NOT_SUPPORTED)
     public void batchUpdate(List<Message> messages) {
         for (Message message : messages) {
             messageDao.updateById(message);
+        }
+    }
+
+    public Message create(Notification notification, String exchange, String routingKey) {
+        try {
+            Message message = Message.builder()
+                    .content(mapper.writeValueAsString(notification))
+                    .toExchange(exchange)
+                    .routingKey(routingKey)
+                    .build();
+            return message;
+        } catch (JsonProcessingException e) {
+            throw new BlogException("创建消息失败");
         }
     }
 }

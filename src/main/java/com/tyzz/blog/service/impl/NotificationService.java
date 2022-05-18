@@ -20,9 +20,8 @@ import org.springframework.stereotype.Service;
 public class NotificationService {
     private final NotificationDao notificationDao;
 
-    public void createSuccess(NotificationType type, User user) {
-        Notification notification = createNotification(type, user, String.format(BlogConstant.NOTIFICATION_SUCCESS_TEMPLATE, type.getType()));
-        notificationDao.insert(notification);
+    public Notification createSuccess(NotificationType type, User user) {
+        return createNotification(type, user, String.format(BlogConstant.NOTIFICATION_SUCCESS_TEMPLATE, type.getType()));
     }
 
     private Notification createNotification(NotificationType type, User user, String content) {
@@ -33,7 +32,7 @@ public class NotificationService {
                 .build();
     }
 
-    public void createDeny(
+    public Notification createDeny(
             NotificationType type,
             String reason,
             NotifyBehavior behavior,
@@ -44,6 +43,6 @@ public class NotificationService {
                 user,
                 String.format(BlogConstant.NOTIFICATION_DENY_TEMPLATE, type.getType(), behavior.getDesc(), reason)
         );
-        notificationDao.insert(notification);
+        return notification;
     }
 }

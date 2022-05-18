@@ -7,9 +7,7 @@ import com.tyzz.blog.entity.convert.ArticleConverter;
 import com.tyzz.blog.entity.dto.ArticleAdminPageDTO;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
-import com.tyzz.blog.entity.pojo.Article;
-import com.tyzz.blog.entity.pojo.Label;
-import com.tyzz.blog.entity.pojo.User;
+import com.tyzz.blog.entity.pojo.*;
 import com.tyzz.blog.entity.vo.ArticleListVO;
 import com.tyzz.blog.entity.vo.ArticleRecordVO;
 import com.tyzz.blog.entity.vo.ArticleVO;
@@ -22,6 +20,8 @@ import com.tyzz.blog.factory.ArticleFactory;
 import com.tyzz.blog.service.ILike;
 import com.tyzz.blog.util.StringUtils;
 import lombok.RequiredArgsConstructor;
+import org.springframework.amqp.rabbit.connection.CorrelationData;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,6 +33,7 @@ import java.util.stream.Collectors;
 
 import static com.tyzz.blog.constant.BlogConstant.ARTICLE_COLLECT;
 import static com.tyzz.blog.constant.BlogConstant.ARTICLE_LIKE;
+import static com.tyzz.blog.constant.MqConstant.*;
 
 
 /**
@@ -55,6 +56,8 @@ public class ArticleService implements ILike {
     @Autowired
     private CollectionService collectionService;
     private final RedisService redisService;
+    private final MessageService messageService;
+    private final RabbitTemplate rabbitTemplate;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -106,27 +109,63 @@ public class ArticleService implements ILike {
         return articleDao.selectPage(page, wrapper);
     }
 
+    /**
+     * 审核文章
+     * @param articleId 文章id
+     * @param status 状态
+     * @param refuseReason 拒绝原因
+     */
     @Transactional(propagation = Propagation.REQUIRED)
     public void audit(Long articleId, ArticleStatus status, String refuseReason) {
         Article article = Optional.ofNullable(articleDao.selectById(articleId))
                 .orElseThrow(() -> new BlogException("该文章不存在"));
         article.setStatus(status);
+        sendNotificationMessage(refuseReason, article);
+        article.setRefuseReason(refuseReason);
+        articleDao.updateById(article);
+    }
+
+    /**
+     * 发送文章审核消息
+     * @param refuseReason 拒绝原因
+     * @param article 文章
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    void sendNotificationMessage(String refuseReason, Article article) {
+        // 1.先创建需要发送的内容类
+        Notification notification = createNotification(refuseReason, article);
+        // 2.将消息存储到数据库中
+        Message message = messageService.saveMessage(
+                messageService.create(notification,
+                        NOTIFICATION_EXCHANGE, ARTICLE_AUDIT_KEY));
+        // 3.同时获取数据库id 并发送消息到mq
+        rabbitTemplate.convertAndSend(NOTIFICATION_EXCHANGE,
+                ARTICLE_AUDIT_KEY, notification,
+                new CorrelationData(message.getMessageId().toString()));
+    }
+
+    /**
+     * 创建一个通知实体类
+     * @param refuseReason 拒绝原因
+     * @param article 文章
+     * @return Notification
+     */
+    private Notification createNotification(String refuseReason, Article article) {
+        Notification notification = null;
         // 发送通知
         if (StringUtils.isNotEmpty(refuseReason)) {
-            notificationService.createDeny(
+            notification = notificationService.createDeny(
                     NotificationType.ARTICLE,
                     refuseReason,
                     NotifyBehavior.REJECT,
                     userService.selectById(article.getUserId())
             );
         } else {
-            refuseReason = "";
-            notificationService.createSuccess(
+            notification = notificationService.createSuccess(
                     NotificationType.ARTICLE,
                     userService.selectById(article.getUserId()));
         }
-        article.setRefuseReason(refuseReason);
-        articleDao.updateById(article);
+        return notification;
     }
 
     public Article selectOneByIdAndUser(Long id, User user) {
