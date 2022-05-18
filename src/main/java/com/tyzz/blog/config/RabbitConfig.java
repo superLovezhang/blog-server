@@ -64,7 +64,7 @@ public class RabbitConfig {
                 message.setMessageStatus(MessageStatus.SENT_ERROR);
                 message.setCause(cause);
             }
-            messageService.saveMessage(message);
+            messageService.updateMessage(message);
         });
 
 

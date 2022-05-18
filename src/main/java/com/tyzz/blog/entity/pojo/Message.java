@@ -1,5 +1,6 @@
 package com.tyzz.blog.entity.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.tyzz.blog.enums.MessageStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,6 +26,7 @@ public class Message implements Serializable {
     /**
      * 消息的唯一id
      */
+    @TableId
     private Long messageId;
     /**
      * 消息内容
@@ -45,7 +47,7 @@ public class Message implements Serializable {
     /**
      * 消息状态
      */
-    private MessageStatus messageStatus = MessageStatus.NEW;
+    private MessageStatus messageStatus;
     /**
      * 重试次数
      */

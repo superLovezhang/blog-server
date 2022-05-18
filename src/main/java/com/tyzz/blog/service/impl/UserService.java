@@ -52,7 +52,6 @@ import static com.tyzz.blog.constant.BlogConstant.REGISTER_VERIFY_PREFIX;
 public class UserService implements UserDetailsService {
     private final UserDao userDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final UserService userService;
     private final RedisService redisService;
     private final EmailService emailService;
     private final HttpServletRequest request;
@@ -102,7 +101,7 @@ public class UserService implements UserDetailsService {
             throw new BlogException("账户已被冻结，请联系管理员");
         }
         result.put("token", JwtUtils.buildToken(user));
-        result.put("user", userService.pojoToVO(user));
+        result.put("user", pojoToVO(user));
         checkAndStorageRecord(user.getUserId(), request.getRemoteAddr(), loginRecordService::save);
         return result;
     }
@@ -140,7 +139,7 @@ public class UserService implements UserDetailsService {
     private void checkRecord(Long userId, String address) {
         LoginRecord record = loginRecordService.lastRecord(userId);
         if (record != null && !address.equals(record.getAddress())) {
-            User user = userService.selectById(userId);
+            User user = selectById(userId);
             // 发邮件
             String content = String.format(BlogConstant.OFFSITE_LOGIN_NOTIFICATION, address);
             emailService.sendPlainText(BlogConstant.OFFSITE_LOGIN_SUBJECT, content, user.getEmail());

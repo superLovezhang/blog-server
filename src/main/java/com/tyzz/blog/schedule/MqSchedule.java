@@ -26,10 +26,10 @@ public class MqSchedule {
     private final RabbitTemplate rabbitTemplate;
 
     /**
-     * 每分钟从数据库中取出发送失败的消息
+     * 每5分钟从数据库中取出发送失败的消息
      * 进行重新发送
      */
-    @Scheduled(cron = "* */1 * * * *")
+    @Scheduled(cron = "0 */5 * * * *")
     public void consumerMessage() {
         retryTopMessages();
     }

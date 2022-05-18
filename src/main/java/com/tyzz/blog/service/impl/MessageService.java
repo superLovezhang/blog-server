@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tyzz.blog.dao.MessageDao;
 import com.tyzz.blog.entity.pojo.Message;
 import com.tyzz.blog.entity.pojo.Notification;
+import com.tyzz.blog.enums.MessageStatus;
 import com.tyzz.blog.exception.BlogException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,17 @@ public class MessageService {
      */
     @Transactional(propagation = Propagation.REQUIRED)
     public Message saveMessage(Message message) {
+        messageDao.insert(message);
+        return message;
+    }
+
+    /**
+     * 根据实体类id修改数据行
+     * @param message 实体类消息
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Message updateMessage(Message message) {
         messageDao.updateById(message);
         return message;
     }
@@ -74,12 +86,12 @@ public class MessageService {
 
     public Message create(Notification notification, String exchange, String routingKey) {
         try {
-            Message message = Message.builder()
+            return Message.builder()
                     .content(mapper.writeValueAsString(notification))
                     .toExchange(exchange)
                     .routingKey(routingKey)
+                    .messageStatus(MessageStatus.NEW)
                     .build();
-            return message;
         } catch (JsonProcessingException e) {
             throw new BlogException("创建消息失败");
         }

@@ -137,9 +137,9 @@ public class ArticleService implements ILike {
         // 2.将消息存储到数据库中
         Message message = messageService.saveMessage(
                 messageService.create(notification,
-                        NOTIFICATION_EXCHANGE, ARTICLE_AUDIT_KEY));
+                        ARTICLE_NOTIFICATION_EXCHANGE, ARTICLE_AUDIT_KEY));
         // 3.同时获取数据库id 并发送消息到mq
-        rabbitTemplate.convertAndSend(NOTIFICATION_EXCHANGE,
+        rabbitTemplate.convertAndSend(ARTICLE_NOTIFICATION_EXCHANGE,
                 ARTICLE_AUDIT_KEY, notification,
                 new CorrelationData(message.getMessageId().toString()));
     }
@@ -151,7 +151,7 @@ public class ArticleService implements ILike {
      * @return Notification
      */
     private Notification createNotification(String refuseReason, Article article) {
-        Notification notification = null;
+        Notification notification;
         // 发送通知
         if (StringUtils.isNotEmpty(refuseReason)) {
             notification = notificationService.createDeny(

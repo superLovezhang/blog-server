@@ -8,6 +8,8 @@ import com.tyzz.blog.enums.NotificationType;
 import com.tyzz.blog.enums.NotifyBehavior;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * (Notification)表服务实现类
@@ -44,5 +46,14 @@ public class NotificationService {
                 String.format(BlogConstant.NOTIFICATION_DENY_TEMPLATE, type.getType(), behavior.getDesc(), reason)
         );
         return notification;
+    }
+
+    /**
+     * 保存通知
+     * @param notification
+     */
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void save(Notification notification) {
+        notificationDao.insert(notification);
     }
 }
