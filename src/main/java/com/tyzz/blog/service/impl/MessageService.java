@@ -68,7 +68,8 @@ public class MessageService {
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<Message> fetchFailureMessage(Integer limit, Integer maximumRetry) {
         QueryWrapper<Message> wrapper = new QueryWrapper<>();
-        wrapper.eq("retry_count", maximumRetry)
+        wrapper.le("retry_count", maximumRetry)
+                .eq("message_status", MessageStatus.SENT_ERROR.getValue())
                 .last("limit " + limit);
         return messageDao.selectList(wrapper);
     }

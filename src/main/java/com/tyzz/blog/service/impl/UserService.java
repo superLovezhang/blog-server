@@ -107,6 +107,7 @@ public class UserService implements UserDetailsService {
     }
 
     /**
+     * todo 后面改成MQ
      * 检查登陆记录并保存本次记录
      * @param userId 用户id
      * @param ip 登录ip
@@ -121,7 +122,7 @@ public class UserService implements UserDetailsService {
             if (response.containsKey("data") && StringUtils.isNotEmpty(response.get("data"))) {
                 String address = response.get("data");
                 String[] addressArr = address.split(" ");
-                if (addressArr.length > 1) {
+                if (addressArr.length >= 1) {
                     checkRecord(userId, addressArr[0]);
                     saveRecord(userId, save, addressArr[0]);
                 }

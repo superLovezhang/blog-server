@@ -1,5 +1,6 @@
 package com.tyzz.blog.entity.pojo;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.tyzz.blog.common.LongPrimaryKeySerializer;
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginRecord {
+    @TableId
     @JsonSerialize(using = LongPrimaryKeySerializer.class)
     private Long loginRecordId;
 
