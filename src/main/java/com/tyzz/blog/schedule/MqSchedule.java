@@ -6,11 +6,11 @@ import com.tyzz.blog.service.impl.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-import static com.tyzz.blog.constant.MqConstant.*;
+import static com.tyzz.blog.constant.MqConstant.DEFAULT_FETCH_FAILURE_COUNT;
+import static com.tyzz.blog.constant.MqConstant.DEFAULT_MAXIMUM_RETRY;
 
 /**
  * Description:
@@ -19,7 +19,7 @@ import static com.tyzz.blog.constant.MqConstant.*;
  * DateTime: 2022-05-18 9:15
  */
 @RequiredArgsConstructor
-@Component
+//@Component
 public class MqSchedule {
     private final MessageService messageService;
 

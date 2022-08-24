@@ -20,8 +20,6 @@ import com.tyzz.blog.factory.ArticleFactory;
 import com.tyzz.blog.service.ILike;
 import com.tyzz.blog.util.StringUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.amqp.rabbit.connection.CorrelationData;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,7 +31,8 @@ import java.util.stream.Collectors;
 
 import static com.tyzz.blog.constant.BlogConstant.ARTICLE_COLLECT;
 import static com.tyzz.blog.constant.BlogConstant.ARTICLE_LIKE;
-import static com.tyzz.blog.constant.MqConstant.*;
+import static com.tyzz.blog.constant.MqConstant.ARTICLE_AUDIT_KEY;
+import static com.tyzz.blog.constant.MqConstant.ARTICLE_NOTIFICATION_EXCHANGE;
 
 
 /**
@@ -57,7 +56,7 @@ public class ArticleService implements ILike {
     private CollectionService collectionService;
     private final RedisService redisService;
     private final MessageService messageService;
-    private final RabbitTemplate rabbitTemplate;
+//    private final RabbitTemplate rabbitTemplate;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -139,9 +138,9 @@ public class ArticleService implements ILike {
                 messageService.create(notification,
                         ARTICLE_NOTIFICATION_EXCHANGE, ARTICLE_AUDIT_KEY));
         // 3.同时获取数据库id 并发送消息到mq
-        rabbitTemplate.convertAndSend(ARTICLE_NOTIFICATION_EXCHANGE,
-                ARTICLE_AUDIT_KEY, notification,
-                new CorrelationData(message.getMessageId().toString()));
+//        rabbitTemplate.convertAndSend(ARTICLE_NOTIFICATION_EXCHANGE,
+//                ARTICLE_AUDIT_KEY, notification,
+//                new CorrelationData(message.getMessageId().toString()));
     }
 
     /**

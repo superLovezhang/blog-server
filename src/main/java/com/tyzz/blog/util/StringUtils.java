@@ -113,4 +113,12 @@ public class StringUtils {
                 .filter(e -> !DEFAULT_DUMMY_ELEMENT.equals(e))
                 .collect(Collectors.toSet());
     }
+
+    public static boolean isNotBlank(String value) {
+        return com.baomidou.mybatisplus.core.toolkit.StringUtils.isNotBlank(value);
+    }
+
+    public static boolean isBlank(String result) {
+        return com.baomidou.mybatisplus.core.toolkit.StringUtils.isBlank(result);
+    }
 }

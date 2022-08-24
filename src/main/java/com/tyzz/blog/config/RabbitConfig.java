@@ -3,14 +3,12 @@ package com.tyzz.blog.config;
 import com.tyzz.blog.entity.pojo.Message;
 import com.tyzz.blog.enums.MessageStatus;
 import com.tyzz.blog.service.impl.MessageService;
-import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 /**
  * Description:
@@ -18,8 +16,8 @@ import org.springframework.context.annotation.Configuration;
  * @Author: ZhangZhao
  * DateTime: 2022-05-16 11:32
  */
-@Configuration
-@EnableRabbit
+//@Configuration
+//@EnableRabbit
 public class RabbitConfig {
     @Autowired
     private MessageService messageService;
