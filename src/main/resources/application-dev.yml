@@ -1,8 +1,5 @@
 server:
-  port: 8000
-  ssl:
-    key-store: 7304675_www.tyzz.top.pfx
-    key-store-password: U083hOuv
+    port: 8000
 spring:
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
@@ -19,7 +16,7 @@ spring:
     database: 0
     host: 127.0.0.1
     port: 6379
-    password: zhangzhao.13 # 如果未单独配置默认为空即可
+    password: # 如果未单独配置默认为空即可
     timeout: 1000
     jedis:
       pool:
@@ -27,6 +24,19 @@ spring:
         max-wait: -1
         max-idle: 8
         min-idle: 0
+#  rabbitmq:
+#    host: localhost
+#    port: 5672
+#    username: admin
+#    password: admin
+#    virtual-host: /
+#    publisher-confirm-type: correlated #开启消息从生产者发送到exchange上的确认回调
+#    publisher-returns: true #开启消息从exchange没有分配到queue上的确认回调
+#    template:
+#      mandatory: true #指定消息没有队列匹配到是发送回调还是直接丢弃
+#    listener:
+#      simple:
+#        acknowledge-mode: manual #消费端消费消息手动确认
 mybatis-plus:
   configuration:
-    log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
