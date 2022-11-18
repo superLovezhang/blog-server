@@ -7,6 +7,7 @@ import com.tyzz.blog.entity.dto.UserPasswordDTO;
 import com.tyzz.blog.entity.group.CreateGroup;
 import com.tyzz.blog.entity.group.UpdateGroup;
 import com.tyzz.blog.service.impl.UserService;
+import com.tyzz.blog.util.HttpClientUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -93,6 +94,16 @@ public class UserController {
     public Result updatePassword(@RequestBody UserPasswordDTO userDTO) {
         User user = userService.currentUserNotExistThrowException();
         userService.updatePassword(userDTO, user);
+        return Result.success();
+    }
+
+    /**
+     * 手动执行签到 防止定时任务执行失败的后续补偿
+     * @return
+     */
+    @RequestMapping(path = "/eduCheckIn", method = RequestMethod.GET)
+    public Result eduCheckIn() {
+        HttpClientUtils.eduCheckIn(HttpClientUtils.getEduCookie());
         return Result.success();
     }
 }
