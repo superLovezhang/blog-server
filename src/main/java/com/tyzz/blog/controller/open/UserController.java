@@ -103,7 +103,7 @@ public class UserController {
      */
     @RequestMapping(path = "/eduCheckIn", method = RequestMethod.GET)
     public Result eduCheckIn() {
-        HttpClientUtils.eduCheckIn(HttpClientUtils.getEduCookie());
+        HttpClientUtils.eduCheckIn();
         return Result.success();
     }
 }
