@@ -62,14 +62,18 @@ public class HttpClientUtils {
         if (StringUtils.isEmpty(eduCookie)) {
             throw new BlogException("签到cookie获取失败");
         }
-        eduCheckIn(eduCookie);
+        eduCheckIn();
     }
 
     /**
      * 教育签到
-     * @param eduCookie 教育cookie
      */
-    public static void eduCheckIn(String eduCookie) {
+    public static void eduCheckIn() {
+        String eduCookie = getEduCookie();
+        if (StringUtils.isBlank(eduCookie)) {
+            log.error("获取教育签到cookie失败。。。");
+            return;
+        }
         HttpClient httpClient = new HttpClient();
         PostMethod postMethod = new PostMethod("https://mps.zocedu.com/corona/submitHealthCheck/submit");
         postMethod.addRequestHeader("Accept", "*/*");
