@@ -1,32 +1,7 @@
 server:
-  port: 8000
   ssl:
     key-store: 7304675_www.tyzz.top.pfx
     key-store-password: U083hOuv
-spring:
-  datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blog?useUnicode=true&characterEncoding=utf8
-    username: root
-    password: zhangzhao.13
-    dbcp2:
-      　　min-idle: 5         #数据库连接池的最小维持连接数
-      　　initial-size: 5     #初始化提供的连接数
-      　　max-total: 5          #最大的连接数
-      　　max-wait-millis: 200        #等待连接获取的最大超时时间
-  redis:
-    database: 0
-    host: 127.0.0.1
-    port: 6379
-    password: zhangzhao.13 # 如果未单独配置默认为空即可
-    timeout: 1000
-    jedis:
-      pool:
-        max-active: 8
-        max-wait: -1
-        max-idle: 8
-        min-idle: 0
 mybatis-plus:
   configuration:
     log-impl: org.apache.ibatis.logging.nologging.NoLoggingImpl
