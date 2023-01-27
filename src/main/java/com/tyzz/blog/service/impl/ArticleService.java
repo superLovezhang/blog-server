@@ -7,6 +7,7 @@ import com.tyzz.blog.entity.convert.ArticleConverter;
 import com.tyzz.blog.entity.dto.ArticleAdminPageDTO;
 import com.tyzz.blog.entity.dto.ArticleDTO;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
+import com.tyzz.blog.entity.dto.ArticleStatisticDTO;
 import com.tyzz.blog.entity.pojo.*;
 import com.tyzz.blog.entity.vo.ArticleListVO;
 import com.tyzz.blog.entity.vo.ArticleRecordVO;
@@ -18,6 +19,7 @@ import com.tyzz.blog.enums.NotifyBehavior;
 import com.tyzz.blog.exception.BlogException;
 import com.tyzz.blog.factory.ArticleFactory;
 import com.tyzz.blog.service.ILike;
+import com.tyzz.blog.util.SensitiveFilter;
 import com.tyzz.blog.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +59,7 @@ public class ArticleService implements ILike {
     private final RedisService redisService;
     private final MessageService messageService;
 //    private final RabbitTemplate rabbitTemplate;
+    private final SensitiveFilter sensitiveFilter;
 
     public Article selectOneById(Long articleId) {
         return articleDao.selectById(articleId);
@@ -64,6 +67,8 @@ public class ArticleService implements ILike {
 
     @Transactional
     public void save(User user, ArticleDTO articleDTO) {
+        articleDTO.setContent(sensitiveFilter.filter(articleDTO.getContent()));
+        articleDTO.setHtmlContent(sensitiveFilter.filter(articleDTO.getHtmlContent()));
         Article article = ArticleFactory.articleDTO2PO(articleDTO, user);
         saveArticle(article);
         articleLabelService.attach(article, articleDTO);
@@ -295,5 +300,13 @@ public class ArticleService implements ILike {
     @Transactional(propagation = Propagation.SUPPORTS)
     public List<Article> listRecordArticleInIds(List<Long> ids) {
         return articleDao.listRecordArticleInIds(ids);
+    }
+
+    /**
+     * 获取文章城市统计图表数据
+     * @return
+     */
+    public List<ArticleStatisticDTO> queryCityStatisticData() {
+        return articleDao.cityStatisticData();
     }
 }

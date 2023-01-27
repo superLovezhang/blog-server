@@ -82,4 +82,10 @@
             #{id}
         </foreach>
     </select>
+    <select id="cityStatisticData" resultType="com.tyzz.blog.entity.dto.ArticleStatisticDTO">
+        select ifnull(u.city, '未知') city, count(a.article_id) articleNum from article a
+        left join user u on u.user_id = a.user_id
+        where a.state = '1' and u.state != '0'
+        group by u.city
+    </select>
 </mapper>

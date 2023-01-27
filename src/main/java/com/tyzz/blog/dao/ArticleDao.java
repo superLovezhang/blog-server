@@ -2,6 +2,7 @@ package com.tyzz.blog.dao;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tyzz.blog.common.BlogPage;
+import com.tyzz.blog.entity.dto.ArticleStatisticDTO;
 import com.tyzz.blog.entity.pojo.Article;
 import com.tyzz.blog.entity.dto.ArticlePageDTO;
 import org.apache.ibatis.annotations.Param;
@@ -22,4 +23,10 @@ public interface ArticleDao extends BaseMapper<Article> {
     Article selectOneListArticleById(@Param("id") Long id);
 
     List<Article> listRecordArticleInIds(@Param("ids") List<Long> ids);
+
+    /**
+     * 获取文章城市图表统计数据
+     * @return
+     */
+    List<ArticleStatisticDTO> cityStatisticData();
 }

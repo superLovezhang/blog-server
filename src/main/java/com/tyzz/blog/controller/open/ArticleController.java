@@ -42,6 +42,15 @@ public class ArticleController {
     }
 
     /**
+     * 获取文章图表数据
+     * @return
+     */
+    @GetMapping("/statistic")
+    public Result statistic() {
+        return Result.success(articleService.queryCityStatisticData());
+    }
+
+    /**
      * 保存文章
      *
      * @param articleDTO
